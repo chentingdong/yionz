@@ -1,4 +1,4 @@
-const path = require('path');
+path = require("path");
 
 /** @type {import('next').NextConfig} */
 module.exports = {
@@ -7,8 +7,8 @@ module.exports = {
     esmExternals: false,
   },
   reactStrictMode: true,
-  output: 'standalone',
+  output: "standalone",
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+    includePaths: [path.join(__dirname, "styles")],
   },
-}
+};
