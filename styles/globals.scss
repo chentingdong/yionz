@@ -1,0 +1,41 @@
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100vh;
+  background: #333;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button.btn.btn-action {
+  @extend .rounded-circle;
+  width: 0;
+  height: 0;
+  padding: 20px;
+  position: relative;
+  >svg {
+    position: absolute;
+    margin: -12px;
+    width: 24px;
+    height: 24px;
+  }
+  >div.spinner-border {
+    position: absolute;
+    margin: -15px;
+  }
+}
+
+.carousel-container {
+  padding-bottom: 20px;
+}
+
+@import "node_modules/bootswatch/dist/minty/variables";
+@import "node_modules/bootstrap/dist/css/bootstrap.min";
+@import "node_modules/bootswatch/dist/minty/bootstrap.min";
