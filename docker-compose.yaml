@@ -1,0 +1,50 @@
+version: "3.6"
+services:
+  yionzdb:
+    container_name: yionzdb
+    image: postgres:11.7
+    ports:
+      - "54321:5432"
+    volumes:
+      - yionz-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - yionz
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+  prisma:
+    container_name: prisma
+    image: chentingdong/yionz:latest
+    ports: 
+      - "5555:5555"
+    networks:
+      - yionz
+    command: ["npx", "prisma", "studio"]
+  yionz:
+    container_name: yionz
+    image: chentingdong/yionz:latest
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "8005:3000"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    networks:
+      - yionz
+    command: ["node", "server.js"]
+networks:
+  yionz:
+    external: true
+    name: yionz
+volumes:
+  yionz-data:
+    external: true
+    name: yionz-data
