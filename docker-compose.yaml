@@ -30,8 +30,12 @@ services:
       context: .
     env_file:
       - .env
+    environment:
+      NODE_ENV: development
     ports:
       - "8005:3000"
+    volumes:
+      - .:/app
     restart: unless-stopped
     logging:
       driver: json-file
@@ -39,7 +43,7 @@ services:
         max-size: 10m
     networks:
       - yionz
-    command: ["node", "server.js"]
+    command: ["yarn", "dev"]
 networks:
   yionz:
     external: true
