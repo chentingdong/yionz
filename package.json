@@ -8,6 +8,7 @@
     "@prisma/client": "^4.13.0",
     "bootstrap": "^5.2.3",
     "bootswatch": "^5.2.3",
+    "date-fns": "^2.30.0",
     "next": "13.4.0",
     "prisma": "^4.14.0",
     "react": "^18.2.0",

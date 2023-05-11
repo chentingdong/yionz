@@ -9,17 +9,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model AppState {
+model Artifact {
   id         String    @id @unique @default(cuid())
   name       String    @default("")
   prompt     String    @default("")
   story      String?
   template   Template? @relation(fields: [templateId], references: [id])
   templateId String?
-  movie      Movie?    @relation(fields: [movieId], references: [id])
-  movieId    String?
+  movie      Movie     @relation(fields: [movieId], references: [id])
+  movieId    String
   clips      Clip[]
   loading    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+
+  @@map("Artifact")
 }
 
 model Demension {
@@ -30,8 +34,8 @@ model Demension {
 
 model Clip {
   id          Int       @id @default(0)
-  AppState    AppState  @relation(fields: [appStateId], references: [id])
-  appStateId  String
+  Artifact    Artifact  @relation(fields: [ArtifactId], references: [id])
+  ArtifactId  String
   images      Image[]
   animation   Animation @relation(fields: [animationId], references: [id])
   animationId String    @unique
@@ -95,8 +99,8 @@ model Film {
 
 model Movie {
   id       String     @id @default(cuid())
-  url      String?
-  AppState AppState[]
+  url      String     @default("")
+  Artifact Artifact[]
   loading  Boolean    @default(false)
 }
 
@@ -105,5 +109,5 @@ model Template {
   name         String
   instructions Json
   params       Json
-  AppState     AppState[]
+  Artifact     Artifact[]
 }
