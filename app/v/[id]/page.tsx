@@ -1,19 +1,19 @@
-import Link from "next/link";
+import AppSteps from "./appSteps";
 import prisma from "@/prisma/prisma";
 
 export default async function Page({ params }) {
-  const artifacts = await getData(params.id);
-  console.log(artifacts);
-
+  const artifact = await getData(params.id);
+  console.log(artifact);
   return (
     <div className="container">
-      {params.id}
-    </div>
+      <label className="text-capitalize"><b>Video Story</b>: {artifact?.name}</label>
+      <AppSteps />
+    </div >
   );
 }
 
 const getData = async (id: string) => {
-  const artifacts = await prisma.artifact.findUnique({
+  const artifact = await prisma.artifact.findUnique({
     where: {
       id: id,
     },
@@ -23,6 +23,6 @@ const getData = async (id: string) => {
       clips: true
     }
   });
-  return artifacts;
+  return artifact;
 };
 

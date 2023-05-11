@@ -8,10 +8,10 @@ function Header() {
       <div className="container-fluid">
         <Link className="navbar-brand" href="/">
           <Image
-            height="40"
-            width="40"
+            height="30"
+            width="30"
             src="/images/ctdartlab-logo.png"
-            alt="CTDARTLAB"
+            alt="YIONZ"
           />
         </Link>
         <button

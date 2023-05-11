@@ -21,11 +21,15 @@ export default async function Page() {
         <tbody>
           {artifacts.map((artifact, index) => (
             <tr key="index">
-              <th scope="row">{artifact.name}</th>
+              <th scope="row">
+                <Link href={`/v/${artifact.id}`}>
+                  {artifact.name}
+                </Link>
+              </th>
               <td>{artifact.prompt}</td>
               <td>{format(artifact.createdAt.getTime(), dateFormat.display)}</td>
               <td>
-                <video className="col" controls width="160" height="auto">
+                <video className="col" controls height="100" width="auto">
                   <source src={artifact.movie?.url} type="video/mp4" />
                   Your browser does not support video tag.
                 </video>
