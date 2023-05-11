@@ -1,7 +1,7 @@
 // schema.prisma
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native"]
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -10,22 +10,22 @@ datasource db {
 }
 
 model AppState {
-  id         String     @id @default(cuid())
+  id         String   @id @default(cuid())
   name       String
   prompt     String
   story      String
-  template   Template   @relation(fields: [templateId], references: [id])
+  template   Template @relation(fields: [templateId], references: [id])
   templateId String
-  movie      Movie      @relation(fields: [movieId], references: [id])
+  movie      Movie    @relation(fields: [movieId], references: [id])
   movieId    String
   clips      Clip[]
   loading    Boolean
 }
 
 model Demension {
-  id       String @id @default(cuid())
-  width    Int    @default(786)
-  height   Int    @default(512)
+  id     String @id @default(cuid())
+  width  Int    @default(786)
+  height Int    @default(512)
 }
 
 model Clip {
