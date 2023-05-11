@@ -10,16 +10,16 @@ datasource db {
 }
 
 model AppState {
-  id         String   @id @default(cuid())
-  name       String
-  prompt     String
-  story      String
-  template   Template @relation(fields: [templateId], references: [id])
-  templateId String
-  movie      Movie    @relation(fields: [movieId], references: [id])
-  movieId    String
+  id         String    @id @unique @default(cuid())
+  name       String    @default("")
+  prompt     String    @default("")
+  story      String?
+  template   Template? @relation(fields: [templateId], references: [id])
+  templateId String?
+  movie      Movie?    @relation(fields: [movieId], references: [id])
+  movieId    String?
   clips      Clip[]
-  loading    Boolean
+  loading    Boolean   @default(false)
 }
 
 model Demension {
@@ -32,8 +32,7 @@ model Clip {
   id          Int       @id @default(0)
   AppState    AppState  @relation(fields: [appStateId], references: [id])
   appStateId  String
-  image       Image     @relation(fields: [imageId], references: [id])
-  imageId     String    @unique
+  images      Image[]
   animation   Animation @relation(fields: [animationId], references: [id])
   animationId String    @unique
   video       Video     @relation(fields: [videoId], references: [id])
@@ -42,7 +41,7 @@ model Clip {
   audioId     String    @unique
   film        Film      @relation(fields: [filmId], references: [id])
   filmId      String    @unique
-  loading     Boolean
+  loading     Boolean   @default(false)
 }
 
 model Animation {
@@ -55,8 +54,8 @@ model Animation {
   seed                  Int
   thumbnail             String
   subtitle              String
-  loading               Boolean
   Clip                  Clip?
+  loading               Boolean @default(false)
 }
 
 model Video {
@@ -73,8 +72,8 @@ model Image {
   prompt      String
   url         String
   seed        Int
-  loading     Boolean
   Clip        Clip[]
+  loading     Boolean @default(false)
 }
 
 model Audio {
@@ -90,21 +89,21 @@ model Film {
   id       String  @id @default(cuid())
   url      String
   duration Int
-  loading  Boolean
   Clip     Clip[]
+  loading  Boolean @default(false)
 }
 
 model Movie {
   id       String     @id @default(cuid())
-  url      String
-  loading  Boolean
+  url      String?
   AppState AppState[]
+  loading  Boolean    @default(false)
 }
 
 model Template {
   id           String     @id @default(cuid())
   name         String
-  AppState     AppState[]
   instructions Json
   params       Json
+  AppState     AppState[]
 }

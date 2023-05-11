@@ -8,7 +8,13 @@ export default async function Page() {
 }
 
 const getData = async () => {
-  const appState = await prisma.appState.findMany();
+  const appState = await prisma.appState.findMany({
+    include: {
+      template: true,
+      movie: true,
+      clips: true
+    }
+  });
   return appState;
 };
 
