@@ -52,7 +52,7 @@ COPY --from=builder /app/public ./public
 
 USER root
 
-EXPOSE 3000
+EXPOSE 3000 5555
 
 ENV PORT 3000
 

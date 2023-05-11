@@ -20,8 +20,12 @@ services:
     image: chentingdong/yionz:latest
     ports: 
       - "5555:5555"
+    depends_on:
+      - yionzdb
     networks:
       - yionz
+    volumes:
+      - .:/app
     command: ["npx", "prisma", "studio"]
   yionz:
     container_name: yionz
@@ -36,6 +40,8 @@ services:
       - "8005:3000"
     volumes:
       - .:/app
+    depends_on:
+      - prisma
     restart: unless-stopped
     logging:
       driver: json-file

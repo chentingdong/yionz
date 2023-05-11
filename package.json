@@ -8,7 +8,8 @@
     "@prisma/client": "^4.13.0",
     "bootstrap": "^5.2.3",
     "bootswatch": "^5.2.3",
-    "next": "latest",
+    "next": "13.4.0",
+    "prisma": "^4.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-stepper-horizontal": "^1.0.11",
@@ -19,8 +20,10 @@
     "@types/react": "18.2.6",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
-    "prisma": "^4.13.0",
     "sass": "^1.62.1",
     "typescript": "5.0.4"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   }
 }
