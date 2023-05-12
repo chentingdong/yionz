@@ -12,7 +12,8 @@ function Header() {
             width="30"
             src="/images/ctdartlab-logo.png"
             alt="YIONZ"
-          />
+          /> {' '}
+          <span>YIONZ</span>
         </Link>
         <button
           className="navbar-toggler"
