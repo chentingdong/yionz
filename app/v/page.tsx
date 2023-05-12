@@ -29,10 +29,13 @@ export default async function Page() {
               <td>{artifact.prompt}</td>
               <td>{format(artifact.createdAt.getTime(), dateFormat.display)}</td>
               <td>
-                <video className="col" controls height="100" width="auto">
-                  <source src={artifact.movie?.url} type="video/mp4" />
-                  Your browser does not support video tag.
-                </video>
+                {artifact.movie.url &&
+                  <video className="col" controls height="100" width="auto">
+                    <source src={artifact.movie.url} type="video/mp4" />
+                    Your browser does not support video tag.
+                  </video>
+                }
+                {!artifact.movie.url && <span>No video</span>}
               </td>
             </tr>
           ))}
