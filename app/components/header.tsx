@@ -1,8 +1,12 @@
+import { I18nUrlManager } from "./I18nUrlManager";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { preferredTranslations } from "@/translation";
 
-function Header() {
+function Header({ searchParams }) {
+  const i18n = preferredTranslations(searchParams?.language || null);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
@@ -15,6 +19,8 @@ function Header() {
           /> {' '}
           <span>YIONZ</span>
         </Link>
+        <I18nUrlManager />
+        <span>{i18n.greeting}</span>
         <button
           className="navbar-toggler"
           type="button"
