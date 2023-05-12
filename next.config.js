@@ -4,6 +4,7 @@ path = require("path");
 module.exports = {
   experimental: {
     appDir: true,
+    serverActions: true,
     esmExternals: false,
   },
   reactStrictMode: true,

@@ -14,26 +14,8 @@ a {
   text-decoration: none;
 }
 
-button.btn.btn-action {
-  @extend .rounded-circle;
-  width: 0;
-  height: 0;
-  padding: 20px;
-  position: relative;
-  >svg {
-    position: absolute;
-    margin: -12px;
-    width: 24px;
-    height: 24px;
-  }
-  >div.spinner-border {
-    position: absolute;
-    margin: -15px;
-  }
-}
-
-.carousel-container {
-  padding-bottom: 20px;
+#step-tabs .tab-content {
+  @extend .flex-grow-1, .d-flex, .flex-column
 }
 
 @import "node_modules/bootswatch/dist/minty/variables";

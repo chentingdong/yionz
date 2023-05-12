@@ -3,11 +3,12 @@ import prisma from "@/prisma/prisma";
 
 export default async function Page({ params }) {
   const artifact = await getData(params.id);
-  console.log(artifact);
   return (
-    <div className="container">
-      <label className="text-capitalize"><b>Video Story</b>: {artifact?.name}</label>
-      <AppSteps />
+    <div className="container d-flex flex-column h-100">
+      <label className="text-capitalize"><b>Video Story:</b> {artifact?.name}</label>
+      <div id="step-tabs" className="flex-grow-1 d-flex flex-column">
+        <AppSteps />
+      </div>
     </div >
   );
 }
