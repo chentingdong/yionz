@@ -1,9 +1,0 @@
-{
-  "title": "What's your name?",
-  "greeting": "Nice to meet you,",
-  "placeholder": "Donald Duck",
-  "languageSwitcher": {
-    "code": "zh",
-    "label": "中文"
-  }
-}

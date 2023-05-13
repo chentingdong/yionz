@@ -1,0 +1,20 @@
+{
+  "landingPage": {
+    "video.library": "Video Library",
+    "name": "name",
+    "prompt": "prompt",
+    "created.at": "created at",
+    "video": "Video"
+  },
+  "appSteps": {
+    "makeStory": "1: Make Story",
+    "videoClips": "2: Video Clips",
+    "makeMovie": "3: Make Movie",
+    "bso": "4: Show Off"
+  },
+  "step1Story": {
+    "title": "Video Story",
+    "prompt": "prompt",
+    "story": "story"
+  }
+}
