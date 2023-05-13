@@ -5,17 +5,21 @@
     "build": "next build"
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.2.32",
     "@prisma/client": "^4.13.0",
+    "@types/negotiator": "^0.6.1",
     "accept-language-parser": "^1.5.0",
     "bootstrap": "5",
     "bootswatch": "^5.2.3",
     "date-fns": "^2.30.0",
+    "negotiator": "^0.6.3",
     "next": "13.4.0",
     "prisma": "^4.14.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.32.1"
   },
   "devDependencies": {
