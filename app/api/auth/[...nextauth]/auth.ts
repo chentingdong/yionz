@@ -1,4 +1,4 @@
-import Email from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from 'next-auth/providers/google';
 import NextAuth from "next-auth/next";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -12,9 +12,22 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       allowDangerousEmailAccountLinking: true,
     }),
-    Email({
-      server: process.env.MAIL_SERVER,
-      from: '<no-reply@yionz.com>'
+    CredentialsProvider({
+      name: "Sign in",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+        },
+        password: {
+          label: "Password",
+          type: "password"
+        },
+      },
+      async authorize(credentials) {
+        const user = { id: "1", name: "Admin", email: "admin@admin.com" };
+        return user;
+      },
     }),
   ]
 };
