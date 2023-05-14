@@ -8,12 +8,13 @@ import ShowOff from "./step4BSO";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import VideoClips from "./step2Clips";
-import { getArtifact } from "./server";
 
 export default function AppSteps({ translation, artifact }) {
   const [key, setKey] = useState('step-1');
+  console.log(artifact);
+
   return (
-    <div className="h-100 d-flex flex-column" id="steps" >
+    <div className="container h-100 d-flex flex-column" id="steps" >
       <label className="text-capitalize"><b>{translation.step1Story.title}:</b></label>
       <Tabs
         className="d-flex justify-content-between"
