@@ -15,12 +15,9 @@ export default async function Page({ params }: PageProps) {
   const translation = await getTranslation(params.lang);
 
   return (
-    <div className="container d-flex flex-column h-100">
-      <label className="text-capitalize"><b>{translation.step1Story.title}:</b> {artifact?.name}</label>
-      <div id="step-tabs" className="flex-grow-1 d-flex flex-column">
-        <AppSteps translation={translation} />
-      </div>
-    </div >
+    <div className="container h-100">
+      <AppSteps artifact={artifact} translation={translation} />
+    </div>
   );
 }
 

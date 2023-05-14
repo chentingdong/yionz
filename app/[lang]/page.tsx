@@ -57,6 +57,7 @@ export default async function Page({ params }: PageProps) {
 const getData = async () => {
   const artifacts = await prisma.artifact.findMany({
     include: {
+      user: false,
       template: true,
       movie: true,
       clips: true,
