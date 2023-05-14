@@ -1,0 +1,22 @@
+{
+  "landingPage": {
+    "videoLibrary": "视频列表",
+    "name": "名字",
+    "prompt": "提示",
+    "createdAt": "创建于",
+    "video": "视频"
+  },
+  "appSteps": {
+    "makeStory": "1: 编故事",
+    "videoClips": "2: 视频片段",
+    "makeMovie": "3: 视频合成",
+    "bso": "4: 发频道"
+  },
+  "step1Story": {
+    "title": "视频故事名",
+    "prompt": "故事提示",
+    "story": "故事",
+    "btnMakeStory": "先编故事",
+    "btnMakeAll": "一键生成"
+  }
+}
