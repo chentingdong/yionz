@@ -1,11 +1,11 @@
 import { BsFillChatTextFill } from "react-icons/bs";
 import React from "react";
 
-export default function MakeStory() {
+export default function MakeStory({ translation }) {
   return (
     <div className="h-100 d-flex flex-column">
       <div>
-        <label htmlFor="prompt">Prompt</label>
+        <label htmlFor="prompt">{translation.step1Story.prompt}:</label>
         <div className="input-group">
           <textarea
             id="prompt"
@@ -14,19 +14,19 @@ export default function MakeStory() {
           />
           <div className="input-group-append">
             <button className="btn btn-primary form-control" title="create story">
-              <BsFillChatTextFill /> Make Story
+              <BsFillChatTextFill /> {translation.step1Story.btnMakeStory}
             </button><br />
             <button className="btn btn-danger form-control" title="create all">
-              <BsFillChatTextFill /> Make All
+              <BsFillChatTextFill /> {translation.step1Story.btnMakeAll}
             </button>
           </div>
         </div>
       </div>
-      <div className="flex-grow-1 d-flex flex-column">
-        <label htmlFor="story">Story</label>
+      <div className="flex-grow-1 d-flex flex-column my-2">
+        <label htmlFor="story">{translation.step1Story.story}:</label>
         <textarea
           id="story"
-          className="form-control flex-grow-1 my-2"
+          className="form-control flex-grow-1"
         />
       </div>
     </div>
