@@ -1,28 +1,37 @@
 import Link from "next/link";
+import { Locale } from '@/i18n/i18n-config';
 import { dateFormat } from "@/app/components/helpers";
 import { format } from 'date-fns';
+import { getTranslation } from "@/i18n/translations";
 import prisma from "@/prisma/prisma";
 
-export default async function Page() {
+type PageProps = {
+  params: {
+    lang: Locale,
+  };
+};
+
+export default async function Page({ params }: PageProps) {
   const artifacts = await getData();
+  const translation = await getTranslation(params.lang);
 
   return (
     <div className="container">
-      <h2>Video Library</h2>
+      <h2>{translation.landingPage.videoLibrary}</h2>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">name</th>
-            <th scope="col">Prompt</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Movie</th>
+            <th scope="col">{translation.landingPage.name}</th>
+            <th scope="col">{translation.landingPage.prompt}</th>
+            <th scope="col">{translation.landingPage.createdAt}</th>
+            <th scope="col">{translation.landingPage.video}</th>
           </tr>
         </thead>
         <tbody>
           {artifacts.map((artifact, index) => (
-            <tr key="index">
+            <tr key={index}>
               <th scope="row">
-                <Link href={`/v/${artifact.id}`}>
+                <Link href={`${params.lang}/${artifact.id}`}>
                   {artifact.name}
                 </Link>
               </th>
