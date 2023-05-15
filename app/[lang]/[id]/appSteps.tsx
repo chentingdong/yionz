@@ -22,7 +22,7 @@ export default function AppSteps({ translation, artifact }) {
         onSelect={k => setKey(k || 'step-1')}
       >
         <Tab eventKey="step-1" title={translation.appSteps.makeStory} className="h-100">
-          <MakeStory translation={translation} />
+          <MakeStory translation={translation} artifact={artifact} />
         </Tab>
         <Tab eventKey="step-2" title={translation.appSteps.videoClips}>
           <VideoClips />
