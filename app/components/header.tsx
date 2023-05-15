@@ -1,13 +1,15 @@
-"use client";
+import { LoginButton, LogoutButton, ProfileButton, RegisterButton } from "./buttons.auth";
 
 import Image from "next/image";
 import Link from "next/link";
-import { Locale } from "@/i18n/i18n-config";
 import React from "react";
 import Script from "next/script";
-import { getTranslation } from "@/i18n/translations";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
+import { getServerSession } from "next-auth";
 
-function Header({ lang, translation }) {
+async function Header({ lang, translation }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <div>
       <nav className="navbar navbar-expand-md px-2 bg-primary navbar-dark">
@@ -40,8 +42,21 @@ function Header({ lang, translation }) {
                 {translation.landingPage.videoLibrary}
               </Link>
             </li>
-            <li className="nav-item">
-            </li>
+            {!session &&
+              <li className="nav-item">
+                <LoginButton />
+              </li>
+            }
+            {!!session &&
+              <>
+                <li className="nav-item">
+                  <LogoutButton />
+                </li>
+                <li className="nav-item">
+                  <ProfileButton />
+                </li>
+              </>
+            }
           </ul>
         </div>
       </nav>
