@@ -1,8 +1,8 @@
 // app/page.tsx
 
+import Footer from "@/app/components/footer";
 import Image from "next/image";
 import React from "react";
-import Footer from "@/app/components/footer";
 
 const LandingPage = () => {
   return (
@@ -18,12 +18,21 @@ const LandingPage = () => {
       <div className="row justify-content-center zindex-2 ">
         <div className="col-10 col-md-8 position-relative">
           <div className="vh-100 d-flex flex-column justify-content-center">
-            <Image className="mb-5 mx-auto" src="/images/ctdartlab-logo.png" alt="" width={96} height={96} />
+            <Image
+              className="mb-5 mx-auto"
+              src="/images/ctdartlab-logo.png"
+              alt=""
+              width={96}
+              height={96}
+            />
             <h1 className="text-uppercase text-white">
-              Before you forget<br />
+              Before you forget
+              <br />
               YIONZ made a video
             </h1>
-            <h2 className="text-secondary">Produce video stories from text prompt. Coming soon...</h2>
+            <h2 className="text-secondary">
+              Produce video stories from text prompt. Coming soon...
+            </h2>
           </div>
         </div>
       </div>

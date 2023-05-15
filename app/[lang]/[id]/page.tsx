@@ -11,7 +11,7 @@ export type PageProps = {
 };
 
 export default async function Page({ params }: PageProps) {
-  const artifact = await getData(params.id);
+  const artifact = await getArtifact(params.id);
   const translation = await getTranslation(params.lang);
 
   return (
@@ -19,7 +19,7 @@ export default async function Page({ params }: PageProps) {
   );
 }
 
-const getData = async (id: string) => {
+const getArtifact = async (id: string) => {
   const artifact = await prisma.artifact.findUnique({
     where: {
       id: id,

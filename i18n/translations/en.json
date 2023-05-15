@@ -1,9 +1,9 @@
 {
   "landingPage": {
-    "video.library": "Video Library",
+    "videoLibrary": "Video Library",
     "name": "name",
     "prompt": "prompt",
-    "created.at": "created at",
+    "createdAt": "created at",
     "video": "Video"
   },
   "appSteps": {
