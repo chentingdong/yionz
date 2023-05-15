@@ -1,18 +1,22 @@
-import { LoginButton, LogoutButton, ProfileButton, RegisterButton } from "./buttons.auth";
+import { LoginButton, LogoutButton, ProfileButton } from "./buttons.auth";
 
 import Image from "next/image";
+import LanguageSwitcher from "@/i18n/languageSwitcher";
 import Link from "next/link";
+import { Locale } from "@/i18n/i18n-config";
 import React from "react";
 import Script from "next/script";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 import { getServerSession } from "next-auth";
+import { getTranslation } from "@/i18n/translations";
 
-async function Header({ lang, translation }) {
+async function Header({ params }) {
   const session = await getServerSession(authOptions);
-
+  const lang = params.lang as Locale;
+  const translation = await getTranslation(lang);
   return (
     <div>
-      <nav className="navbar navbar-expand-md px-2 bg-primary navbar-dark">
+      <nav className="navbar navbar-expand-md bg-primary navbar-dark">
         <Link className="navbar-brand mr-auto" href={`/${lang}`}>
           <Image
             height="30"
@@ -34,32 +38,34 @@ async function Header({ lang, translation }) {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
-        <div className="navbar-collapse collapse" id="mainMenu">
-          <ul className="navbar-nav nav">
-            <li className="nav-item active">
-              <Link className="nav-link" href={`/${lang}`}>
-                {translation.landingPage.videoLibrary}
-              </Link>
-            </li>
-            {!session &&
-              <li className="nav-item">
-                <LoginButton />
-              </li>
-            }
-            {!!session &&
-              <>
-                <li className="nav-item">
-                  <LogoutButton />
-                </li>
-                <li className="nav-item">
-                  <ProfileButton />
-                </li>
-              </>
-            }
-          </ul>
-        </div>
       </nav>
+      <div className="navbar-collapse collapse bg-light" id="mainMenu">
+        <ul className="navbar-nav nav">
+          <li className="nav-item active">
+            <Link className="nav-link" href={`/${lang}`}>
+              {translation.landingPage.videoLibrary}
+            </Link>
+          </li>
+          <li className="nav-item">
+            <LanguageSwitcher lang={lang} />
+          </li>
+          {!session &&
+            <li className="nav-item">
+              <LoginButton />
+            </li>
+          }
+          {!!session &&
+            <>
+              <li className="nav-item">
+                <LogoutButton />
+              </li>
+              <li className="nav-item">
+                <ProfileButton />
+              </li>
+            </>
+          }
+        </ul>
+      </div>
       {/* Stupid workaround here to make navbar collapse work*/}
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" />
     </div>

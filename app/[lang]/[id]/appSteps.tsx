@@ -19,7 +19,7 @@ export default function AppSteps({ translation, artifact }) {
         className="d-flex justify-content-between"
         variant="pills"
         activeKey={key}
-        onSelect={k => setKey(k)}
+        onSelect={k => setKey(k || 'step-1')}
       >
         <Tab eventKey="step-1" title={translation.appSteps.makeStory} className="h-100">
           <MakeStory translation={translation} />

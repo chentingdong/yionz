@@ -2,7 +2,6 @@ import AppSteps from "./appSteps";
 import { Locale } from '@/i18n/i18n-config';
 import { getTranslation } from "@/i18n/translations";
 import prisma from "@/prisma/prisma";
-import { redirect } from "next/navigation";
 
 export type PageProps = {
   params: {
