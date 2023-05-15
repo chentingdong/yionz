@@ -11,7 +11,6 @@ import VideoClips from "./step2Clips";
 
 export default function AppSteps({ translation, artifact }) {
   const [key, setKey] = useState('step-1');
-  console.log(artifact);
 
   return (
     <div className="container h-100 d-flex flex-column" id="steps" >

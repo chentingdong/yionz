@@ -9,7 +9,6 @@ import { getServerSession } from "next-auth";
 
 async function Header({ lang, translation }) {
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <div>
