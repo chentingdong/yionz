@@ -12,7 +12,7 @@ type Props = {
   templates: any[];
 };
 
-export default function Templates({ templates }: Props) {
+export default function TemplatesTable({ templates }: Props) {
   const columns = [
     {
       dataField: 'name',

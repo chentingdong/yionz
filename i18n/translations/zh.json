@@ -2,6 +2,7 @@
   "landingPage": {
     "videoLibrary": "视频列表",
     "name": "名字",
+    "template": "模版",
     "prompt": "提示",
     "createdAt": "创建于",
     "video": "视频"

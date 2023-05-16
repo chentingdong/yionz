@@ -2,6 +2,7 @@
   "landingPage": {
     "videoLibrary": "Video Library",
     "name": "name",
+    "template": "template",
     "prompt": "prompt",
     "createdAt": "created at",
     "video": "Video"
