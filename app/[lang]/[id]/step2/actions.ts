@@ -1,7 +1,7 @@
 "use server";
 
 import { Clip } from "@prisma/client";
-import { getArtifact } from "../step1/actions";
+import { getArtifact } from "../../action";
 import prisma from "@/prisma/prisma";
 
 export const initClips = async (id: string) => {

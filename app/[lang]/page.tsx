@@ -18,11 +18,12 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="container">
-      <h2>{translation.landingPage.videoLibrary}</h2>
+      <h3>{translation.landingPage.videoLibrary}</h3>
       <table className="table">
         <thead>
           <tr>
             <th scope="col">{translation.landingPage.name}</th>
+            <th scope="col">{translation.landingPage.template}</th>
             <th scope="col">{translation.landingPage.prompt}</th>
             <th scope="col">{translation.landingPage.createdAt}</th>
             <th scope="col">{translation.landingPage.video}</th>
@@ -36,6 +37,7 @@ export default async function Page({ params }: PageProps) {
                   {artifact.name}
                 </Link>
               </th>
+              <td>{artifact.template?.name}</td>
               <td>{artifact.prompt}</td>
               <td>{format(artifact.createdAt.getTime(), dateFormat.display)}</td>
               <td>

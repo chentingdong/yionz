@@ -1,11 +1,11 @@
 import React from "react";
-import Templates from "./templates";
+import TemplatesTable from "./templatesTable";
 import { getTemplates } from "../action";
 
 export default async function Page() {
   const templates = await getTemplates();
 
   return (
-    <Templates templates={templates} />
+    <TemplatesTable templates={templates} />
   );
 }
