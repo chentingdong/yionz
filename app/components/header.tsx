@@ -6,12 +6,9 @@ import Link from "next/link";
 import { Locale } from "@/i18n/i18n-config";
 import React from "react";
 import Script from "next/script";
-import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
-import { getServerSession } from "next-auth";
 import { getTranslation } from "@/i18n/translations";
 
-async function Header({ params }) {
-  const session = await getServerSession(authOptions);
+async function Header({ params, session }) {
   const lang = params.lang as Locale;
   const translation = await getTranslation(lang);
   return (
@@ -19,8 +16,8 @@ async function Header({ params }) {
       <nav className="navbar navbar-expand-md bg-primary navbar-dark">
         <Link className="navbar-brand mr-auto" href={`/${lang}`}>
           <Image
-            height="30"
-            width="30"
+            height={30}
+            width={30}
             src="/images/ctdartlab-logo.png"
             alt="YIONZ"
           />{" "}

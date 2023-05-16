@@ -1,7 +1,7 @@
 import AppSteps from "./appSteps";
 import { Locale } from '@/i18n/i18n-config';
+import { getArtifact } from "../action";
 import { getTranslation } from "@/i18n/translations";
-import prisma from "@/prisma/prisma";
 
 export type PageProps = {
   params: {
@@ -18,18 +18,4 @@ export default async function Page({ params }: PageProps) {
     <AppSteps artifact={artifact} translation={translation} />
   );
 }
-
-const getArtifact = async (id: string) => {
-  const artifact = await prisma.artifact.findUnique({
-    where: {
-      id: id,
-    },
-    include: {
-      template: true,
-      movie: true,
-      clips: true
-    }
-  });
-  return artifact;
-};
 

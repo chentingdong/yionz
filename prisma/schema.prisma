@@ -14,19 +14,17 @@ model Artifact {
   id         String    @id @unique @default(cuid())
   name       String    @default("")
   prompt     String    @default("")
-  story      String?
+  story      String    @default("")
   template   Template? @relation(fields: [templateId], references: [id])
-  templateId String?
-  movie      Movie     @relation(fields: [movieId], references: [id])
-  movieId    String
+  templateId String?   @unique
+  movie      Movie?    @relation(fields: [movieId], references: [id])
+  movieId    String?   @unique
   clips      Clip[]
   loading    Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now())
   user       User?     @relation(fields: [userId], references: [id])
-  userId     String?
-
-  @@map("Artifact")
+  userId     String?   @unique
 }
 
 model Demension {
@@ -36,9 +34,8 @@ model Demension {
 }
 
 model Clip {
-  id          Int       @id @default(0)
-  Artifact    Artifact  @relation(fields: [ArtifactId], references: [id])
-  ArtifactId  String
+  id          String    @id @unique @default(cuid())
+  order       Int       @default(0)
   images      Image[]
   animation   Animation @relation(fields: [animationId], references: [id])
   animationId String    @unique
@@ -49,62 +46,72 @@ model Clip {
   film        Film      @relation(fields: [filmId], references: [id])
   filmId      String    @unique
   loading     Boolean   @default(false)
+  Artifact    Artifact? @relation(fields: [artifactId], references: [id])
+  artifactId  String?
+
+  @@unique([artifactId, order])
 }
 
 model Animation {
   id                    String  @id @default(cuid())
-  url                   String
-  duration              Int
-  frameCount            Int
-  numInterpolationSteps Int
-  fps                   Int
-  seed                  Int
-  thumbnail             String
-  subtitle              String
-  Clip                  Clip?
+  prompt                String  @default("")
+  url                   String  @default("")
+  duration              Int     @default(0)
+  frameCount            Int     @default(1)
+  numInterpolationSteps Int     @default(1)
+  fps                   Int     @default(1)
+  seed                  Int     @default(42)
+  thumbnail             String  @default("")
+  subtitle              String  @default("")
   loading               Boolean @default(false)
+  Clip                  Clip?
+  clipId                String? @unique
 }
 
 model Video {
-  id      String @id @default(cuid())
-  url     String
-  startAt Int
-  endAt   Int
-  Clip    Clip[]
+  id      String  @id @default(cuid())
+  url     String  @default("")
+  startAt Int     @default(0)
+  endAt   Int     @default(1)
+  Clip    Clip?
+  clipId  String? @unique
 }
 
 model Image {
   id          String  @id @default(cuid())
-  instruction String
-  prompt      String
-  url         String
-  seed        Int
-  Clip        Clip[]
+  instruction String  @default("")
+  prompt      String  @default("")
+  url         String  @default("")
+  seed        Int     @default(42)
   loading     Boolean @default(false)
+  Clip        Clip?   @relation(fields: [clipId], references: [id])
+  clipId      String? @unique
 }
 
 model Audio {
   id       String  @id @default(cuid())
-  text     String
-  url      String
-  duration Int
-  loading  Boolean
-  Clip     Clip[]
+  text     String  @default("")
+  url      String  @default("")
+  duration Int     @default(1)
+  loading  Boolean @default(false)
+  Clip     Clip?
+  clipId   String? @unique
 }
 
 model Film {
   id       String  @id @default(cuid())
-  url      String
-  duration Int
-  Clip     Clip[]
+  url      String  @default("")
+  duration Int     @default(0)
   loading  Boolean @default(false)
+  Clip     Clip?
+  clipId   String? @unique
 }
 
 model Movie {
   id       String     @id @default(cuid())
   url      String     @default("")
-  Artifact Artifact[]
   loading  Boolean    @default(false)
+  Artifact Artifact[]
 }
 
 model Template {
@@ -113,6 +120,8 @@ model Template {
   instructions Json
   params       Json
   Artifact     Artifact[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
 }
 
 // Authorization
