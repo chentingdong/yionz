@@ -1,15 +1,39 @@
 "use client";
 
-import { makeStory, updatePrompt, updateStory } from "./actions";
+import { makeStory, updateName, updatePrompt, updateStory } from "./actions";
 
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
+import TemplateSelect from "../../templates/templateSelect";
 import { initClips } from "../step2/actions";
 
-export default function MakeStory({ translation, artifact }) {
+export default function MakeStory({ translation, artifact, templates }) {
   return (
     <div className="h-100 d-flex flex-column">
+      <div className="row my-2">
+        <div className="col-4">
+          <label>name:</label>
+          <DebounceInput
+            element="input"
+            className="form-control"
+            id="name"
+            minLength={5}
+            debounceTime={300}
+            value={artifact.name}
+            onChange={(e) => {
+              updateName({
+                id: artifact.id,
+                name: e.target.value,
+              });
+            }}
+          />
+        </div>
+        <div className="col-4">
+          <label>template:</label>
+          <TemplateSelect templates={templates} />
+        </div>
+      </div>
       <div>
         <label htmlFor="prompt">{translation.step1Story.prompt}:</label>
         <div className="input-group">

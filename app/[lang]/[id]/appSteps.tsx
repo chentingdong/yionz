@@ -17,30 +17,9 @@ export default function AppSteps({ translation, artifact, templates }) {
 
   return (
     <div className="container h-100 d-flex flex-column" id="steps">
-      <div className="row my-2">
-        <h4 className="text-capitalize text-nowrap col-2 my-1">
-          {translation.step1Story.title}:
-        </h4>
-        <div className="col-4">
-          <DebounceInput
-            element="input"
-            className="form-control"
-            id="name"
-            minLength={5}
-            debounceTime={300}
-            value={artifact.name}
-            onChange={(e) => {
-              updateName({
-                id: artifact.id,
-                name: e.target.value,
-              });
-            }}
-          />
-        </div>
-        <div className="col-4">
-          <TemplateSelect templates={templates} />
-        </div>
-      </div>
+      <h4 className="text-capitalize text-nowrap col-2 my-1">
+        {translation.step1Story.title}:
+      </h4>
       <Tabs
         className="d-flex justify-content-between"
         variant="pills"
@@ -52,7 +31,7 @@ export default function AppSteps({ translation, artifact, templates }) {
           title={translation.appSteps.makeStory}
           className="h-100"
         >
-          <MakeStory artifact={artifact} translation={translation} />
+          <MakeStory artifact={artifact} translation={translation} templates={templates} />
         </Tab>
         <Tab eventKey="step-2" title={translation.appSteps.videoClips}>
           <VideoClips />
