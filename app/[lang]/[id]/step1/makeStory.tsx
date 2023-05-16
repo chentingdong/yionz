@@ -5,10 +5,11 @@ import { makeStory, updatePrompt, updateStory } from "./actions";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
+import { initClips } from "../step2/actions";
 
 export default function MakeStory({ translation, artifact }) {
   return (
-    <form className="h-100 d-flex flex-column">
+    <div className="h-100 d-flex flex-column">
       <div>
         <label htmlFor="prompt">{translation.step1Story.prompt}:</label>
         <div className="input-group">
@@ -19,7 +20,7 @@ export default function MakeStory({ translation, artifact }) {
             minLength={5}
             debounceTimeout={300}
             placeholder="prompt for creating your story"
-            value={artifact.prompt}
+            value={artifact?.prompt}
             onChange={(e) =>
               updatePrompt({
                 id: artifact.id,
@@ -31,9 +32,11 @@ export default function MakeStory({ translation, artifact }) {
             <button
               className="btn btn-primary form-control"
               title="create story"
-              onClick={(e) => makeStory({
-                id: artifact.id
-              })}
+              onClick={(e) =>
+                makeStory({
+                  id: artifact.id,
+                })
+              }
             >
               <BsFillChatTextFill /> {translation.step1Story.btnMakeStory}
             </button>
@@ -52,7 +55,7 @@ export default function MakeStory({ translation, artifact }) {
           className="form-control flex-grow-1"
           minLength={5}
           debounceTimeout={300}
-          value={artifact.story}
+          value={artifact?.story || ""}
           onChange={(e) =>
             updateStory({
               id: artifact.id,
@@ -61,6 +64,14 @@ export default function MakeStory({ translation, artifact }) {
           }
         />
       </div>
-    </form>
+      <div className="d-flex justify-content-right">
+        <button
+          className="btn btn-primary"
+          onClick={(e) => initClips(artifact.id)}
+        >
+          {translation.step1Story.btnNextStep}
+        </button>
+      </div>
+    </div>
   );
 }

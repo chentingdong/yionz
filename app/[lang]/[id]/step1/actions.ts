@@ -1,8 +1,22 @@
 "use server";
 
+import { chatGPT } from "@/app/api/services/openai";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
+// Update the name
+export async function updateName({ id, name }) {
+  return await prisma.artifact.update({
+    where: {
+      id: id,
+    },
+    data: {
+      name: name
+    }
+  });
+
+  revalidatePath(`/${id}`);
+}
 // Update the prompt
 export async function updatePrompt({ id, prompt }) {
   return await prisma.artifact.update({
@@ -19,7 +33,7 @@ export async function updatePrompt({ id, prompt }) {
 
 // Manually update the story
 export async function updateStory({ id, story }) {
-  return await prisma.artifact.update({
+  await prisma.artifact.update({
     where: {
       id: id,
     },
@@ -41,5 +55,7 @@ export async function makeStory({ id }) {
       template: true,
     }
   });
-  console.log(artifact);
+  const story = await chatGPT(artifact);
+  updateStory({ id, story });
+  revalidatePath(`/${id}`);
 }

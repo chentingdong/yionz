@@ -22,7 +22,7 @@ export default async function RootLayout({
     <html lang={params.lang}>
       <body className="vh-100 d-flex flex-column justify-content-between">
         {/* @ts-expect-error Server Component */}
-        <Header params={params} />
+        <Header params={params} session={session} />
         <main className="flex-grow-1 overflow-auto">
           {children}
         </main>

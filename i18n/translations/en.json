@@ -17,6 +17,7 @@
     "prompt": "prompt",
     "story": "story",
     "btnMakeStory": "make story",
-    "btnMakeAll": "create all"
+    "btnMakeAll": "create all",
+    "btnNextStep": "create clips"
   }
 }
