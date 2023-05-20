@@ -6,7 +6,7 @@ import React from "react";
 import { dateFormat } from "@/app/components/helpers";
 import { format } from "date-fns";
 import locale from 'react-json-editor-ajrm/locale/en';
-import { updateTemplate } from "../action";
+import { updateTemplate } from "./actions";
 
 type Props = {
   templates: any[];
@@ -21,13 +21,14 @@ export default function TemplatesTable({ templates }: Props) {
     {
       dataField: 'updatedAt',
       text: 'Last Updated',
-      formatter: (updatedAt) => format(updatedAt.getTime(), dateFormat.display)
+      // formatter: (updatedAt) => format(updatedAt.getTime(), dateFormat.display)
+      formatter: (updatedAt) => updatedAt.getTime()
     }
   ];
 
   const expandRow = {
-    renderer: row => (
-      <div className="row">
+    renderer: (row) => (
+      <div className="row" >
         <div className="col">
           <b>Instructions</b>
           <JSONInput
@@ -37,13 +38,16 @@ export default function TemplatesTable({ templates }: Props) {
             height={300}
             theme='light_mitsuketa_tribute'
             confirmGood={false}
-            onChange={(e) => updateTemplate({
-              id: row.id,
-              data: {
-                ...row,
-                instructions: e.target.value,
-              }
-            })}
+            onChange={(json) => {
+              console.log(json);
+              // updateTemplate({
+              //   id: row.id,
+              //   data: {
+              //     ...row,
+              //     instructions: e.target.value,
+              //   }
+              // });
+            }}
           />
         </div>
         <div className="col">

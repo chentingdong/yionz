@@ -1,7 +1,7 @@
-import { getArtifact, getTemplates } from "../action";
-
 import AppSteps from "./appSteps";
 import { Locale } from '@/i18n/i18n-config';
+import { getArtifact } from "../action";
+import { getTemplates } from "../templates/actions";
 import { getTranslation } from "@/i18n/translations";
 
 export type PageProps = {

@@ -46,12 +46,12 @@ async function Header({ params, session }) {
           <li className="nav-item">
             <LanguageSwitcher lang={lang} />
           </li>
-          {!session &&
+          {!session && (
             <li className="nav-item">
               <LoginButton />
             </li>
-          }
-          {!!session &&
+          )}
+          {!!session && (
             <>
               <li className="nav-item">
                 <LogoutButton />
@@ -59,8 +59,13 @@ async function Header({ params, session }) {
               <li className="nav-item">
                 <ProfileButton />
               </li>
+              <li className="nav-item">
+                <Link className="btn btn-link" href="/templates">
+                  Templates
+                </Link>
+              </li>
             </>
-          }
+          )}
         </ul>
       </div>
       {/* Stupid workaround here to make navbar collapse work*/}
