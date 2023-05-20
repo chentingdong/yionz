@@ -1,10 +1,10 @@
+import { createArtifact, getArtifacts } from "./action";
+
 import Link from "next/link";
 import { Locale } from '@/i18n/i18n-config';
-import { createArtifact } from "./action";
 import { dateFormat } from "@/app/components/helpers";
 import { format } from 'date-fns';
 import { getTranslation } from "@/i18n/translations";
-import prisma from "@/prisma/prisma";
 
 type PageProps = {
   params: {
@@ -13,7 +13,7 @@ type PageProps = {
 };
 
 export default async function Page({ params }: PageProps) {
-  const artifacts = await getData();
+  const artifacts = await getArtifacts();
   const translation = await getTranslation(params.lang);
 
   return (
@@ -51,7 +51,6 @@ export default async function Page({ params }: PageProps) {
               </td>
             </tr>
           ))}
-
         </tbody>
       </table>
       <form action={createArtifact}>
@@ -60,17 +59,4 @@ export default async function Page({ params }: PageProps) {
     </div>
   );
 }
-
-const getData = async () => {
-  const artifacts = await prisma.artifact.findMany({
-    include: {
-      user: false,
-      template: true,
-      movie: true,
-      clips: true,
-      _count: true
-    }
-  });
-  return artifacts;
-};
 

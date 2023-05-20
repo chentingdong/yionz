@@ -5,7 +5,7 @@ import { makeStory, updateName, updatePrompt, updateStory } from "./actions";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
-import TemplateSelect from "../../templates/templateSelect";
+import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { initClips } from "../step2/actions";
 
 export default function MakeStory({ translation, artifact, templates }) {
@@ -31,7 +31,11 @@ export default function MakeStory({ translation, artifact, templates }) {
         </div>
         <div className="col-4">
           <label>template:</label>
-          <TemplateSelect templates={templates} />
+          <TemplatesSelect
+            id={artifact.id}
+            templates={templates}
+            selected={artifact.template}
+          />
         </div>
       </div>
       <div>
@@ -88,7 +92,7 @@ export default function MakeStory({ translation, artifact, templates }) {
           }
         />
       </div>
-      <div className="d-flex justify-content-right">
+      <div className="d-flex flex-row-reverse">
         <button
           className="btn btn-primary"
           onClick={(e) => initClips(artifact.id)}

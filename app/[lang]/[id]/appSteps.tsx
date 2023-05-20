@@ -8,9 +8,7 @@ import MakeStory from "./step1/makeStory";
 import ShowOff from "./step4/bso";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import TemplateSelect from "../templates/templateSelect";
 import VideoClips from "./step2/videoClips";
-import { updateName } from "./step1/actions";
 
 export default function AppSteps({ translation, artifact, templates }) {
   const [key, setKey] = useState("step-1");

@@ -2,7 +2,6 @@
 
 import prisma from "@/prisma/prisma";
 import { redirect } from 'next/navigation';
-import { revalidatePath } from "next/cache";
 
 export const createArtifact = async () => {
   const artifact = await prisma.artifact.create({
@@ -34,19 +33,17 @@ export const getArtifact = async (id: string) => {
 };
 
 
-// Get template
-export const getTemplates = async () => {
-  return await prisma.template.findMany({});
-};
-
-export const updateTemplate = async ({ id, data }) => {
-  console.log(id, data);
-  await prisma.template.update({
-    where: {
-      id: id
-    },
-    data: data
+// GET all artifacts from db
+export const getArtifacts = async () => {
+  const artifacts = await prisma.artifact.findMany({
+    include: {
+      user: false,
+      template: true,
+      movie: true,
+      clips: true,
+      _count: true
+    }
   });
-
-  revalidatePath(`/templates/${id}`);
+  return artifacts;
 };
+
