@@ -1,5 +1,6 @@
 "use server";
 
+import { Template } from "@prisma/client";
 import { chatGPT } from "@/app/api/services/openai";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
@@ -34,9 +35,7 @@ export async function updateStory({ id, story }) {
 }
 
 // update the template
-export async function chooseTemplate({ id, selected }: { id: string, selected: Prisma.template; }) {
-  console.log(selected);
-
+export async function chooseTemplate({ id, selected }: { id: string, selected: Template; }) {
   await prisma.artifact.update({
     where: { id: id },
     data: { template: { disconnect: true } }

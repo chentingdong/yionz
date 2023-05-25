@@ -1,70 +1,42 @@
 "use client";
 
-import BootstrapTable from 'react-bootstrap-table-next';
-import JSONInput from 'react-json-editor-ajrm';
+import BootstrapTable from "react-bootstrap-table-next";
+import Codes from "@/app/components/codes";
 import React from "react";
-import { dateFormat } from "@/app/components/helpers";
-import { format } from "date-fns";
-import locale from 'react-json-editor-ajrm/locale/en';
-import { updateTemplate } from "./actions";
+import { Template } from "@prisma/client";
 
 type Props = {
-  templates: any[];
+  templates?: Template[];
 };
 
 export default function TemplatesTable({ templates }: Props) {
   const columns = [
     {
-      dataField: 'name',
-      text: 'Name',
+      dataField: "name",
+      text: "Name",
     },
     {
-      dataField: 'updatedAt',
-      text: 'Last Updated',
+      dataField: "updatedAt",
+      text: "Last Updated",
       // formatter: (updatedAt) => format(updatedAt.getTime(), dateFormat.display)
-      formatter: (updatedAt) => updatedAt.getTime()
-    }
+      formatter: (updatedAt) => updatedAt.getTime(),
+    },
   ];
 
   const expandRow = {
     renderer: (row) => (
-      <div className="row" >
-        <div className="col">
+      <div className="row">
+        <div className="col-6">
           <b>Instructions</b>
-          <JSONInput
-            id='instructions'
-            placeholder={row.instructions}
-            locale={locale}
-            height={300}
-            theme='light_mitsuketa_tribute'
-            confirmGood={false}
-            onChange={(json) => {
-              console.log(json);
-              // updateTemplate({
-              //   id: row.id,
-              //   data: {
-              //     ...row,
-              //     instructions: e.target.value,
-              //   }
-              // });
-            }}
-          />
+          {/* <Codes data={row.instructions} /> */}
         </div>
-        <div className="col">
+        <div className="col-6">
           <b>Params</b>
-          <JSONInput
-            id='params'
-            placeholder={row.params}
-            height={300}
-            locale={locale}
-            theme='light_mitsuketa_tribute'
-            confirmGood={false}
-          />
+          {/* <Codes data={row.params} /> */}
         </div>
       </div>
-    )
+    ),
   };
-
 
   return (
     <div className="container-fluid">
@@ -77,4 +49,3 @@ export default function TemplatesTable({ templates }: Props) {
     </div>
   );
 }
-

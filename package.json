@@ -11,12 +11,13 @@
     "accept-language-parser": "^1.5.0",
     "bootstrap": "5",
     "bootswatch": "^5.2.3",
+    "codemirror": "^6.0.1",
     "date-fns": "^2.30.0",
     "negotiator": "^0.6.3",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "openai": "^3.2.1",
-    "prisma": "4.14.1",
+    "prisma": "^4.14.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-table-next": "^4.0.3",
@@ -25,17 +26,19 @@
     "react-icons": "^4.8.0",
     "react-json-editor-ajrm": "^2.5.14",
     "server-only": "^0.0.1",
-    "sharp": "^0.32.1"
+    "sharp": "^0.32.1",
+    "style-loader": "^3.3.3",
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "@types/accept-language-parser": "^1.5.3",
     "@types/negotiator": "^0.6.1",
-    "@types/node": "20.1.0",
-    "@types/react": "18.2.6",
-    "eslint": "8.40.0",
-    "eslint-config-next": "13.4.1",
+    "@types/node": "^20.1.0",
+    "@types/react": "^18.2.7",
+    "eslint": "^8.40.0",
+    "eslint-config-next": "^13.4.1",
     "sass": "^1.62.1",
-    "typescript": "5.0.4"
+    "typescript": "^5.0.4"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"

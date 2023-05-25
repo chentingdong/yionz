@@ -19,4 +19,18 @@ module.exports = {
       `lh3.googleusercontent.com`,
     ],
   },
+  webpack: (config, options) => {
+    config.module.rules.push({
+      test: /\.(ogg|mp3|wav|mpe|png|mp4?g)$/i,
+      exclude: config.exclude,
+      use: [
+        {
+          loader: require.resolve("url-loader"),
+        },
+      ],
+    });
+
+    //  return modified config
+    return config;
+  },
 };

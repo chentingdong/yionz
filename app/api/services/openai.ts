@@ -1,19 +1,21 @@
 import { Configuration, OpenAIApi } from "openai";
 
+import { Prisma } from "@prisma/client";
+
 const configuration = new Configuration({
   apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY
 });
 
 const openai = new OpenAIApi(configuration);
 
-export async function chatGPT(artifact: Prisma.artifact) {
-  const instruction = artifact.template.instructions.chatgpt;
+export async function chatGPT(artifact) {
+  const instruction = artifact.template?.instructions.chatgpt;
   const prompt = [instruction, artifact.prompt].join('. ');
   const parameters = {
     prompt: prompt,
     model: "text-davinci-003",
-    max_tokens: artifact.template.params?.chatgpt?.maxTokens,
-    temperature: artifact.template.params?.chatgpt?.temperature
+    max_tokens: artifact.template?.params?.chatgpt?.maxTokens,
+    temperature: artifact.template?.params?.chatgpt?.temperature
   };
 
   console.log('Call to chatgpt: ', parameters);
