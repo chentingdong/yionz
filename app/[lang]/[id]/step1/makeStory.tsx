@@ -19,7 +19,7 @@ export default function MakeStory({ translation, artifact, templates }) {
             className="form-control"
             id="name"
             minLength={5}
-            debounceTime={300}
+            debounceTimeout={300}
             value={artifact.name}
             onChange={(e) => {
               updateName({

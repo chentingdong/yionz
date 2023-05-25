@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 
 // Get template
 export const getTemplates = async () => {
-  return await prisma.template.findMany({});
+  return await prisma.template.findMany({}) || [];
 };
 
 export const updateTemplate = async ({ data }) => {
