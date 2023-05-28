@@ -1,9 +1,9 @@
 "use client";
 
 import BootstrapTable from "react-bootstrap-table-next";
-import Codes from "@/app/components/codes";
 import React from "react";
 import { Template } from "@prisma/client";
+import { updateTemplate } from "./actions";
 
 type Props = {
   templates?: Template[];
@@ -24,17 +24,27 @@ export default function TemplatesTable({ templates }: Props) {
   ];
 
   const expandRow = {
+    parentClassName: 'expandRow',
+    className: 'expandRowContent',
     renderer: (row) => (
-      <div className="row">
-        <div className="col-6">
-          <b>Instructions</b>
-          {/* <Codes data={row.instructions} /> */}
+      <form className="row">
+        <div className="col-7">
+          <label>Instructions</label>
+          <textarea className="form-control" rows={20} onBlur={(e) => {
+            updateTemplate({ ...row, instructions: JSON.parse(e.target.value) });
+          }}>
+            {JSON.stringify(row.instructions, null, 4)}
+          </textarea>
         </div>
-        <div className="col-6">
+        <div className="col-5">
           <b>Params</b>
-          {/* <Codes data={row.params} /> */}
+          <textarea className="form-control" rows={20} onBlur={(e) => {
+            updateTemplate({ ...row, params: JSON.parse(e.target.value) });
+          }}>
+            {JSON.stringify(row.params, null, 4)}
+          </textarea>
         </div>
-      </div>
+      </form>
     ),
   };
 
@@ -45,6 +55,7 @@ export default function TemplatesTable({ templates }: Props) {
         data={templates}
         columns={columns}
         expandRow={expandRow}
+
       />
     </div>
   );
