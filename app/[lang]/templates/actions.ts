@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -6,7 +8,7 @@ export const getTemplates = async () => {
   return await prisma.template.findMany({}) || [];
 };
 
-export const updateTemplate = async ({ data }) => {
+export const updateTemplate = async (data) => {
   await prisma.template.update({
     where: {
       id: data.id
