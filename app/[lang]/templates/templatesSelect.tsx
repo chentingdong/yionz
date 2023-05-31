@@ -1,6 +1,6 @@
 import React from "react";
 import { Template } from "@prisma/client";
-import { chooseTemplate } from "../[id]/step1/actions";
+import { chooseTemplate } from "../[id]/(steps)/step1/actions";
 
 type Props = {
   id: string;

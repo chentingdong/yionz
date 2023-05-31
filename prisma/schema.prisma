@@ -29,31 +29,35 @@ model Artifact {
   @@unique([id, templateId])
 }
 
+// movie dimension
 model Demension {
   id     String @id @default(cuid())
   width  Int    @default(786)
   height Int    @default(512)
 }
 
+// one clip in the artifact
 model Clip {
-  id          String    @id @unique @default(cuid())
-  order       Int       @default(0)
-  images      Image[]
-  animation   Animation @relation(fields: [animationId], references: [id])
-  animationId String    @unique
-  video       Video     @relation(fields: [videoId], references: [id])
-  videoId     String    @unique
-  audio       Audio     @relation(fields: [audioId], references: [id])
-  audioId     String    @unique
-  film        Film      @relation(fields: [filmId], references: [id])
-  filmId      String    @unique
-  loading     Boolean   @default(false)
-  Artifact    Artifact? @relation(fields: [artifactId], references: [id])
+  id          String     @id @unique @default(cuid())
+  order       Int        @default(0)
+  Artifact    Artifact?  @relation(fields: [artifactId], references: [id])
   artifactId  String?
+  image       Image?     @relation(fields: [imageId], references: [id])
+  imageId     String?    @unique
+  animation   Animation? @relation(fields: [animationId], references: [id])
+  animationId String?    @unique
+  video       Video?     @relation(fields: [videoId], references: [id])
+  videoId     String?    @unique
+  audio       Audio?     @relation(fields: [audioId], references: [id])
+  audioId     String?    @unique
+  film        Film?      @relation(fields: [filmId], references: [id])
+  filmId      String?    @unique
+  loading     Boolean    @default(false)
 
   @@unique([artifactId, order])
 }
 
+// AI generated images/animations
 model Animation {
   id                    String  @id @default(cuid())
   prompt                String  @default("")
@@ -70,6 +74,7 @@ model Animation {
   clipId                String? @unique
 }
 
+// User uploaded video or given url
 model Video {
   id      String  @id @default(cuid())
   url     String  @default("")
@@ -79,17 +84,15 @@ model Video {
   clipId  String? @unique
 }
 
+// User uploaded image
 model Image {
-  id          String  @id @default(cuid())
-  instruction String  @default("")
-  prompt      String  @default("")
-  url         String  @default("")
-  seed        Int     @default(42)
-  loading     Boolean @default(false)
-  Clip        Clip?   @relation(fields: [clipId], references: [id])
-  clipId      String? @unique
+  id     String  @id @default(cuid())
+  url    String  @default("")
+  Clip   Clip?
+  clipId String? @unique
 }
 
+// text to audio
 model Audio {
   id       String  @id @default(cuid())
   text     String  @default("")
@@ -100,6 +103,7 @@ model Audio {
   clipId   String? @unique
 }
 
+// combined audio and animation/image/video(choose one)
 model Film {
   id       String  @id @default(cuid())
   url      String  @default("")
@@ -109,6 +113,7 @@ model Film {
   clipId   String? @unique
 }
 
+// artifact level movie, with audio and video
 model Movie {
   id       String     @id @default(cuid())
   url      String     @default("")
@@ -116,6 +121,7 @@ model Movie {
   Artifact Artifact[]
 }
 
+// template for certain style of movie.
 model Template {
   id           String     @id @default(cuid())
   name         String
@@ -126,7 +132,10 @@ model Template {
   Artifact     Artifact[]
 }
 
-// Authorization
+///////////////////
+// Authorization //
+///////////////////
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

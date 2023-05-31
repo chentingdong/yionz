@@ -29,6 +29,7 @@ export const getArtifact = async (id: string) => {
       clips: true
     }
   });
+
   return artifact;
 };
 
