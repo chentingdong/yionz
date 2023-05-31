@@ -55,7 +55,6 @@ export default function TemplatesTable({ templates }: Props) {
         data={templates}
         columns={columns}
         expandRow={expandRow}
-
       />
     </div>
   );

@@ -17,7 +17,8 @@ export default async function Page({ params }: PageProps) {
   const templates = await getTemplates();
 
   return (
-    <AppSteps artifact={artifact} translation={translation} templates={templates} />
+    <span>Placeholder</span>
+    // <AppSteps artifact={artifact} translation={translation} templates={templates} />
   );
 }
 

@@ -11,7 +11,8 @@
     "makeStory": "1: Make Story",
     "videoClips": "2: Video Clips",
     "makeMovie": "3: Make Movie",
-    "bso": "4: Show Off"
+    "bso": "4: Show Off",
+    "btnNextStep": "create clips"
   },
   "step1Story": {
     "title": "Video Story",
