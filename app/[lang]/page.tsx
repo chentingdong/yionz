@@ -1,18 +1,12 @@
 import { createArtifact, getArtifacts } from "./action";
 
 import Link from "next/link";
-import { Locale } from '@/i18n/i18n-config';
+import { PageParams } from "./[id]/appSteps";
 import { dateFormat } from "@/app/components/helpers";
 import { format } from 'date-fns';
 import { getTranslation } from "@/i18n/translations";
 
-type PageProps = {
-  params: {
-    lang: Locale,
-  };
-};
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageParams) {
   const artifacts = await getArtifacts();
   const translation = await getTranslation(params.lang);
 

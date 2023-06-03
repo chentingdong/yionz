@@ -2,11 +2,14 @@
 
 import { makeStory, updatePrompt } from "./actions";
 
-import { Artifact } from "@prisma/client";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
 
+type Props = {
+  artifact: Artifact,
+  translation: any,
+};
 export default function Prompt({ artifact, translation }: Props) {
   return (
     <div>
@@ -31,11 +34,7 @@ export default function Prompt({ artifact, translation }: Props) {
           <button
             className="btn btn-primary form-control"
             title="create story"
-            onClick={(e) =>
-              makeStory({
-                id: artifact.id,
-              })
-            }
+            onClick={(e) => makeStory(artifact.id)}
           >
             <BsFillChatTextFill /> {translation.step1Story.btnMakeStory}
           </button>

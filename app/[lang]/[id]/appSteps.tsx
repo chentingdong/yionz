@@ -1,51 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import Link from "next/link";
+import { Locale } from "@/i18n/i18n-config";
+import React from "react";
 
-import { DebounceInput } from "react-debounce-input";
-import MakeMovie from "./(steps)/step3/makeMovie";
-import MakeStory from "./(steps)/step1/page";
-import ShowOff from "./step4/bso";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import VideoClips from "./(steps)/step2/videoClips";
-
-type PageProps = {
+export type AppStepsProps = {
   params: {
     lang: Locale,
     id: string,
     step: string,
-  };
+  },
+  translation: any;
 };
 
-export default function AppSteps({ translation, artifact, templates }) {
-  const [key, setKey] = useState("step-1");
-
+export default function AppSteps({ params, translation }: AppStepsProps) {
   return (
-    <div className="container h-100 d-flex flex-column" id="steps">
-      <h4 className="text-capitalize text-nowrap col-2 my-1">
-        {translation.step1Story.title}:
-      </h4>
-      <nav
-        className="d-flex justify-content-between"
-      >
-        <Tab
-          eventKey="step-1"
-          title={translation.appSteps.makeStory}
-          className="h-100"
-        >
-          {/* <MakeStory artifact={artifact} translation={translation} templates={templates} setKey={setKey} /> */}
-        </Tab>
-        <Tab eventKey="step-2" title={translation.appSteps.videoClips}>
-          <VideoClips />
-        </Tab>
-        <Tab eventKey="step-3" title={translation.appSteps.makeMovie}>
-          <MakeMovie />
-        </Tab>
-        <Tab eventKey="step-4" title={translation.appSteps.bso}>
-          <ShowOff />
-        </Tab>
-      </nav>
-    </div>
+    <div className="container d-flex w-100 justify-content-between my-2" id="steps">
+      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step1`}>
+        {translation.appSteps.makeStory}
+      </Link>
+      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step2`}>
+        {translation.appSteps.VideoClips}
+      </Link>
+      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step3`}>
+        {translation.appSteps.MakeMovie}
+      </Link>
+      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step4`}>
+        {translation.appSteps.bso}
+      </Link>
+    </div >
   );
 }

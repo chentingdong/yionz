@@ -1,8 +1,5 @@
-import AppSteps from "./appSteps";
 import { Locale } from '@/i18n/i18n-config';
-import { getArtifact } from "../action";
-import { getTemplates } from "../templates/actions";
-import { getTranslation } from "@/i18n/translations";
+import { redirect } from 'next/navigation';
 
 export type PageProps = {
   params: {
@@ -12,13 +9,9 @@ export type PageProps = {
 };
 
 export default async function Page({ params }: PageProps) {
-  const artifact = await getArtifact(params.id);
-  const translation = await getTranslation(params.lang);
-  const templates = await getTemplates();
-
+  redirect(`/${params.lang}/${params.id}/step1`);
   return (
-    <span>Placeholder</span>
-    // <AppSteps artifact={artifact} translation={translation} templates={templates} />
+    <span>Redirecting to step 1</span>
   );
 }
 

@@ -56,7 +56,7 @@ export async function chooseTemplate({ id, selected }: { id: string, selected: T
 }
 
 // Ask AI to generate a story
-export async function makeStory({ id }) {
+export async function makeStory(id: string) {
   const artifact = await prisma.artifact.findUnique({
     where: { id: id, },
     include: { template: true, }
