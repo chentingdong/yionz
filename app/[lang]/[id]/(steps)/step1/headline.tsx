@@ -7,11 +7,16 @@ import React from "react";
 import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { updateName } from "./actions";
 
+type ArtifactWithRelations = Prisma.Artifact<{
+  include: { template: true; };
+}>;
+
 type Props = {
   translation: any;
-  artifact: Artifact;
+  artifact: ArtifactWithRelations;
   templates: Template[];
 };
+
 
 export default function Headline({ translation, artifact, templates }: Props) {
   return (

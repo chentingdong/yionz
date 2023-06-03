@@ -20,10 +20,10 @@ export default function AppSteps({ params, translation }: AppStepsProps) {
         {translation.appSteps.makeStory}
       </Link>
       <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step2`}>
-        {translation.appSteps.VideoClips}
+        {translation.appSteps.videoClips}
       </Link>
       <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step3`}>
-        {translation.appSteps.MakeMovie}
+        {translation.appSteps.makeMovie}
       </Link>
       <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step4`}>
         {translation.appSteps.bso}
