@@ -28,7 +28,6 @@ export const initClip = async (artifactId: string, index: number, text: string):
     }
   });
 
-  console.log(artifactId, index, clip0);
   if (clip0) updateClip(artifactId, clip0, index, text);
   else createClip(artifactId, index, text);
 };
@@ -46,7 +45,6 @@ const createClip = async (artifactId: string, index: number, text: string) => {
     }
   });
 
-  console.log(clip);
   await updateAudio(clip.id, text);
 };
 

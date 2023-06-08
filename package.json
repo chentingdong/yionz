@@ -28,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-json-editor-ajrm": "^2.5.14",
+    "react-router-dom": "^6.11.2",
     "server-only": "^0.0.1",
     "sharp": "^0.32.1",
     "style-loader": "^3.3.3",

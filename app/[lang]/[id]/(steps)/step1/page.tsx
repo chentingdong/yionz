@@ -19,7 +19,7 @@ export default async function MakeStory({ params }: PageParams) {
       <AppSteps params={params} translation={translation} />
       <Headline artifact={artifact} translation={translation} templates={templates} />
       <Prompt artifact={artifact} translation={translation} />
-      <Story artifact={artifact} translation={translation} />
+      <Story lang={params.lang} artifact={artifact} translation={translation} />
     </div>
   );
 }

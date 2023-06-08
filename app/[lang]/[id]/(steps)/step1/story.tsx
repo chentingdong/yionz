@@ -2,18 +2,25 @@
 
 import { Artifact } from "@prisma/client";
 import { DebounceInput } from "react-debounce-input";
+import { Locale } from "@/i18n/i18n-config";
 import React from "react";
 import { initClips } from "../step2/actions";
+import { redirect } from "next/navigation";
 import { updateStory } from "./actions";
+import { useRouter } from 'next/navigation';
 
 type Props = {
+  lang: Locale;
   artifact: Artifact;
   translation: any;
 };
 
-const Story = ({ translation, artifact }: Props) => {
+const Story = ({ lang, translation, artifact }: Props) => {
+  const router = useRouter();
+
   const initializeClips = async () => {
     await initClips(artifact.id);
+    router.push(`/${lang}/${artifact.id}/step2`);
   };
 
 
@@ -36,7 +43,7 @@ const Story = ({ translation, artifact }: Props) => {
           }
         />
       </div>
-      <div className="d-flex flex-row-reverse">
+      <div className="d-flex flex-row-reverse my-2">
         <button
           className="btn btn-primary"
           onClick={() => initializeClips()}
