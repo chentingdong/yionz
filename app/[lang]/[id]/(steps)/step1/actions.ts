@@ -38,11 +38,6 @@ export async function updateStory({ id, story }) {
 export async function chooseTemplate({ id, selected }: { id: string, selected: Template; }) {
   await prisma.artifact.update({
     where: { id: id },
-    data: { template: { disconnect: true } }
-  });
-
-  await prisma.artifact.update({
-    where: { id: id },
     data: {
       template: {
         connect: {
