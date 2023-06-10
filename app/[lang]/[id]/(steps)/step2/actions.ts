@@ -6,7 +6,8 @@ import prisma from "@/prisma/prisma";
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
-  const clipsTexts = artifact?.story?.split("\n\n")?.slice(0, 1);
+  // TODO: remove slice
+  const clipsTexts = artifact?.story?.split("\n\n")?.slice(0, 2);
   if (!clipsTexts) return;
 
   const clips = await Promise.all(
@@ -18,7 +19,7 @@ export const initClips = async (artifactId: string) => {
   return clips;
 };
 
-export const initClip = async (artifactId: string, index: number, text: string): Promise<Clip> => {
+export const initClip = async (artifactId: string, index: number, text: string) => {
   const clip0 = await prisma.clip.findUnique({
     where: {
       artifactId_order: {
@@ -40,12 +41,24 @@ const createClip = async (artifactId: string, index: number, text: string) => {
           id: artifactId
         }
       },
+      audio: {
+        create: {
+          text: text
+        }
+      },
+      image: {
+        create: {}
+      },
+      video: {
+        create: {}
+      },
+      film: {
+        create: {}
+      },
       order: index,
       loading: false,
     }
   });
-
-  await updateAudio(clip.id, text);
 };
 
 const updateClip = async (artifactId: string, clip0: Clip, index: number, text: string) => {
@@ -53,16 +66,18 @@ const updateClip = async (artifactId: string, clip0: Clip, index: number, text: 
 };
 
 const updateAudio = async (clipId: string, text: string) => {
-  console.log(clipId, text);
+  console.log("update audio", clipId, text);
 
   await prisma.audio.upsert({
     where: {
       clipId: clipId
     },
     create: {
+      clipId: clipId,
       text: text
     },
     update: {
+      clipId: clipId,
       text: text
     }
   });

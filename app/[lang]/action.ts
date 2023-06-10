@@ -4,11 +4,23 @@ import prisma from "@/prisma/prisma";
 import { redirect } from 'next/navigation';
 
 export const createArtifact = async () => {
+  const defaultTemplate = await prisma.template.findUnique({
+    where: {
+      name: 'default',
+    }
+  });
   const artifact = await prisma.artifact.create({
     data: {
       name: "New Story",
+      clips: {
+      },
       movie: {
         create: {}
+      },
+      template: {
+        connect: {
+          id: defaultTemplate?.id
+        }
       }
     }
   });

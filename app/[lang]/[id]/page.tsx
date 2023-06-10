@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation';
 
 export type PageProps = {
   params: {
-    lang: Locale,
-    id: string,
+    lang: Locale;
+    id: string;
+    step: string;
   };
 };
 

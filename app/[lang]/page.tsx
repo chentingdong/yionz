@@ -1,12 +1,12 @@
 import { createArtifact, getArtifacts } from "./action";
 
 import Link from "next/link";
-import { PageParams } from "./[id]/appSteps";
+import { PageProps } from "./[id]/page";
 import { dateFormat } from "@/app/components/helpers";
 import { format } from 'date-fns';
 import { getTranslation } from "@/i18n/translations";
 
-export default async function Page({ params }: PageParams) {
+export default async function Page({ params }: PageProps) {
   const artifacts = await getArtifacts();
   const translation = await getTranslation(params.lang);
 

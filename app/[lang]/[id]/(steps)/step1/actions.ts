@@ -35,7 +35,8 @@ export async function updateStory({ id, story }) {
 }
 
 // update the template
-export async function chooseTemplate({ id, selected }: { id: string, selected: Template; }) {
+export async function chooseTemplate({ id, selected }: { id: string, selected?: Template; }) {
+  if (!selected) return;
   await prisma.artifact.update({
     where: { id: id },
     data: {
