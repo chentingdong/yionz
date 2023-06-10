@@ -27,29 +27,22 @@ model Artifact {
   userId     String?
 }
 
-// movie dimension
-model Demension {
-  id     String @id @default(cuid())
-  width  Int    @default(786)
-  height Int    @default(512)
-}
-
 // one clip in the artifact
 model Clip {
   id          String     @id @unique @default(cuid())
   order       Int        @default(0)
   Artifact    Artifact?  @relation(fields: [artifactId], references: [id])
-  artifactId  String?
-  image       Image?     @relation(fields: [imageId], references: [id])
-  imageId     String?    @unique
+  artifactId  String
+  image       Image      @relation(fields: [imageId], references: [id])
+  imageId     String     @unique
   animation   Animation? @relation(fields: [animationId], references: [id])
-  animationId String?    @unique
-  video       Video?     @relation(fields: [videoId], references: [id])
-  videoId     String?    @unique
-  audio       Audio?     @relation(fields: [audioId], references: [id])
-  audioId     String?    @unique
-  film        Film?      @relation(fields: [filmId], references: [id])
-  filmId      String?    @unique
+  animationId String     @unique
+  video       Video      @relation(fields: [videoId], references: [id])
+  videoId     String     @unique
+  audio       Audio      @relation(fields: [audioId], references: [id])
+  audioId     String     @unique
+  film        Film       @relation(fields: [filmId], references: [id])
+  filmId      String     @unique
   loading     Boolean    @default(false)
 
   @@unique([artifactId, order])
@@ -122,12 +115,25 @@ model Movie {
 // template for certain style of movie.
 model Template {
   id           String     @id @default(cuid())
-  name         String
+  name         String     @unique @default("default")
+  dimension    Dimension  @relation(fields: [dimensionId], references: [id])
   instructions Json       @default("{}")
   params       Json       @default("{}")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @default(now())
   Artifact     Artifact[]
+  dimensionId  String
+}
+
+// movie dimension
+model Dimension {
+  id       String     @id @default(cuid())
+  name     String     @unique @default("786x512")
+  width    Int        @default(786)
+  height   Int        @default(512)
+  Template Template[]
+
+  @@unique([width, height])
 }
 
 ///////////////////

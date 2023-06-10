@@ -1,15 +1,16 @@
 "use client";
 
-import { Artifact, Template } from "@prisma/client";
+import { Artifact, Prisma, Template } from "@prisma/client";
 
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
 import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { updateName } from "./actions";
 
-type ArtifactWithRelations = Prisma.Artifact<{
+type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
   include: { template: true; };
 }>;
+
 
 type Props = {
   translation: any;
@@ -19,6 +20,7 @@ type Props = {
 
 
 export default function Headline({ translation, artifact, templates }: Props) {
+  if (!artifact.id) return <></>;
   return (
     <div className="row my-2">
       <div className="col-4">

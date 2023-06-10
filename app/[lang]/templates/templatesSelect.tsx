@@ -9,6 +9,8 @@ type Props = {
 };
 
 export default function TemplatesSelect({ id, templates, selected }: Props) {
+  if (!selected) selected = templates[0];
+
   const onChange = (e) => {
     const newTemplate = templates.find(
       (t) => t.id === e.target.value

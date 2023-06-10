@@ -1,19 +1,20 @@
-"use client";
-
 import Link from "next/link";
-import { Locale } from "@/i18n/i18n-config";
+import { PageProps } from "./page";
 import React from "react";
+import { getTranslation } from "@/i18n/translations";
 
-export type AppStepsProps = {
+type AppStepsProps = {
   params: {
-    lang: Locale,
-    id: string,
-    step: string,
-  },
+    lang: Locale;
+    id: string;
+    step: string;
+  };
   translation: any;
 };
 
-export default function AppSteps({ params, translation }: AppStepsProps) {
+export default async function AppSteps({ params }: PageProps) {
+  const translation = await getTranslation(params.lang);
+
   return (
     <div className="container d-flex w-100 justify-content-between my-2" id="steps">
       <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step1`}>

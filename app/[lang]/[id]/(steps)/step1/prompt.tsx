@@ -2,6 +2,7 @@
 
 import { makeStory, updatePrompt } from "./actions";
 
+import { Artifact } from "@prisma/client";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
