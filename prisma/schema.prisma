@@ -115,25 +115,14 @@ model Movie {
 // template for certain style of movie.
 model Template {
   id           String     @id @default(cuid())
-  name         String     @unique @default("default")
-  dimension    Dimension  @relation(fields: [dimensionId], references: [id])
+  name         String     @unique
+  width        Int        @default(768)
+  height       Int        @default(512)
   instructions Json       @default("{}")
   params       Json       @default("{}")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @default(now())
   Artifact     Artifact[]
-  dimensionId  String
-}
-
-// movie dimension
-model Dimension {
-  id       String     @id @default(cuid())
-  name     String     @unique @default("786x512")
-  width    Int        @default(786)
-  height   Int        @default(512)
-  Template Template[]
-
-  @@unique([width, height])
 }
 
 ///////////////////
