@@ -1,0 +1,63 @@
+{
+  "templates": [
+    {
+      "name": "default",
+      "width": 768,
+      "height": 512,
+      "instructions": {
+        "chatgpt": "Write an article of about 1000 words.",
+        "image": "Create an artistic fantasy photo, high resolution, high quality.",
+        "voice": "microsoft"
+      },
+      "params": {
+        "chatgpt": {
+          "maxTokens": 1000,
+          "temperature": 0.5
+        },
+        "googleTts": {
+          "languageCode": "en-US",
+          "ssmlGender": "FEMALE",
+          "speakingRate": 0.75
+        },
+        "microsoftTts": {
+          "speechRecognitionLanguage": "en-US",
+          "speechSynthesisVoiceName": "en-US-JennyNeural"
+        }
+      }
+    },
+    {
+      "name": "Food Recipe",
+      "width": 768,
+      "height": 512,
+      "instructions": {
+        "chatgpt": "Create a very short article of food receipe of about 500 words. 7 paragraphs.",
+        "image": "Create a colorful cooking photo, high resolution, high quality.",
+        "voice": "microsoft"
+      },
+      "params": {
+        "chatgpt": {
+          "maxTokens": 500,
+          "temperature": 0.75
+        },
+        "googleTts": {
+          "languageCode": "en-US",
+          "ssmlGender": "FEMALE",
+          "speakingRate": 0.75
+        },
+        "microsoftTts": {
+          "speechSynthesisOutputFormat": 5,
+          "speechRecognitionLanguage": "en-US",
+          "speechSynthesisVoiceName": "en-US-JennyNeural"
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "Mean of life",
+      "prompt": "What's the meaning of life, the universe, and everything?",
+      "story": "",
+      "clips": []
+    }
+  ]
+}

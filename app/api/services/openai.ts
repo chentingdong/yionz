@@ -10,7 +10,7 @@ const openai = new OpenAIApi(configuration);
 
 export async function chatGPT(artifact) {
   const instruction = artifact.template?.instructions.chatgpt;
-  const prompt = [instruction, artifact.prompt].join('. ');
+  const prompt = [instruction, artifact.prompt].join(': ');
   const parameters = {
     prompt: prompt,
     model: "text-davinci-003",

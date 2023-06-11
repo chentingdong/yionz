@@ -15,19 +15,19 @@ services:
     logging:
       options:
         max-size: 10m
-  prisma:
-    container_name: prisma
-    image: chentingdong/yionz:latest
-    ports: 
-      - "5555:5555"
-    depends_on:
-      - yionzdb
-    restart: unless-stopped
-    networks:
-      - yionz
-    volumes:
-      - .:/app
-    command: ["npx", "prisma", "studio"]
+  # prisma:
+  #   container_name: prisma
+  #   image: chentingdong/yionz:latest
+  #   ports: 
+  #     - "5555:5555"
+  #   depends_on:
+  #     - yionzdb
+  #   restart: unless-stopped
+  #   networks:
+  #     - yionz
+  #   volumes:
+  #     - .:/app
+  #   command: ["npx", "prisma", "studio"]
   yionz:
     container_name: yionz
     image: chentingdong/yionz:latest
@@ -42,7 +42,7 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - prisma
+      # - prisma
       - yionzdb
     restart: unless-stopped
     logging:

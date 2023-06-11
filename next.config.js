@@ -33,4 +33,5 @@ module.exports = {
     //  return modified config
     return config;
   },
+  presets: ["next/babel"],
 };
