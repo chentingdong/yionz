@@ -52,6 +52,9 @@ const createClip = async (artifactId: string, index: number, text: string) => {
       video: {
         create: {}
       },
+      animation: {
+        create: {}
+      },
       film: {
         create: {}
       },
