@@ -5,6 +5,7 @@ import { getArtifact } from "@/app/[lang]/action";
 
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
+  params.step = 'step2';
 
   return (
     <div>
