@@ -21,5 +21,12 @@
     "btnMakeStory": "make story",
     "btnMakeAll": "create all",
     "btnNextStep": "create clips"
+  },
+  "step2Clip": {
+    "audio": "Audio",
+    "videoSource": "Video source",
+    "video": "Video",
+    "animation": "Animation",
+    "images": "Images"
   }
 }

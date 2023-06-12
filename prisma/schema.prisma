@@ -71,7 +71,8 @@ model Video {
   id      String  @id @default(cuid())
   url     String  @default("")
   startAt Int     @default(0)
-  endAt   Int     @default(1)
+  endAt   Int     @default(0)
+  length  Int     @default(0)
   Clip    Clip?
   clipId  String? @unique
 }
