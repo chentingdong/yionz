@@ -39,6 +39,7 @@ export const getArtifact = async (id: string) => {
       template: true,
       movie: true,
       clips: {
+        orderBy: { order: 'asc' },
         include: {
           audio: true,
           video: true,

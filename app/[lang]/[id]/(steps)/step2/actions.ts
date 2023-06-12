@@ -34,7 +34,7 @@ export const initClip = async (artifactId: string, index: number, text: string) 
   else createClip(artifactId, index, text);
 };
 
-const createClip = async (artifactId: string, index: number, text: string): Clip => {
+const createClip = async (artifactId: string, index: number, text: string): Promise<Clip> => {
   const clipId = cuid();
   const clip = await prisma.clip.create({
     data: {
