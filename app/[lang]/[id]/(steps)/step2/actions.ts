@@ -1,6 +1,7 @@
 "use server";
 
 import { Clip } from "@prisma/client";
+import cuid from 'cuid';
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
 
@@ -33,9 +34,11 @@ export const initClip = async (artifactId: string, index: number, text: string) 
   else createClip(artifactId, index, text);
 };
 
-const createClip = async (artifactId: string, index: number, text: string) => {
+const createClip = async (artifactId: string, index: number, text: string): Clip => {
+  const clipId = cuid();
   const clip = await prisma.clip.create({
     data: {
+      id: clipId,
       Artifact: {
         connect: {
           id: artifactId
@@ -43,34 +46,44 @@ const createClip = async (artifactId: string, index: number, text: string) => {
       },
       audio: {
         create: {
+          clipId: clipId,
           text: text
         }
       },
       image: {
-        create: {}
+        create: {
+          clipId: clipId,
+        }
       },
       video: {
-        create: {}
+        create: {
+          clipId: clipId,
+        }
       },
       animation: {
-        create: {}
+        create: {
+          clipId: clipId,
+          prompt: text
+        }
       },
       film: {
-        create: {}
+        create: {
+          clipId: clipId,
+        }
       },
       order: index,
       loading: false,
     }
   });
+  return clip;
 };
 
 const updateClip = async (artifactId: string, clip0: Clip, index: number, text: string) => {
   await updateAudio(clip0.id, text);
+  await updateAnimation(clip0.id, text);
 };
 
 const updateAudio = async (clipId: string, text: string) => {
-  console.log("update audio", clipId, text);
-
   await prisma.audio.upsert({
     where: {
       clipId: clipId
@@ -82,6 +95,22 @@ const updateAudio = async (clipId: string, text: string) => {
     update: {
       clipId: clipId,
       text: text
+    }
+  });
+};
+
+const updateAnimation = async (clipId: string, text: string) => {
+  await prisma.animation.upsert({
+    where: {
+      clipId: clipId
+    },
+    create: {
+      clipId: clipId,
+      prompt: text
+    },
+    update: {
+      clipId: clipId,
+      prompt: text
     }
   });
 };

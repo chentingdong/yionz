@@ -2,7 +2,6 @@ import AppSteps from "@/app/[lang]/[id]/appSteps";
 import { PageProps } from "@/app/[lang]/[id]/page";
 import React from "react";
 import { getArtifact } from "@/app/[lang]/action";
-import { getTranslation } from "@/i18n/translations";
 
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
