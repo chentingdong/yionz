@@ -38,7 +38,14 @@ export const getArtifact = async (id: string) => {
     include: {
       template: true,
       movie: true,
-      clips: true
+      clips: {
+        include: {
+          audio: true,
+          video: true,
+          animation: true,
+          image: true
+        }
+      }
     }
   });
 

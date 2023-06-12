@@ -9,7 +9,9 @@ import { revalidatePath } from "next/cache";
 export async function updateName({ id, name }) {
   await prisma.artifact.update({
     where: { id: id, },
-    data: { name: name }
+    data: {
+      name: name
+    }
   });
 
   revalidatePath(`/${id}`);
