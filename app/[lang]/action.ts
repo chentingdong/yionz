@@ -61,7 +61,14 @@ export const getArtifacts = async () => {
       user: false,
       template: true,
       movie: true,
-      clips: true,
+      clips: {
+        include: {
+          audio: true,
+          video: true,
+          animation: true,
+          image: true
+        }
+      },
       _count: true
     }
   });
