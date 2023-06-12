@@ -14,19 +14,20 @@ type AppStepsProps = {
 
 export default async function AppSteps({ params }: PageProps) {
   const translation = await getTranslation(params.lang);
+  const className = (step: string) => params.step === step ? 'btn btn-secondary' : 'btn btn-primary';
 
   return (
     <div className="container d-flex w-100 justify-content-between my-2" id="steps">
-      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step1`}>
+      <Link className={className('step1')} href={`/${params.lang}/${params.id}/step1`}>
         {translation.appSteps.makeStory}
       </Link>
-      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step2`}>
+      <Link className={className('step2')} href={`/${params.lang}/${params.id}/step2`}>
         {translation.appSteps.videoClips}
       </Link>
-      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step3`}>
+      <Link className={className('step3')} href={`/${params.lang}/${params.id}/step3`}>
         {translation.appSteps.makeMovie}
       </Link>
-      <Link className="btn btn-primary" href={`/${params.lang}/${params.id}/step4`}>
+      <Link className={className('step4')} href={`/${params.lang}/${params.id}/step4`}>
         {translation.appSteps.bso}
       </Link>
     </div >

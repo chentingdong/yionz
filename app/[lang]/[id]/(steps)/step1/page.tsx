@@ -14,6 +14,7 @@ export default async function MakeStory({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
   const templates = await getTemplates();
   const translation = await getTranslation(params.lang);
+  params.step = 'step1';
 
   if (!artifact || !templates || !translation) return <>Loading...</>;
 
