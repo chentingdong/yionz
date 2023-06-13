@@ -16,12 +16,20 @@ type TimeRange = {
 };
 
 export default function CreateVideo({ video, template, translation }: Props) {
-  const [timeRange, setTimeRange] = React.useState<TimeRange>({ start: "0:00", end: "0:00" });
+  const fileTypes = ["MP4"];
+  const [timeRange, setTimeRange] = React.useState<TimeRange>({
+    start: video.startAt,
+    end: video.endAt
+  });
+
   const updateVideo = (e) => {
     console.log(e.target.value);
   };
 
-  const fileTypes = ["MP4"];
+  const timeChangeHandler = (time: TimeRange) => {
+    console.log(time);
+    setTimeRange(time);
+  };
 
   return (
     <div className="">
@@ -37,13 +45,13 @@ export default function CreateVideo({ video, template, translation }: Props) {
         Your browser does not support the video tag.
       </video>
       <TimeRangeSlider
+        name={"timeRange"}
         disabled={false}
         format={24}
-        maxValue={"23:59"}
         minValue={"00:00"}
-        name={"time_range"}
-        onChange={(time: TimeRange) => setTimeRange(time)}
-        step={15}
+        maxValue={video.length}
+        step={1}
+        onChange={timeChangeHandler}
         value={timeRange} />
       <pre>{JSON.stringify(timeRange)}</pre>
       <pre>{JSON.stringify(video, null, 2)}</pre>

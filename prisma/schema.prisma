@@ -70,9 +70,9 @@ model Animation {
 model Video {
   id      String  @id @default(cuid())
   url     String  @default("")
-  startAt Int     @default(0)
-  endAt   Int     @default(0)
-  length  Int     @default(0)
+  startAt String  @default("00:00") @db.VarChar(5)
+  endAt   String  @default("00:00") @db.VarChar(5)
+  length  String  @default("00:00") @db.VarChar(5)
   Clip    Clip?
   clipId  String? @unique
 }
