@@ -35,7 +35,7 @@ export default async function Page({ params }: PageProps) {
               <td>{artifact.prompt}</td>
               <td>{format(artifact.createdAt.getTime(), dateFormat.display)}</td>
               <td>
-                {artifact.movie?.url &&
+                {artifact.movie?.url !== '' &&
                   <video className="col" controls height="100" width="auto">
                     <source src={artifact.movie.url} type="video/mp4" />
                     Your browser does not support video tag.
