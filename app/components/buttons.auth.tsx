@@ -7,7 +7,7 @@ import Link from "next/link";
 export const LoginButton = () => {
   return (
     <button
-      className="btn btn-link"
+      className="btn"
       style={{ marginRight: 10 }}
       onClick={() => signIn()}
     >
@@ -19,7 +19,7 @@ export const LoginButton = () => {
 export const RegisterButton = () => {
   return (
     <Link
-      className="btn btn-primary"
+      className="btn"
       href="/register"
       style={{ marginRight: 10 }}>
       Register
@@ -30,7 +30,7 @@ export const RegisterButton = () => {
 export const LogoutButton = () => {
   return (
     <button
-      className="btn btn-link"
+      className="btn"
       style={{ marginRight: 10 }}
       onClick={() => signOut()}>
       Sign Out
@@ -40,7 +40,7 @@ export const LogoutButton = () => {
 
 export const ProfileButton = () => {
   return (
-    <Link className="btn btn-link" href="/profile">
+    <Link className="btn" href="/profile">
       Profile
     </Link>
   );
