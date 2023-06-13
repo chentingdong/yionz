@@ -32,32 +32,37 @@ export default function CreateVideo({ video, template, translation }: Props) {
   };
 
   return (
-    <div className="">
-      <FileUploader
-        multiple={true}
-        handleChange={updateVideo}
-        name="file"
-        types={fileTypes}
-      />
-      <br />
-      <video width="100%" height="auto" controls>
-        <source src={video.url || " "} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      {video.url &&
-        <TimeRangeSlider
-          name={"timeRange"}
-          disabled={false}
-          format={24}
-          minValue={"00:00"}
-          maxValue={video.length}
-          step={1}
-          onChange={timeChangeHandler}
-          value={timeRange} />
-      }
+    <div className="row">
+      <div className="col-11">
 
-      <pre>{JSON.stringify(timeRange)}</pre>
-      <pre>{JSON.stringify(video, null, 2)}</pre>
+        <FileUploader
+          multiple={true}
+          handleChange={updateVideo}
+          name="file"
+          types={fileTypes}
+        />
+        <br />
+        <video width="100%" height="auto" controls>
+          <source src={video.url || " "} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {video.url &&
+          <TimeRangeSlider
+            name={"timeRange"}
+            disabled={false}
+            format={24}
+            minValue={"00:00"}
+            maxValue={video.length}
+            step={1}
+            onChange={timeChangeHandler}
+            value={timeRange} />
+        }
+      </div>
+      <div className="col-1">
+        &nbsp;
+      </div>
+      {/* <pre>{JSON.stringify(timeRange)}</pre> */}
+      {/* <pre>{JSON.stringify(video, null, 2)}</pre> */}
     </div >
   );
 }
