@@ -15,7 +15,7 @@ export default function CreateAudio({ audio, translation }: Props) {
         </div>
       </div>
       <audio className="col-10" controls>
-        <source src={audio.url} type="audio/mpeg" />
+        <source src={audio.url || " "} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
     </div>

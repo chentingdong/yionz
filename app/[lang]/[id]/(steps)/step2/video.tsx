@@ -41,18 +41,21 @@ export default function CreateVideo({ video, template, translation }: Props) {
       />
       <br />
       <video width="100%" height="auto" controls>
-        <source src={video.url} type="video/mp4" />
+        <source src={video.url || " "} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <TimeRangeSlider
-        name={"timeRange"}
-        disabled={false}
-        format={24}
-        minValue={"00:00"}
-        maxValue={video.length}
-        step={1}
-        onChange={timeChangeHandler}
-        value={timeRange} />
+      {video.url &&
+        <TimeRangeSlider
+          name={"timeRange"}
+          disabled={false}
+          format={24}
+          minValue={"00:00"}
+          maxValue={video.length}
+          step={1}
+          onChange={timeChangeHandler}
+          value={timeRange} />
+      }
+
       <pre>{JSON.stringify(timeRange)}</pre>
       <pre>{JSON.stringify(video, null, 2)}</pre>
     </div >

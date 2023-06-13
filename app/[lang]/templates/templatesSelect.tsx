@@ -24,13 +24,13 @@ export default function TemplatesSelect({ id, templates, selected }: Props) {
       className="form-select"
       aria-label="selecte template"
       onChange={onChange}
+      defaultValue={selected.id}
     >
-      <option selected={!selected}>- select a template -</option>
+      <option>- select a template -</option>
       {templates.map((template, index) => (
         <option
           key={index}
           value={template.id}
-          selected={!!selected && selected.id === template.id}
         >
           {template.name}
         </option>
