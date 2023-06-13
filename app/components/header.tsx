@@ -8,12 +8,28 @@ import React from "react";
 import Script from "next/script";
 import { getTranslation } from "@/i18n/translations";
 
-async function Header({ params, session }) {
+export default async function Header({ params, session }) {
   const lang = params.lang as Locale;
   const translation = await getTranslation(lang);
   return (
     <div>
-      <nav className="navbar navbar-expand-md bg-primary navbar-dark">
+      {/* navbar for desktop */}
+      <nav className="navbar d-none d-md-flex flex-row bg-primary navbar-dark">
+        <Link className="navbar-brand mr-auto" href={`/${lang}`}>
+          <Image
+            height={30}
+            width={30}
+            src="/images/ctdartlab-logo.png"
+            alt="YIONZ"
+          />
+          <span>YIONZ</span>
+        </Link>
+        <ul className="navbar-nav me-auto flex-grow-1 d-flex flex-row justify-content-end">
+          <MainMenu session={session} lang={lang} />
+        </ul>
+      </nav>
+      {/* navbar for mobile */}
+      <nav className="navbar navbar-expand-md bg-primary navbar-dark d-md-none">
         <Link className="navbar-brand mr-auto" href={`/${lang}`}>
           <Image
             height={30}
@@ -23,9 +39,8 @@ async function Header({ params, session }) {
           />{" "}
           <span>YIONZ</span>
         </Link>
-
         <button
-          className="navbar-toggler collapsed"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#mainMenu"
@@ -36,42 +51,45 @@ async function Header({ params, session }) {
           <span className="navbar-toggler-icon"></span>
         </button>
       </nav>
-      <div className="navbar-collapse collapse bg-light" id="mainMenu">
-        <ul className="navbar-nav nav">
-          <li className="nav-item active">
-            <Link className="nav-link" href={`/${lang}`}>
-              {translation.landingPage.videoLibrary}
-            </Link>
-          </li>
-          <li className="nav-item">
-            <LanguageSwitcher lang={lang} />
-          </li>
-          {!session && (
-            <li className="nav-item">
-              <LoginButton />
-            </li>
-          )}
-          {!!session && (
-            <>
-              <li className="nav-item">
-                <LogoutButton />
-              </li>
-              <li className="nav-item">
-                <ProfileButton />
-              </li>
-              <li className="nav-item">
-                <Link className="btn btn-link" href="/templates">
-                  Templates
-                </Link>
-              </li>
-            </>
-          )}
+      {/* navbar dropdown for mobile */}
+      <div className="navbar-collapse collapse bg-light py-2" id="mainMenu">
+        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <MainMenu session={session} lang={lang} />
         </ul>
       </div>
-      {/* Stupid workaround here to make navbar collapse work*/}
+      {/* Strange workaround here to make navbar collapse work.*/}
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" />
     </div>
   );
 }
 
-export default Header;
+const MainMenu = ({ session, lang }) => {
+  return (
+    <>
+      <li className="nav-item">
+        <LanguageSwitcher lang={lang} />
+      </li>
+      {!session && (
+        <li className="nav-item">
+          <LoginButton />
+        </li>
+      )}
+      {!!session && (
+        <>
+          <li className="nav-item">
+            <ProfileButton />
+          </li>
+          <li className="nav-item">
+            <Link className="btn" href="/templates">
+              Templates
+            </Link>
+          </li>
+          <li className="nav-item">
+            <LogoutButton />
+          </li>
+        </>
+      )}
+    </>
+  );
+};
+
