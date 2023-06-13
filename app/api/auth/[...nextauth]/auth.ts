@@ -29,7 +29,18 @@ export const authOptions = {
         return user;
       },
     }),
-  ]
+  ],
+  callbacks: {
+    async session({ session, user, token }) {
+      if (session?.user && user) {
+        session.user.id = user.id;
+      } else if (token) {
+        session.user.id = token.sub;
+      }
+
+      return session;
+    },
+  }
 };
 
 export default NextAuth(authOptions);
