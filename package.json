@@ -40,6 +40,7 @@
     "@types/negotiator": "^0.6.1",
     "@types/node": "^20.1.0",
     "@types/react": "^18.2.7",
+    "@types/next-auth": "^3.15.0",
     "eslint": "^8.40.0",
     "eslint-config-next": "^13.4.1",
     "sass": "^1.62.1",
