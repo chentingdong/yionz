@@ -18,7 +18,7 @@ export default async function VideoClips({ params }: PageProps) {
         {artifact?.clips.map((clip, index) => {
           return (
             <div className="accordion-item" key={index}>
-              <h2 className="accordion-header text-truncate">
+              <h2 className="accordion-header">
                 <button
                   className="accordion-button collapsed"
                   type="button"
@@ -27,7 +27,10 @@ export default async function VideoClips({ params }: PageProps) {
                   aria-expanded={clip.order === 0}
                   aria-controls={clip.id}
                 >
-                  Clip {clip.order} : {clip.audio.text}
+                  <span className="d-inline-block text-truncate col-7">
+                    <b>Clip {clip.order}</b> : {clip.audio.text}
+                  </span>
+                  <span>({clip.audio.text.length} characters)</span>
                 </button>
               </h2>
               <div

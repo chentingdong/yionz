@@ -5,7 +5,7 @@ type Props = {
   size?: number;
 };
 
-export default function Loading({ className, size = 36 }: Props) {
+export default function Loading({ className, size = 32 }: Props) {
   return (
     <div
       className={`spinner-border ${className}`}

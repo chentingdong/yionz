@@ -46,7 +46,7 @@ const Story = ({ lang, translation, artifact }: Props) => {
       <div className="d-flex flex-row-reverse my-2">
         <button
           className="btn btn-primary"
-          onClick={() => initializeClips()}
+          onClick={initializeClips}
         >
           {translation.step1Story.btnNextStep}
         </button>
