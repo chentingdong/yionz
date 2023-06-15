@@ -41,9 +41,11 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
 
   return (
     <div className="row">
-      <div className="col-2 nav-pills nav-item">
-        <div className="nav-link active my-1 py-2 px-3">
-          {translation.step2Clip.audio}
+      <div className="col-2 nav-pills">
+        <div className="row pe-3">
+          <button className="nav-link active py-2">
+            {translation.step2Clip.audio}
+          </button>
         </div>
       </div>
       <div className="col-9">
