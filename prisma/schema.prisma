@@ -63,7 +63,7 @@ model Animation {
   subtitle              String  @default("")
   loading               Boolean @default(false)
   Clip                  Clip?
-  clipId                String? @unique
+  clipId                String  @unique
 }
 
 // User uploaded video or given url
@@ -79,10 +79,10 @@ model Video {
 
 // User uploaded image
 model Image {
-  id     String  @id @default(cuid())
-  url    String  @default("")
+  id     String @id @default(cuid())
+  url    String @default("")
   Clip   Clip?
-  clipId String? @unique
+  clipId String @unique
 }
 
 // text to audio
@@ -92,8 +92,8 @@ model Audio {
   url      String  @default("")
   duration Int     @default(1)
   loading  Boolean @default(false)
+  clipId   String  @unique
   Clip     Clip?
-  clipId   String? @unique
 }
 
 // combined audio and animation/image/video(choose one)
@@ -103,7 +103,7 @@ model Film {
   duration Int     @default(0)
   loading  Boolean @default(false)
   Clip     Clip?
-  clipId   String? @unique
+  clipId   String  @unique
 }
 
 // artifact level movie, with audio and video

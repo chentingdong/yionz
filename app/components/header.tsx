@@ -17,8 +17,9 @@ export default async function Header({ params, session }) {
       <nav className="navbar d-none d-md-flex flex-row bg-primary navbar-dark">
         <Link className="navbar-brand mr-auto" href={`/${lang}`}>
           <Image
-            height={30}
-            width={30}
+            height={40}
+            width={40}
+            className="mx-2"
             src="/images/ctdartlab-logo.png"
             alt="YIONZ"
           />

@@ -10,11 +10,12 @@ type Props = {
   template: Template;
   translation: any;
 };
+
 export default function EditClip({ clip, template, translation }: Props) {
   return (
     <div>
       {/* <pre>{JSON.stringify(clip, null, 2)}</pre> */}
-      <CreateAudio audio={clip.audio} translation={translation} />
+      <CreateAudio audio={clip.audio} artifactId={clip.artifactId} translation={translation} />
       <hr />
       <VideoSourceSelect
         clip={clip}
