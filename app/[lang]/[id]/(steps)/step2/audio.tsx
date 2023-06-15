@@ -15,13 +15,24 @@ type Props = {
 
 export default function CreateAudio({ audio, artifactId, translation }: Props) {
   const [loading, setLoading] = React.useState(false);
+  const audioRef = React.useRef<HTMLInputElemen | null>(null);
+
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.play();
+      audioRef.current.pause();
+    }
+  }, [audio.url]);
+
   const handleGenerateAudio = async () => {
     setLoading(true);
     try {
-      await generateAudio({
+      const url = await generateAudio({
         audio: audio,
         artifactId: artifactId,
       });
+      audio.url = url;
     } catch (err) {
       console.error(err);
     }
@@ -42,7 +53,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
           value={audio.text}
           onChange={() => updateAudio(audio.clipId, audio.text)}
         />
-        <audio controls className="w-100">
+        <audio controls className="w-100" ref={audioRef}>
           <source src={audio.url || " "} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>
