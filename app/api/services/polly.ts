@@ -18,6 +18,8 @@ export const textToSpeechPolly = async (
       OutputFormat: "mp3",
       VoiceId: "Amy",
     };
+    console.log('Sending to AWS Polly to build audio data...');
+
     polly.synthesizeSpeech(pollyparams, (err, data) => {
       if (err) {
         console.error(err.message);

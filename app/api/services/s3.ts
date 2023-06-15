@@ -20,23 +20,21 @@ export const s3Upload = async ({
   artifactId,
   clipId,
 }: Props): Promise<string> => {
-  const url = `${baseUrl}/artifacts/${artifactId}/${clipId}/${filename}`;
+  const keyPath = `artifacts/${artifactId}/${clipId}/${filename}`;
   const params = {
     Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
-    Key: url,
+    Key: keyPath,
     Body: fileBuffer,
     ACL: "public-read",
   };
 
   try {
+    console.log(`Uploading audio to AWS S3...`);
     const upload = s3.upload(params);
-
-    upload.on("httpUploadProgress", (p) => {
-      console.log(p.loaded / p.total);
-    });
     await upload.promise();
+    const url = `${baseUrl}/${keyPath}`;
     console.log(`S3 file successfully uploaded to: ${url}`);
-    return url;
+    return `${url}`;
   } catch (error) {
     throw error.message;
   }
