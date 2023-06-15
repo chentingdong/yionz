@@ -5,7 +5,6 @@ import { Audio, Clip } from "@prisma/client";
 import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
-import { redirect } from "next/navigation";
 import { s3Upload } from "@/app/api/services/s3";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
@@ -143,7 +142,7 @@ export const generateAudio = async ({
 }: {
   audio: Audio;
   artifactId: string;
-}) => {
+}): Promise<string> => {
   try {
     const filename = 'audio.mp3';
     const audioStream = await textToSpeechPolly(audio.text);
@@ -161,9 +160,8 @@ export const generateAudio = async ({
         url: url
       }
     });
+    return url;
   } catch (err) {
     throw err.message;
-  } finally {
-    redirect(`/${artifactId}/step2`);
   }
 };

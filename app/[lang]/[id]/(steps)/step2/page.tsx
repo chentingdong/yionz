@@ -28,9 +28,10 @@ export default async function VideoClips({ params }: PageProps) {
                   aria-controls={clip.id}
                 >
                   <span className="d-inline-block text-truncate col-7">
-                    <b>Clip {clip.order}</b> : {clip.audio.text}
+                    <b>Clip {clip.order} </b>
+                    <span>({clip.audio.text.split(' ').length} words)</span>
+                    <span>: {clip.audio.text}</span>
                   </span>
-                  <span>({clip.audio.text.length} characters)</span>
                 </button>
               </h2>
               <div
