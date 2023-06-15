@@ -1,9 +1,13 @@
 "use server";
 
-import { Clip } from "@prisma/client";
-import cuid from 'cuid';
+import { Audio, Clip } from "@prisma/client";
+
+import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
+import { redirect } from "next/navigation";
+import { s3Upload } from "@/app/api/services/s3";
+import { textToSpeechPolly } from "@/app/api/services/polly";
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
@@ -20,97 +24,140 @@ export const initClips = async (artifactId: string) => {
   return clips;
 };
 
-export const initClip = async (artifactId: string, index: number, text: string) => {
+export const initClip = async (
+  artifactId: string,
+  index: number,
+  text: string
+) => {
   const clip0 = await prisma.clip.findUnique({
     where: {
       artifactId_order: {
         artifactId: artifactId,
-        order: index
-      }
-    }
+        order: index,
+      },
+    },
   });
 
   if (clip0) updateClip(artifactId, clip0, index, text);
   else createClip(artifactId, index, text);
 };
 
-const createClip = async (artifactId: string, index: number, text: string): Promise<Clip> => {
+const createClip = async (
+  artifactId: string,
+  index: number,
+  text: string
+): Promise<Clip> => {
   const clipId = cuid();
   const clip = await prisma.clip.create({
     data: {
       id: clipId,
       Artifact: {
         connect: {
-          id: artifactId
-        }
+          id: artifactId,
+        },
       },
       audio: {
         create: {
           clipId: clipId,
-          text: text
-        }
+          text: text,
+        },
       },
       image: {
         create: {
           clipId: clipId,
-        }
+        },
       },
       video: {
         create: {
           clipId: clipId,
-        }
+        },
       },
       animation: {
         create: {
           clipId: clipId,
-          prompt: text
-        }
+          prompt: text,
+        },
       },
       film: {
         create: {
           clipId: clipId,
-        }
+        },
       },
       order: index,
       loading: false,
-    }
+    },
   });
   return clip;
 };
 
-const updateClip = async (artifactId: string, clip0: Clip, index: number, text: string) => {
+const updateClip = async (
+  artifactId: string,
+  clip0: Clip,
+  index: number,
+  text: string
+) => {
   await updateAudio(clip0.id, text);
   await updateAnimation(clip0.id, text);
 };
 
-const updateAudio = async (clipId: string, text: string) => {
+export const updateAudio = async (clipId: string, text: string) => {
   await prisma.audio.upsert({
     where: {
-      clipId: clipId
+      clipId: clipId,
     },
     create: {
       clipId: clipId,
-      text: text
+      text: text,
     },
     update: {
       clipId: clipId,
-      text: text
-    }
+      text: text,
+    },
   });
 };
 
 const updateAnimation = async (clipId: string, text: string) => {
   await prisma.animation.upsert({
     where: {
-      clipId: clipId
+      clipId: clipId,
     },
     create: {
       clipId: clipId,
-      prompt: text
+      prompt: text,
     },
     update: {
       clipId: clipId,
-      prompt: text
-    }
+      prompt: text,
+    },
   });
+};
+
+export const generateAudio = async ({
+  audio,
+  artifactId,
+}: {
+  audio: Audio;
+  artifactId: string;
+}) => {
+  try {
+    const filename = 'audio.mp3';
+    const audioStream = await textToSpeechPolly(audio.text);
+    const url: string = await s3Upload({
+      fileBuffer: audioStream,
+      artifactId: artifactId,
+      clipId: audio.clipId,
+      filename: filename
+    });
+    await prisma.audio.update({
+      where: {
+        clipId: audio.clipId,
+      },
+      data: {
+        url: url
+      }
+    });
+  } catch (err) {
+    throw err.message;
+  }
+  redirect(`/${artifactId}/step2`);
 };

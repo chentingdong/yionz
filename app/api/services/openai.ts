@@ -26,7 +26,7 @@ export async function chatGPT(artifact) {
     const answer = response.data.choices?.[0].text || '';
     return answer;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return '';
   }
 };

@@ -22,10 +22,10 @@ export default function VideoSourceSelect({ clip, template, translation }: Props
               <Nav.Link eventKey="video">{translation.step2Clip.video}</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="animation">{translation.step2Clip.animation}</Nav.Link>
+              <Nav.Link eventKey="images">{translation.step2Clip.images}</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="images">{translation.step2Clip.images}</Nav.Link>
+              <Nav.Link eventKey="animation">{translation.step2Clip.animation}</Nav.Link>
             </Nav.Item>
           </Nav>
         </div>
@@ -34,8 +34,8 @@ export default function VideoSourceSelect({ clip, template, translation }: Props
             <Tab.Pane eventKey="video">
               <CreateVideo video={clip.video} template={template} translation={translation} />
             </Tab.Pane>
-            <Tab.Pane eventKey="animation">Animation</Tab.Pane>
             <Tab.Pane eventKey="images">Images</Tab.Pane>
+            <Tab.Pane eventKey="animation">Animation</Tab.Pane>
           </Tab.Content>
         </div>
       </div>
