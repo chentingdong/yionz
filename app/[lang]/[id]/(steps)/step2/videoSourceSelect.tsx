@@ -14,31 +14,29 @@ type Props = {
 
 export default function VideoSourceSelect({ clip, template, translation }: Props) {
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="video">
-      <div className="row">
-        <div className="col-2">
-          <Nav variant="pills" className="flex-column">
-            <Nav.Item>
-              <Nav.Link eventKey="video">{translation.step2Clip.video}</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="images">{translation.step2Clip.images}</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="animation">{translation.step2Clip.animation}</Nav.Link>
-            </Nav.Item>
-          </Nav>
+    <div className="row">
+      <div className="col-2 nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button className="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+          {translation.step2Clip.video}
+        </button>
+        <button className="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+          {translation.step2Clip.images}
+        </button>
+        <button className="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">
+          {translation.step2Clip.animation}
+        </button>
+      </div>
+      <div className="col-10 tab-content" id="v-pills-tabContent">
+        <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+          <CreateVideo video={clip.video} template={template} translation={translation} />
         </div>
-        <div className="col-10">
-          <Tab.Content>
-            <Tab.Pane eventKey="video">
-              <CreateVideo video={clip.video} template={template} translation={translation} />
-            </Tab.Pane>
-            <Tab.Pane eventKey="images">Images</Tab.Pane>
-            <Tab.Pane eventKey="animation">Animation</Tab.Pane>
-          </Tab.Content>
+        <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          Images
+        </div>
+        <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+          Animation
         </div>
       </div>
-    </Tab.Container>
+    </div>
   );
 }
