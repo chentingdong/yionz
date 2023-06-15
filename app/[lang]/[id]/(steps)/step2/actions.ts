@@ -11,17 +11,19 @@ import { textToSpeechPolly } from "@/app/api/services/polly";
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
-  // TODO: remove slice
-  const clipsTexts = artifact?.story?.split("\n\n")?.slice(0, 2);
-  if (!clipsTexts) return;
+  if (!artifact?.story) return;
 
-  const clips = await Promise.all(
-    clipsTexts.map(async (text: string, index: number) => {
-      return await initClip(artifactId, index, text);
-    })
-  );
+  const clipsTexts = artifact.story.split("\n\n").filter((clipText) => {
+    return clipText.length > 0;
+  });
 
-  return clips;
+  if (!clipsTexts || clipsTexts?.length === 0) return;
+
+  for (let i = 0; i < clipsTexts.length; i++) {
+    await initClip(artifactId, i, clipsTexts[i]);
+  }
+
+  return;
 };
 
 export const initClip = async (
@@ -48,6 +50,7 @@ const createClip = async (
   text: string
 ): Promise<Clip> => {
   const clipId = cuid();
+  console.log('create clip');
   const clip = await prisma.clip.create({
     data: {
       id: clipId,
@@ -96,6 +99,8 @@ const updateClip = async (
   index: number,
   text: string
 ) => {
+  console.log('update clip');
+
   await updateAudio(clip0.id, text);
   await updateAnimation(clip0.id, text);
 };
@@ -158,6 +163,7 @@ export const generateAudio = async ({
     });
   } catch (err) {
     throw err.message;
+  } finally {
+    redirect(`/${artifactId}/step2`);
   }
-  redirect(`/${artifactId}/step2`);
 };
