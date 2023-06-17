@@ -28,6 +28,11 @@ a {
   @extend .bg-light;
 }
 
+.rug-card {
+  width: 100px;
+  height: 100px;
+}
+
 @import "node_modules/bootswatch/dist/minty/variables";
 @import "node_modules/bootstrap/dist/css/bootstrap.min";
 @import "node_modules/bootswatch/dist/minty/bootstrap.min";

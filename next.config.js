@@ -33,8 +33,7 @@ module.exports = {
     //  return modified config
     return config;
   },
-  // if swc desn't work
-  // presets: ["next/babel"],
+  // swcMinify: false,
   httpAgentOptions: {
     keepAlive: false,
   },

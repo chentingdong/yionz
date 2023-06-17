@@ -1,4 +1,4 @@
-import { Prisma, Video } from "@prisma/client";
+import { Template, Video } from "@prisma/client";
 
 import { FileUploader } from "react-drag-drop-files";
 import React from "react";
@@ -6,7 +6,7 @@ import TimeRangeSlider from 'react-time-range-slider';
 
 type Props = {
   video: Video;
-  template: Prisma.Template;
+  template: Template;
   translation: any;
 };
 
@@ -15,7 +15,7 @@ type TimeRange = {
   end: string;
 };
 
-export default function CreateVideo({ video, template, translation }: Props) {
+export default function CreateVideo({ video }: Props) {
   const fileTypes = ["MP4"];
   const [timeRange, setTimeRange] = React.useState<TimeRange>({
     start: video.startAt,

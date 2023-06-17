@@ -1,6 +1,7 @@
 "use client";
 
 import { Artifact } from "@prisma/client";
+import { ArtifactWithRelations } from "./page";
 import { DebounceInput } from "react-debounce-input";
 import { Locale } from "@/i18n/i18n-config";
 import React from "react";
@@ -11,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 type Props = {
   lang: Locale;
-  artifact: Artifact;
+  artifact: ArtifactWithRelations;
   translation: any;
 };
 
