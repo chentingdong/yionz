@@ -6,60 +6,66 @@ import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
 // Update the name
-export async function updateName({ id, name }) {
+export const updateName = async ({ id, name }) => {
   await prisma.artifact.update({
-    where: { id: id, },
+    where: { id: id },
     data: {
-      name: name
-    }
+      name: name,
+    },
   });
 
   revalidatePath(`/${id}`);
-}
+};
 // Update the prompt
-export async function updatePrompt({ id, prompt }) {
+export const updatePrompt = async ({ id, prompt }) => {
   await prisma.artifact.update({
-    where: { id: id, },
-    data: { prompt: prompt }
+    where: { id: id },
+    data: { prompt: prompt },
   });
 
   revalidatePath(`/${id}`);
-}
+};
 
 // Manually update the story
 export async function updateStory({ id, story }) {
   await prisma.artifact.update({
-    where: { id: id, },
-    data: { story: story }
+    where: { id: id },
+    data: { story: story },
   });
 
   revalidatePath(`/${id}`);
 }
 
 // update the template
-export async function chooseTemplate({ id, selected }: { id: string, selected?: Template; }) {
+export const chooseTemplate = async ({
+  id,
+  selected,
+}: {
+  id: string;
+  selected?: Template;
+}) => {
   if (!selected) return;
   await prisma.artifact.update({
     where: { id: id },
     data: {
       template: {
         connect: {
-          id: selected.id
-        }
-      }
-    }
+          id: selected.id,
+        },
+      },
+    },
   });
 
   revalidatePath(`/${id}`);
-}
+};
 
 // Ask AI to generate a story
-export async function makeStory(id: string) {
+export const makeStory = async (id: string) => {
   const artifact = await prisma.artifact.findUnique({
-    where: { id: id, },
-    include: { template: true, }
+    where: { id: id },
+    include: { template: true },
   });
   const story = await chatGPT(artifact);
   updateStory({ id, story });
   revalidatePath(`/${id}`);
-}
+};

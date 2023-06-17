@@ -34,8 +34,7 @@ model Clip {
   Artifact    Artifact?  @relation(fields: [artifactId], references: [id])
   artifactId  String
   videoSource String     @default("video")
-  image       Image      @relation(fields: [imageId], references: [id])
-  imageId     String     @unique
+  images      Image[]
   animation   Animation? @relation(fields: [animationId], references: [id])
   animationId String     @unique
   video       Video      @relation(fields: [videoId], references: [id])
@@ -80,9 +79,12 @@ model Video {
 // User uploaded image
 model Image {
   id     String @id @default(cuid())
+  order  Int    @default(0)
   url    String @default("")
-  Clip   Clip?
-  clipId String @unique
+  Clip   Clip?  @relation(fields: [clipId], references: [id])
+  clipId String
+
+  @@unique([clipId, order])
 }
 
 // text to audio

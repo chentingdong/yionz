@@ -1,10 +1,12 @@
 "use server";
 
-import { Audio, Clip } from "@prisma/client";
+import { Audio, Clip, Image } from "@prisma/client";
 
 import cuid from "cuid";
+import fs from 'fs';
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
+import { revalidatePath } from "next/cache";
 import { s3Upload } from "@/app/api/services/s3";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
@@ -49,7 +51,7 @@ const createClip = async (
   text: string
 ): Promise<Clip> => {
   const clipId = cuid();
-  console.log('create clip');
+
   const clip = await prisma.clip.create({
     data: {
       id: clipId,
@@ -64,10 +66,8 @@ const createClip = async (
           text: text,
         },
       },
-      image: {
-        create: {
-          clipId: clipId,
-        },
+      images: {
+        create: [],
       },
       video: {
         create: {
@@ -148,9 +148,9 @@ export const generateAudio = async ({
     const audioStream = await textToSpeechPolly(audio.text);
     const url: string = await s3Upload({
       fileBuffer: audioStream,
+      filename: filename,
       artifactId: artifactId,
-      clipId: audio.clipId,
-      filename: filename
+      clipId: audio.clipId
     });
     await prisma.audio.update({
       where: {
@@ -165,3 +165,41 @@ export const generateAudio = async ({
     throw err.message;
   }
 };
+
+export const uploadImage = async (data: FormData) => {
+  const file = data.get('file') as File;
+  const artifactId = data.get('artifactId')?.toString();
+  const clipId = data.get('clipId')?.toString();
+
+  if (!artifactId || !clipId || !file) return;
+  let order = Number(data.get('order'));
+
+  try {
+    const url = await s3Upload({
+      fileBuffer: Buffer.from(await file.arrayBuffer()),
+      filename: file.name,
+      artifactId: artifactId,
+      clipId: clipId
+    });
+
+    await prisma.image.upsert({
+      where: {
+        clipId_order: {
+          clipId: clipId,
+          order: order
+        }
+      },
+      create: {
+        clipId: clipId,
+        order: order,
+        url: url
+      },
+      update: {
+        url: url
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+

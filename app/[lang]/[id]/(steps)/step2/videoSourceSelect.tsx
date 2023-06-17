@@ -1,13 +1,14 @@
 "use client";
 
-import { Nav, Tab } from "react-bootstrap";
+import { Prisma, Template } from "@prisma/client";
 
+import { ClipWithRelationships } from "./clip";
+import CreateImages from "./images";
 import CreateVideo from "./video";
-import { Prisma } from "@prisma/client";
 import React from "react";
 
 type Props = {
-  clip: Prisma.Clip;
+  clip: ClipWithRelationships;
   template: Template;
   translation: any;
 };
@@ -26,26 +27,26 @@ export default function VideoSourceSelect({
         aria-orientation="vertical"
       >
         <button
-          className="nav-link active"
+          className="nav-link"
           id={`${clip.id}-video-tab`}
           data-bs-toggle="pill"
           data-bs-target={`#${clip.id}-video`}
           type="button"
           role="tab"
           aria-controls={`${clip.id}-video`}
-          aria-selected="true"
+          aria-selected="false"
         >
           {translation.step2Clip.video}
         </button>
         <button
-          className="nav-link"
+          className="nav-link active"
           id={`${clip.id}-images-tab`}
           data-bs-toggle="pill"
           data-bs-target={`#${clip.id}-images`}
           type="button"
           role="tab"
           aria-controls={`${clip.id}-images`}
-          aria-selected="false"
+          aria-selected="true"
         >
           {translation.step2Clip.images}
         </button>
@@ -64,7 +65,7 @@ export default function VideoSourceSelect({
       </div>
       <div className="col-10 tab-content" id={`${clip.id}-tabContent`}>
         <div
-          className="tab-pane fade show active"
+          className="tab-pane fade"
           id={`${clip.id}-video`}
           role="tabpanel"
           aria-labelledby={`${clip.id}-video-tab`}
@@ -76,12 +77,18 @@ export default function VideoSourceSelect({
           />
         </div>
         <div
-          className="tab-pane fade"
+          className="tab-pane fade show active"
           id={`${clip.id}-images`}
           role="tabpanel"
           aria-labelledby={`${clip.id}-images-tab`}
         >
-          Images
+          <CreateImages
+            images={clip.images}
+            artifactId={clip.artifactId}
+            clipId={clip.id}
+            template={template}
+            translation={translation}
+          />
         </div>
         <div
           className="tab-pane fade"

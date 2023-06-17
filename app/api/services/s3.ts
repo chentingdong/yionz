@@ -1,3 +1,4 @@
+import { AudioStream } from "aws-sdk/clients/polly";
 import { S3 } from "aws-sdk";
 
 const s3 = new S3({
@@ -8,7 +9,7 @@ const s3 = new S3({
 
 const baseUrl = 'https://yionz.s3.amazonaws.com';
 type Props = {
-  fileBuffer: Polly.SynthesizeSpeechOutput.AudioStream;
+  fileBuffer: AudioStream | ReadableStream | Buffer;
   filename: string;
   artifactId: string;
   clipId: string;
@@ -29,13 +30,14 @@ export const s3Upload = async ({
   };
 
   try {
-    console.log(`Uploading audio to AWS S3...`);
+    console.log(`Uploading data to AWS S3...`);
     const upload = s3.upload(params);
     await upload.promise();
     const url = `${baseUrl}/${keyPath}`;
     console.log(`S3 file successfully uploaded to: ${url}`);
-    return `${url}`;
+    return url;
   } catch (error) {
-    throw error.message;
+    console.log(`S3 file upload failed.`);
+    throw error;
   }
 };

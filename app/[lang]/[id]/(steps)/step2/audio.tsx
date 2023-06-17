@@ -15,7 +15,7 @@ type Props = {
 
 export default function CreateAudio({ audio, artifactId, translation }: Props) {
   const [loading, setLoading] = React.useState(false);
-  const audioRef = React.useRef<HTMLInputElemen | null>(null);
+  const audioRef = React.useRef<any>(null);
 
   React.useEffect(() => {
     if (audioRef.current) {

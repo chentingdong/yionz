@@ -2,15 +2,11 @@
 
 import { Artifact, Prisma, Template } from "@prisma/client";
 
+import { ArtifactWithRelations } from "./page";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
 import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { updateName } from "./actions";
-
-type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
-  include: { template: true; };
-}>;
-
 
 type Props = {
   translation: any;

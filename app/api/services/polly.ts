@@ -10,7 +10,7 @@ const polly = new AWS.Polly({
 
 export const textToSpeechPolly = async (
   text: string
-): Promise<Polly.SynthesizeSpeechOutput.AudioStream> => {
+): Promise<AudioStream> => {
   return new Promise((resolve, reject) => {
     let pollyparams = {
       Text: `<speak>${text}</speak>`,

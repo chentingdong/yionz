@@ -1,5 +1,6 @@
 "use server";
 
+import { ArtifactWithRelations } from "./[id]/(steps)/step1/page";
 import { authOptions } from "../api/auth/[...nextauth]/auth";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/prisma/prisma";
@@ -40,7 +41,7 @@ export const createArtifact = async () => {
 
 
 // Get artifact from db
-export const getArtifact = async (id: string) => {
+export const getArtifact = async (id: string): Promise<ArtifactWithRelations | null> => {
   const artifact = await prisma.artifact.findUnique({
     where: {
       id: id,
@@ -49,12 +50,14 @@ export const getArtifact = async (id: string) => {
       template: true,
       movie: true,
       clips: {
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
         include: {
           audio: true,
           video: true,
           animation: true,
-          image: true
+          images: {
+            orderBy: { order: "asc" },
+          },
         }
       }
     }
@@ -81,7 +84,7 @@ export const getArtifacts = async () => {
           audio: true,
           video: true,
           animation: true,
-          image: true
+          images: true
         }
       },
       _count: true
