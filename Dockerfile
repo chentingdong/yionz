@@ -1,6 +1,12 @@
 FROM ubuntu:22.04 AS base
 
-RUN apt-get update && apt-get install --yes build-essential curl &&  apt-get clean
+RUN apt-get update -y && \
+  apt-get install --yes python3 build-essential curl ffmpeg && \
+  apt-get clean
+
+RUN apt-get update -y && \
+  apt-get install -y graphicsmagick && \
+  apt-get clean
 
 # Install Node.js
 RUN apt-get install --yes curl

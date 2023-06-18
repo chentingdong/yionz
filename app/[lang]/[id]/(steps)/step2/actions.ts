@@ -5,6 +5,8 @@ import { Audio, Clip, Image } from "@prisma/client";
 import cuid from "cuid";
 import fs from 'fs';
 import { getArtifact } from "@/app/[lang]/action";
+import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
+import gm from 'gm';
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import { s3Upload } from "@/app/api/services/s3";
@@ -170,13 +172,16 @@ export const uploadImage = async (data: FormData) => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();
   const clipId = data.get('clipId')?.toString();
-
   if (!artifactId || !clipId || !file) return;
+
+  const template = await getArtifactTemplate(artifactId);
+  const fileBuffer = await processImage({ file, width: template?.width, height: template?.height });
+
   let order = Number(data.get('order'));
 
   try {
     const url = await s3Upload({
-      fileBuffer: Buffer.from(await file.arrayBuffer()),
+      fileBuffer: fileBuffer,
       filename: file.name,
       artifactId: artifactId,
       clipId: clipId
@@ -198,8 +203,28 @@ export const uploadImage = async (data: FormData) => {
         url: url
       }
     });
+    revalidatePath(`/${artifactId}/step2`);
   } catch (error) {
     throw error;
   }
 };
 
+export const deleteImage = async (image: Image) => {
+  // delete file from s3
+  // delete image record from db
+};
+
+const processImage = async ({ file, width, height }: {
+  file: File,
+  width: number | undefined,
+  height: number | undefined;
+}) => {
+  if (!width || !height) return;
+
+  const imageData = await file.arrayBuffer();
+  return await gm(Buffer.from(imageData))
+    .resize(width, height, '^')
+    .gravity('Center')
+    .crop(width, height)
+    .stream();
+};
