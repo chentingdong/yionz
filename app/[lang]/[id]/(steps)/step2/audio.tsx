@@ -1,8 +1,9 @@
 "use client";
 
-import { generateAudio, updateAudio } from "./actions";
+import { deleteAudio, generateAudio, updateAudioText } from "./actions";
 
 import { AiOutlineAudio } from "react-icons/ai";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Audio } from "@prisma/client";
 import Loading from "@/app/components/loading";
 import React from "react";
@@ -39,6 +40,11 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
     setLoading(false);
   };
 
+  const handleDeleteAudio = async () => {
+    await deleteAudio(audio.id);
+    audio.url = ' ';
+  };
+
   return (
     <div className="row">
       <div className="col-2 nav-pills">
@@ -48,28 +54,43 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
           </button>
         </div>
       </div>
-      <div className="col-9">
-        <textarea
-          className="form-control mb-2"
-          rows={2}
-          value={audio.text}
-          onChange={() => updateAudio(audio.clipId, audio.text)}
-        />
-        <audio controls className="w-100" ref={audioRef}>
-          <source src={audio.url || " "} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
+      <div className="col-10 row">
+        <div className="col-11">
+          <textarea
+            className="form-control mb-2"
+            rows={2}
+            value={audio.text}
+            onChange={() => updateAudioText(audio.clipId, audio.text)}
+          />
+        </div>
+        <div className="col-1">
+          <button
+            className="rounded-circle btn btn-primary p-0"
+            style={{ width: "2em", height: "2em" }}
+            title="Create audio based on text."
+            onClick={handleGenerateAudio}
+          >
+            {!loading && <AiOutlineAudio />}
+            {loading && <Loading />}
+          </button>
+        </div>
+        <div className="col-11">
+          <audio controls className="w-100" ref={audioRef}>
+            <source src={audio.url} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div className="col-1">
+          <button
+            className="btn text-primary"
+            onClick={handleDeleteAudio}
+          >
+            <AiOutlineCloseCircle />
+          </button>
+        </div>
       </div>
       <div className="col-1">
-        <button
-          className="rounded-circle btn btn-primary p-0"
-          style={{ width: "2em", height: "2em" }}
-          title="Create audio based on text."
-          onClick={handleGenerateAudio}
-        >
-          {!loading && <AiOutlineAudio />}
-          {loading && <Loading />}
-        </button>
+
       </div>
     </div>
   );

@@ -11,6 +11,9 @@ import prisma from "@/prisma/prisma";
 import { revalidateTag } from "next/cache";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
+/*********
+ * Clip
+ *********/
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
   if (!artifact?.story) return;
@@ -101,11 +104,14 @@ const updateClip = async (
 ) => {
   console.log('update clip');
 
-  await updateAudio(clip0.id, text);
-  await updateAnimation(clip0.id, text);
+  await updateAudioText(clip0.id, text);
+  await updateAnimationPrompt(clip0.id, text);
 };
 
-export const updateAudio = async (clipId: string, text: string) => {
+/*********
+ * Audio
+ *********/
+export const updateAudioText = async (clipId: string, text: string) => {
   await prisma.audio.upsert({
     where: {
       clipId: clipId,
@@ -117,22 +123,6 @@ export const updateAudio = async (clipId: string, text: string) => {
     update: {
       clipId: clipId,
       text: text,
-    },
-  });
-};
-
-const updateAnimation = async (clipId: string, text: string) => {
-  await prisma.animation.upsert({
-    where: {
-      clipId: clipId,
-    },
-    create: {
-      clipId: clipId,
-      prompt: text,
-    },
-    update: {
-      clipId: clipId,
-      prompt: text,
     },
   });
 };
@@ -153,9 +143,10 @@ export const generateAudio = async ({
       artifactId: artifactId,
       clipId: audio.clipId
     });
+
     await prisma.audio.update({
       where: {
-        clipId: audio.clipId,
+        id: audio.id
       },
       data: {
         url: url
@@ -167,6 +158,36 @@ export const generateAudio = async ({
   }
 };
 
+export const deleteAudio = async (id: string) => {
+  // get audio info from db
+  const audio = await prisma.audio.findUniqueOrThrow({
+    where: {
+      id: id
+    }
+  });
+  if (!audio.url) return;
+  try {
+    // delete file from s3
+    const keyPath = new URL(audio.url).pathname.substring(1);
+    await s3Delete(keyPath);
+
+    // delete image record from db
+    await prisma.audio.update({
+      where: {
+        id: id
+      },
+      data: {
+        url: ' '
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+/*********
+ * Images
+ *********/
 export const uploadImage = async (data: FormData): Promise<Image> => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();
@@ -217,7 +238,8 @@ export const deleteImage = async (id: string) => {
   });
   try {
     // delete file from s3
-    const keyPath = new URL(image.url).pathname;
+    let keyPath = new URL(image.url).pathname;
+    keyPath = `artifacts/${keyPath}`;
     await s3Delete(keyPath);
 
     // delete image record from db
@@ -231,6 +253,9 @@ export const deleteImage = async (id: string) => {
   }
 };
 
+/**
+ * use graphicmagick to resize and crop image to the dimension defined by template of the artifact.
+ */
 const processImage = async ({ file, width, height }: {
   file: File,
   width: number | undefined,
@@ -244,4 +269,23 @@ const processImage = async ({ file, width, height }: {
     .gravity('Center')
     .crop(width, height)
     .stream();
+};
+
+/***********
+ * Animation
+ ***********/
+const updateAnimationPrompt = async (clipId: string, text: string) => {
+  await prisma.animation.upsert({
+    where: {
+      clipId: clipId,
+    },
+    create: {
+      clipId: clipId,
+      prompt: text,
+    },
+    update: {
+      clipId: clipId,
+      prompt: text,
+    },
+  });
 };
