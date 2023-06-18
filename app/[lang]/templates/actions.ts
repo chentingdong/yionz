@@ -1,5 +1,7 @@
 "use server";
 
+import { Template } from "@prisma/client";
+import { getArtifact } from "../action";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -17,4 +19,9 @@ export const updateTemplate = async (data) => {
   });
 
   revalidatePath(`/templates/${data.id}`);
+};
+
+export const getArtifactTemplate = async (id: string): Promise<Template | undefined> => {
+  const artifact = await getArtifact(id);
+  return artifact?.template;
 };
