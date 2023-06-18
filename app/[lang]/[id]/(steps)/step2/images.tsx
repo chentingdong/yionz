@@ -30,10 +30,16 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
       formData.append("artifactId", artifactId);
       formData.append("clipId", clipId);
       formData.append("order", order.toString());
-      await uploadImage(formData);
+      const image = await uploadImage(formData);
+      setItems([...items, image]);
       order++;
     });
     setLoading(false);
+  };
+
+  const removeImage = async (id: string) => {
+    await deleteImage(id);
+    setItems(items.filter(item => item.id !== id));
   };
 
   const onSortEnd = (oldIndex: number, newIndex: number) => {
@@ -71,7 +77,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
               />
               <button
                 className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
-                onClick={() => deleteImage(item.id)}
+                onClick={() => removeImage(item.id)}
               >
                 <AiOutlineCloseCircle />
               </button>
