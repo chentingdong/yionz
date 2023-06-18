@@ -59,6 +59,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
             handleChange={updateImages}
             name="file"
             types={fileTypes}
+            label="Drop images here."
           />
         </div>
         <div className="col-1">
