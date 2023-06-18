@@ -4,12 +4,11 @@ import { Audio, Clip, Image } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
 import cuid from "cuid";
-import fs from 'fs';
 import { getArtifact } from "@/app/[lang]/action";
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import gm from 'gm';
 import prisma from "@/prisma/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
 export const initClips = async (artifactId: string) => {
@@ -168,7 +167,7 @@ export const generateAudio = async ({
   }
 };
 
-export const uploadImage = async (data: FormData) => {
+export const uploadImage = async (data: FormData): Promise<Image> => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();
   const clipId = data.get('clipId')?.toString();
@@ -187,7 +186,7 @@ export const uploadImage = async (data: FormData) => {
       clipId: clipId
     });
 
-    await prisma.image.upsert({
+    const image = await prisma.image.upsert({
       where: {
         clipId_order: {
           clipId: clipId,
@@ -203,7 +202,7 @@ export const uploadImage = async (data: FormData) => {
         url: url
       }
     });
-    revalidatePath(`/${artifactId}/step2`);
+    return image;
   } catch (error) {
     throw error;
   }
