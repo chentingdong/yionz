@@ -22,7 +22,7 @@ export default function CreateVideo({ video }: Props) {
     end: video.endAt
   });
 
-  const updateVideo = (e) => {
+  const handleUploadVideo = (e) => {
     console.log(e.target.value);
   };
 
@@ -34,12 +34,12 @@ export default function CreateVideo({ video }: Props) {
   return (
     <div className="row">
       <div className="col-11">
-
         <FileUploader
           multiple={true}
-          handleChange={updateVideo}
+          handleChange={handleUploadVideo}
           name="file"
           types={fileTypes}
+          label="Drop a video here."
         />
         <br />
         <video width="100%" height="auto" controls>
@@ -61,8 +61,6 @@ export default function CreateVideo({ video }: Props) {
       <div className="col-1">
         &nbsp;
       </div>
-      {/* <pre>{JSON.stringify(timeRange)}</pre> */}
-      {/* <pre>{JSON.stringify(video, null, 2)}</pre> */}
     </div >
   );
 }
