@@ -43,10 +43,16 @@ export const s3Upload = async ({
 };
 
 export const s3Delete = async (keyPath: string) => {
-  s3.deleteObject({
-    Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
-    Key: keyPath
-  });
-  const url = `${baseUrl}/${keyPath}`;
-  console.log(`S3 file successfully deleted: ${url}`);
+  try {
+    const deleteObject = s3.deleteObject({
+      Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
+      Key: keyPath
+    });
+    deleteObject.promise();
+    const url = `${baseUrl}/${keyPath}`;
+    console.log(`S3 file successfully deleted: ${url}`);
+  } catch (error) {
+    console.log(`S3 delete file failed.`);
+    throw error;
+  }
 };
