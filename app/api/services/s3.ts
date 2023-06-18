@@ -1,4 +1,5 @@
 import { AudioStream } from "aws-sdk/clients/polly";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { S3 } from "aws-sdk";
 
 const s3 = new S3({
@@ -7,20 +8,19 @@ const s3 = new S3({
   region: process.env.AWS_REGION,
 });
 
-const baseUrl = 'https://yionz.s3.amazonaws.com';
-type Props = {
-  fileBuffer: AudioStream | ReadableStream | Buffer;
-  filename: string;
-  artifactId: string;
-  clipId: string;
-};
+const baseUrl = process.env.S3_BASE_URL;
 
 export const s3Upload = async ({
   fileBuffer,
   filename,
   artifactId,
   clipId,
-}: Props): Promise<string> => {
+}: {
+  fileBuffer: AudioStream | ReadableStream | Buffer;
+  filename: string;
+  artifactId: string;
+  clipId: string;
+}): Promise<string> => {
   const keyPath = `artifacts/${artifactId}/${clipId}/${filename}`;
   const params = {
     Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
@@ -40,4 +40,13 @@ export const s3Upload = async ({
     console.log(`S3 file upload failed.`);
     throw error;
   }
+};
+
+export const s3Delete = async (keyPath: string) => {
+  s3.deleteObject({
+    Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
+    Key: keyPath
+  });
+  const url = `${baseUrl}/${keyPath}`;
+  console.log(`S3 file successfully deleted: ${url}`);
 };

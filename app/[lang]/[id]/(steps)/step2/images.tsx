@@ -71,7 +71,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
               />
               <button
                 className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
-                onClick={() => deleteImage(item)}
+                onClick={() => deleteImage(item.id)}
               >
                 <AiOutlineCloseCircle />
               </button>
@@ -79,6 +79,6 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
           </SortableItem>
         ))}
       </SortableList>
-    </div>
+    </div >
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { Audio, Clip, Image } from "@prisma/client";
+import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
 import cuid from "cuid";
 import fs from 'fs';
@@ -9,7 +10,6 @@ import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import gm from 'gm';
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
-import { s3Upload } from "@/app/api/services/s3";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
 export const initClips = async (artifactId: string) => {
@@ -209,9 +209,27 @@ export const uploadImage = async (data: FormData) => {
   }
 };
 
-export const deleteImage = async (image: Image) => {
-  // delete file from s3
-  // delete image record from db
+export const deleteImage = async (id: string) => {
+  // get image info from db
+  const image = await prisma.image.findUniqueOrThrow({
+    where: {
+      id: id
+    }
+  });
+  try {
+    // delete file from s3
+    const keyPath = new URL(image.url).pathname;
+    await s3Delete(keyPath);
+
+    // delete image record from db
+    await prisma.image.delete({
+      where: {
+        id: id
+      }
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const processImage = async ({ file, width, height }: {
