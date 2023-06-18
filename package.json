@@ -37,6 +37,7 @@
     "react-json-editor-ajrm": "^2.5.14",
     "react-router-dom": "^6.11.2",
     "react-time-range-slider": "^1.1.2",
+    "sanitize-s3-objectkey": "^0.0.1",
     "server-only": "^0.0.1",
     "style-loader": "^3.3.3",
     "url-loader": "^4.1.1"

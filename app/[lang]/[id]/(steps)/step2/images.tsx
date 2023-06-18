@@ -21,23 +21,27 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
   const [items, setItems] = React.useState(images);
   const [loading, setLoading] = React.useState(false);
 
-  const updateImages = (fileList: File[]) => {
+  const updateImages = async (fileList: File[]) => {
     setLoading(true);
-    let order = images.length + 1;
-    Array.from(fileList).forEach(async (file: File) => {
+
+    // get the maximum order from images list, which is sorted asc.
+    let order = images.slice(-1)[0]?.order || -1;
+
+    for (let file of fileList) {
+      order++;
       const formData = new FormData();
       formData.append("file", file);
       formData.append("artifactId", artifactId);
       formData.append("clipId", clipId);
       formData.append("order", order.toString());
       const image = await uploadImage(formData);
-      setItems([...items, image]);
-      order++;
-    });
+      if (image)
+        setItems((items) => [...items, image]);
+    };
     setLoading(false);
   };
 
-  const removeImage = async (id: string) => {
+  const handleDeleteImage = async (id: string) => {
     await deleteImage(id);
     setItems(items.filter(item => item.id !== id));
   };
@@ -77,7 +81,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
               />
               <button
                 className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
-                onClick={() => removeImage(item.id)}
+                onClick={() => handleDeleteImage(item.id)}
               >
                 <AiOutlineCloseCircle />
               </button>

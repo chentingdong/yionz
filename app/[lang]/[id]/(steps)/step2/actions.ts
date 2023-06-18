@@ -8,7 +8,7 @@ import { getArtifact } from "@/app/[lang]/action";
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import gm from 'gm';
 import prisma from "@/prisma/prisma";
-import { revalidateTag } from "next/cache";
+import sanitize from 'sanitize-s3-objectkey';
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
 /*********
@@ -188,21 +188,22 @@ export const deleteAudio = async (id: string) => {
 /*********
  * Images
  *********/
-export const uploadImage = async (data: FormData): Promise<Image> => {
+export const uploadImage = async (data: FormData): Promise<Image | null> => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();
   const clipId = data.get('clipId')?.toString();
-  if (!artifactId || !clipId || !file) return;
+  if (!artifactId || !clipId || !file) return null;
 
   const template = await getArtifactTemplate(artifactId);
   const fileBuffer = await processImage({ file, width: template?.width, height: template?.height });
 
   let order = Number(data.get('order'));
 
+  console.log('upload params:', file.name, artifactId, clipId, order);
   try {
     const url = await s3Upload({
       fileBuffer: fileBuffer,
-      filename: file.name,
+      filename: sanitize(file.name),
       artifactId: artifactId,
       clipId: clipId
     });
@@ -236,10 +237,11 @@ export const deleteImage = async (id: string) => {
       id: id
     }
   });
+  if (!image.url) return;
+
   try {
     // delete file from s3
-    let keyPath = new URL(image.url).pathname;
-    keyPath = `artifacts/${keyPath}`;
+    let keyPath = new URL(image.url).pathname.substring(1);
     await s3Delete(keyPath);
 
     // delete image record from db
