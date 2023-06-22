@@ -1,8 +1,9 @@
 "use server";
 
-import { Audio, Clip, Image } from "@prisma/client";
+import { Audio, Clip, Image, Video } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
+import { Readable } from 'stream';
 import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
@@ -271,6 +272,70 @@ const processImage = async ({ file, width, height }: {
     .gravity('Center')
     .crop(width, height)
     .stream();
+};
+
+/***********
+ * Video
+ ***********/
+
+export const uploadVideo = async (data: FormData): Promise<Video | null> => {
+  const file = data.get('file') as File;
+  const artifactId = data.get('artifactId')?.toString();
+  const clipId = data.get('clipId')?.toString();
+  if (!artifactId || !clipId || !file) return null;
+  const fileBuffer = Buffer.from(await file.arrayBuffer());
+
+  try {
+    const url = await s3Upload({
+      fileBuffer: fileBuffer,
+      filename: sanitize(file.name),
+      artifactId: artifactId,
+      clipId: clipId
+    });
+
+    const video = await prisma.video.upsert({
+      where: {
+        clipId: clipId
+      },
+      create: {
+        clipId: clipId,
+        url: url
+      },
+      update: {
+        url: url
+      }
+    });
+    return video;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteVideo = async (id: string) => {
+  // get video info from db
+  const video = await prisma.video.findUniqueOrThrow({
+    where: {
+      id: id
+    }
+  });
+  if (!video.url) return;
+  try {
+    // delete file from s3
+    const keyPath = new URL(video.url).pathname.substring(1);
+    await s3Delete(keyPath);
+
+    // delete image record from db
+    await prisma.video.update({
+      where: {
+        id: id
+      },
+      data: {
+        url: ' '
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 /***********
