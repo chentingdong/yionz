@@ -1,11 +1,10 @@
 "use client";
 
-import { Prisma, Template } from "@prisma/client";
-
 import { ClipWithRelationships } from "./clip";
 import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
+import { Template } from "@prisma/client";
 
 type Props = {
   clip: ClipWithRelationships;
@@ -18,6 +17,52 @@ export default function VideoSourceSelect({
   template,
   translation,
 }: Props) {
+  const [active, setActive] = React.useState('video');
+
+  const setVideoSource = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
+
+  const tabs = [{
+    nav: 'video',
+    content: 'CreateVideo'
+  }, {
+
+    nav: 'images',
+    content: 'CreateImages'
+  },
+  {
+    nav: 'animation',
+    content: 'Animation'
+  }];
+
+  const ContentComponent = (nav: string) => {
+    switch (nav) {
+      case 'video':
+        return (
+          <CreateVideo
+            video={clip.video}
+            artifactId={clip.artifactId}
+            clipId={clip.id}
+            translation={translation}
+          />);
+      case 'images':
+        return (
+          <CreateImages
+            images={clip.images}
+            artifactId={clip.artifactId}
+            clipId={clip.id}
+            template={template}
+            translation={translation}
+          />
+        );
+      default:
+        return (
+          <div>Building</div>
+        );
+    }
+  };
   return (
     <div className="row">
       <div
@@ -26,79 +71,35 @@ export default function VideoSourceSelect({
         role="tablist"
         aria-orientation="vertical"
       >
-        <button
-          className="nav-link"
-          id={`${clip.id}-video-tab`}
-          data-bs-toggle="pill"
-          data-bs-target={`#${clip.id}-video`}
-          type="button"
-          role="tab"
-          aria-controls={`${clip.id}-video`}
-          aria-selected="false"
-        >
-          {translation.step2Clip.video}
-        </button>
-        <button
-          className="nav-link active"
-          id={`${clip.id}-images-tab`}
-          data-bs-toggle="pill"
-          data-bs-target={`#${clip.id}-images`}
-          type="button"
-          role="tab"
-          aria-controls={`${clip.id}-images`}
-          aria-selected="true"
-        >
-          {translation.step2Clip.images}
-        </button>
-        <button
-          className="nav-link"
-          id={`${clip.id}-animation-tab`}
-          data-bs-toggle="pill"
-          data-bs-target={`#${clip.id}-animation`}
-          type="button"
-          role="tab"
-          aria-controls={`${clip.id}-animation`}
-          aria-selected="false"
-        >
-          {translation.step2Clip.animation}
-        </button>
+        {tabs.map((tab, index) =>
+          <button
+            key={index}
+            className={`nav-link ${tab.nav === active ? 'active' : ''}`}
+            id={`${clip.id}-${tab.nav}-tab`}
+            data-bs-toggle="pill"
+            data-bs-target={`#${clip.id}-${tab.nav}`}
+            type="button"
+            role="tab"
+            aria-controls={`${clip.id}-${tab.nav}`}
+            aria-selected={active === tab.nav}
+            onClick={setVideoSource}
+          >
+            {translation.step2Clip[tab.nav]}
+          </button>
+        )}
       </div>
       <div className="col-10 tab-content" id={`${clip.id}-tabContent`}>
-        <div
-          className="tab-pane fade"
-          id={`${clip.id}-video`}
-          role="tabpanel"
-          aria-labelledby={`${clip.id}-video-tab`}
-        >
-          <CreateVideo
-            video={clip.video}
-            template={template}
-            translation={translation}
-          />
-        </div>
-        <div
-          className="tab-pane fade show active"
-          id={`${clip.id}-images`}
-          role="tabpanel"
-          aria-labelledby={`${clip.id}-images-tab`}
-        >
-          <CreateImages
-            images={clip.images}
-            artifactId={clip.artifactId}
-            clipId={clip.id}
-            template={template}
-            translation={translation}
-          />
-        </div>
-        <div
-          className="tab-pane fade"
-          id={`${clip.id}-animation`}
-          role="tabpanel"
-          aria-labelledby={`${clip.id}-animation-tab`}
-        >
-          Animation
-        </div>
+        {tabs.map((tab, index) =>
+          <div
+            className={`tab-pane fade show ${tab.nav === active ? 'active' : ''}`}
+            id={`${clip.id}-${tab.nav}`}
+            role="tabpanel"
+            aria-labelledby={`${clip.id}-${tab.nav}-tab`}
+          >
+            {ContentComponent(tab.nav)}
+          </div>
+        )}
       </div>
-    </div>
+    </div >
   );
 }

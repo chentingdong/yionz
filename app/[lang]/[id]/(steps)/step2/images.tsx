@@ -2,6 +2,7 @@ import { Image, Template } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
 import { deleteImage, uploadImage } from "./actions";
 
+import ActionButton from "@/app/components/buttons.action";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FileUploader } from "react-drag-drop-files";
 import Loading from "@/app/components/loading";
@@ -21,7 +22,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
   const [items, setItems] = React.useState(images);
   const [loading, setLoading] = React.useState(false);
 
-  const updateImages = async (fileList: File[]) => {
+  const handleUploadImages = async (fileList: File[]) => {
     setLoading(true);
 
     // get the maximum order from images list, which is sorted asc.
@@ -35,15 +36,14 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
       formData.append("clipId", clipId);
       formData.append("order", order.toString());
       const image = await uploadImage(formData);
-      if (image)
-        setItems((items) => [...items, image]);
-    };
+      if (image) setItems((items) => [...items, image]);
+    }
     setLoading(false);
   };
 
   const handleDeleteImage = async (id: string) => {
     await deleteImage(id);
-    setItems(items.filter(item => item.id !== id));
+    setItems(items.filter((item) => item.id !== id));
   };
 
   const onSortEnd = (oldIndex: number, newIndex: number) => {
@@ -56,15 +56,13 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
         <div className="col-11">
           <FileUploader
             multiple={true}
-            handleChange={updateImages}
+            handleChange={handleUploadImages}
             name="file"
             types={fileTypes}
             label="Drop images here."
           />
         </div>
-        <div className="col-1">
-          {loading && <Loading size={24} />}
-        </div>
+        <div className="col-1">{loading && <Loading size={24} />}</div>
       </div>
       <SortableList
         onSortEnd={onSortEnd}
@@ -80,16 +78,15 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
                 src={item.url}
                 style={{ width: 150, height: "auto" }}
               />
-              <button
-                className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
+              <ActionButton
                 onClick={() => handleDeleteImage(item.id)}
-              >
-                <AiOutlineCloseCircle />
-              </button>
+                action="delete"
+                className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
+              />
             </div>
           </SortableItem>
         ))}
       </SortableList>
-    </div >
+    </div>
   );
 }
