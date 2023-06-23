@@ -31,17 +31,17 @@ model Artifact {
 model Clip {
   id          String     @id @unique @default(cuid())
   order       Int        @default(0)
-  Artifact    Artifact?  @relation(fields: [artifactId], references: [id])
+  Artifact    Artifact?  @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   artifactId  String
   videoSource String     @default("video")
   images      Image[]
-  animation   Animation? @relation(fields: [animationId], references: [id])
+  animation   Animation? @relation(fields: [animationId], references: [id], onDelete: Cascade)
   animationId String     @unique
-  video       Video      @relation(fields: [videoId], references: [id])
+  video       Video      @relation(fields: [videoId], references: [id], onDelete: Cascade)
   videoId     String     @unique
-  audio       Audio      @relation(fields: [audioId], references: [id])
+  audio       Audio      @relation(fields: [audioId], references: [id], onDelete: Cascade)
   audioId     String     @unique
-  film        Film       @relation(fields: [filmId], references: [id])
+  film        Film       @relation(fields: [filmId], references: [id], onDelete: Cascade)
   filmId      String     @unique
   loading     Boolean    @default(false)
 
@@ -81,7 +81,7 @@ model Image {
   id     String @id @default(cuid())
   order  Int    @default(0)
   url    String @default("")
-  Clip   Clip?  @relation(fields: [clipId], references: [id])
+  Clip   Clip?  @relation(fields: [clipId], references: [id], onDelete: Cascade)
   clipId String
 
   @@unique([clipId, order])

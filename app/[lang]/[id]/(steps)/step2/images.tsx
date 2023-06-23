@@ -81,7 +81,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
               <ActionButton
                 onClick={() => handleDeleteImage(item.id)}
                 action="delete"
-                className="btn btn-link position-absolute top-0 end-0 px-1 py-0"
+                className="position-absolute top-0 end-0"
               />
             </div>
           </SortableItem>

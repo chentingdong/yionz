@@ -5,6 +5,7 @@ import { authOptions } from "../api/auth/[...nextauth]/auth";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/prisma/prisma";
 import { redirect } from 'next/navigation';
+import { revalidatePath } from "next/cache";
 
 export const createArtifact = async () => {
   const session = await getServerSession(authOptions);
@@ -36,11 +37,11 @@ export const createArtifact = async () => {
     }
   });
 
-  redirect(`/${artifact.id}`);
+  revalidatePath(artifact.id);
 };
 
 
-// Get artifact from db
+// Get one artifact from db
 export const getArtifact = async (id: string): Promise<ArtifactWithRelations | null> => {
   const artifact = await prisma.artifact.findUnique({
     where: {
@@ -66,6 +67,15 @@ export const getArtifact = async (id: string): Promise<ArtifactWithRelations | n
   return artifact;
 };
 
+// Delete artifact by id
+export const deleteArtifact = async (id: string) => {
+  await prisma.artifact.delete({
+    where: {
+      id: id
+    }
+  });
+  revalidatePath(id);
+};
 
 // GET all artifacts from db
 export const getArtifacts = async () => {

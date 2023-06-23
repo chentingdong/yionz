@@ -1,9 +1,11 @@
+import { CreateArtifact, DeleteArtifact } from "../components/buttons";
 import { createArtifact, getArtifacts } from "./action";
 
+import ActionButton from "../components/buttons.action";
 import Link from "next/link";
 import { PageProps } from "./[id]/page";
 import { dateFormat } from "@/app/components/helpers";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import { getTranslation } from "@/i18n/translations";
 
 export default async function Page({ params }: PageProps) {
@@ -12,7 +14,10 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <div className="container">
-      <h3>{translation.landingPage.videoLibrary}</h3>
+      <h3 className="d-flex justify-content-between">
+        {translation.landingPage.videoLibrary}
+        <CreateArtifact />
+      </h3>
       <table className="table">
         <thead>
           <tr>
@@ -21,6 +26,7 @@ export default async function Page({ params }: PageProps) {
             <th scope="col">{translation.landingPage.prompt}</th>
             <th scope="col">{translation.landingPage.createdAt}</th>
             <th scope="col">{translation.landingPage.video}</th>
+            <th scope="col">{translation.landingPage.action}</th>
           </tr>
         </thead>
         <tbody>
@@ -33,24 +39,25 @@ export default async function Page({ params }: PageProps) {
               </th>
               <td>{artifact.template?.name}</td>
               <td>{artifact.prompt}</td>
-              <td>{format(artifact.createdAt.getTime(), dateFormat.display)}</td>
               <td>
-                {artifact.movie?.url !== '' &&
+                {format(artifact.createdAt.getTime(), dateFormat.display)}
+              </td>
+              <td>
+                {artifact.movie?.url !== "" && (
                   <video className="col" controls height="100" width="auto">
                     <source src={artifact.movie.url} type="video/mp4" />
                     Your browser does not support video tag.
                   </video>
-                }
+                )}
                 {!artifact.movie?.url && <span>No video</span>}
+              </td>
+              <td>
+                <DeleteArtifact id={artifact.id} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <form action={createArtifact}>
-        <button className="btn btn-primary">+</button>
-      </form>
     </div>
   );
 }
-
