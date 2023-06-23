@@ -72,10 +72,12 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             />
           </div>
           <div className="col-11">
-            <audio controls className="w-100" ref={audioRef}>
-              <source src={audio.url} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
+            {audio.url.length > 0 && (
+              <audio controls className="w-100" ref={audioRef}>
+                <source src={audio.url} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            )}
           </div>
           <div className="col-1">
             <ActionButton
