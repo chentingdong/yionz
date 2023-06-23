@@ -98,6 +98,7 @@ const createClip = async (
   return clip;
 };
 
+// Partially update clip
 export const updateClip = async (clip: any) => {
   await prisma.clip.update({
     where: {
