@@ -1,6 +1,6 @@
 "use server";
 
-import { Audio, Clip, Image, Video } from "@prisma/client";
+import { Audio, Clip, Image, Prisma, Video } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
 import { Readable } from 'stream';
@@ -135,9 +135,13 @@ export const generateAudio = async ({
   audio: Audio;
   artifactId: string;
 }): Promise<string> => {
+
+  const template = await getArtifactTemplate(artifactId);
+  const pollyParams = getVoiceParams(template);
+
   try {
     const filename = 'audio.mp3';
-    const audioStream = await textToSpeechPolly(audio.text);
+    const audioStream = await textToSpeechPolly(audio.text, pollyParams);
     const url: string = await s3Upload({
       fileBuffer: audioStream,
       filename: filename,
@@ -184,6 +188,28 @@ export const deleteAudio = async (id: string) => {
   } catch (error) {
     throw error;
   }
+};
+
+// TODO: Move these to polly.ts
+export type PollyParamsProps = {
+  VoiceId: string;
+  LanguageCode: string;
+};
+const getVoiceParams = (template: Template): PollyParamsProps => {
+  const defaultParams = { LanguageCode: 'en-US', VoiceId: 'Amy' };
+  const instructionsObject = template?.instructions as Prisma.JsonObject;
+  const voice = instructionsObject.voice;
+  if (voice !== 'awsPolly') {
+    console.warn("Voicd not supported, use default 'Amy', please check template.");
+    return defaultParams;
+  }
+  const paramsObject = template?.params as Prisma.JsonObject;
+  const awsPolly = paramsObject.awsPolly as Prisma.JsonObject;
+
+  return {
+    VoiceId: awsPolly.VoiceId as string || 'Amy',
+    LanguageCode: awsPolly.LanguageCode as string || 'en-US'
+  };
 };
 
 /*********

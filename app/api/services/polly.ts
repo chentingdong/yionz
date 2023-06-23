@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 import { AudioStream } from "aws-sdk/clients/polly";
+import { PollyParamsProps } from "@/app/[lang]/[id]/(steps)/step2/actions";
 
 const polly = new AWS.Polly({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -9,18 +10,19 @@ const polly = new AWS.Polly({
 });
 
 export const textToSpeechPolly = async (
-  text: string
+  text: string,
+  pollyParams: PollyParamsProps
 ): Promise<AudioStream> => {
   return new Promise((resolve, reject) => {
-    let pollyparams = {
+    const params = {
+      ...pollyParams,
       Text: `<speak>${text}</speak>`,
       TextType: "ssml",
       OutputFormat: "mp3",
-      VoiceId: "Amy",
     };
-    console.log('Sending to AWS Polly to build audio data...');
+    console.log(`Sending to AWS Polly to build audio data using params:\n${JSON.stringify(params, null, 2)}\nbased on text:\n${text}`);
 
-    polly.synthesizeSpeech(pollyparams, (err, data) => {
+    polly.synthesizeSpeech(params, (err, data) => {
       if (err) {
         console.error(err.message);
         reject(err.message);
