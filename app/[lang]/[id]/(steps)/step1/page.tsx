@@ -19,6 +19,8 @@ export type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
         video: true,
         animation: true,
         images: true,
+        film: true,
+        videoSource: true,
       };
     };
   };

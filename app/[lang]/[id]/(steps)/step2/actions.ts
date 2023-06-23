@@ -3,6 +3,7 @@
 import { Audio, Clip, Image, Prisma, Video } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
+import { ClipWithRelationships } from "./clip";
 import { Readable } from 'stream';
 import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
@@ -46,7 +47,7 @@ export const initClip = async (
     },
   });
 
-  if (clip0) updateClip(artifactId, clip0, index, text);
+  if (clip0) updateClipText({ clip: clip0, text });
   else createClip(artifactId, index, text);
 };
 
@@ -97,17 +98,29 @@ const createClip = async (
   return clip;
 };
 
-const updateClip = async (
-  artifactId: string,
-  clip0: Clip,
-  index: number,
-  text: string
-) => {
-  console.log('update clip');
-
-  await updateAudioText(clip0.id, text);
-  await updateAnimationPrompt(clip0.id, text);
+export const updateClip = async (clip: any) => {
+  await prisma.clip.update({
+    where: {
+      id: clip.id
+    },
+    data: clip
+  });
 };
+
+const updateClipText = async ({
+  clip, text
+}: {
+  clip: Clip,
+  text?: string,
+  videoSource?: 'video' | 'images' | 'animation';
+}) => {
+  if (text) {
+    await updateAudioText(clip.id, text);
+    await updateAnimationPrompt(clip.id, text);
+  }
+};
+
+
 
 /*********
  * Audio
