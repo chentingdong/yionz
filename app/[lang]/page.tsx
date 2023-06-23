@@ -1,4 +1,4 @@
-import { CreateArtifact, DeleteArtifact } from "../components/buttons";
+import { CreateArtifact, DeleteArtifact } from "../components/buttons.client";
 import { createArtifact, getArtifacts } from "./action";
 
 import ActionButton from "../components/buttons.action";

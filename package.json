@@ -13,7 +13,6 @@
     "aws-sdk": "^2.1397.0",
     "bootstrap": "5",
     "bootswatch": "^5.2.3",
-    "cross-spawn": "^7.0.3",
     "cuid": "^3.0.0",
     "date-fns": "^2.30.0",
     "gm": "^1.25.0",
@@ -41,6 +40,7 @@
     "react-time-range-slider": "^1.1.2",
     "sanitize-s3-objectkey": "^0.0.1",
     "server-only": "^0.0.1",
+    "spawn-sync": "^2.0.0",
     "style-loader": "^3.3.3",
     "url-loader": "^4.1.1"
   },

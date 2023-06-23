@@ -17,12 +17,12 @@ type Props = {
 export default function ActionButton({
   onClick,
   action,
-  size = "md",
+  size,
   loading,
-  title = "",
+  title,
   className,
 }: Props) {
-  const sizeNumber = (size: string) => {
+  const sizeNumber = (size?: string) => {
     switch (size) {
       default:
       case "md":
