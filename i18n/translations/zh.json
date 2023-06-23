@@ -5,7 +5,8 @@
     "template": "模版",
     "prompt": "提示",
     "createdAt": "创建于",
-    "video": "视频"
+    "video": "视频",
+    "action": "操作"
   },
   "appSteps": {
     "makeStory": "1: 编故事",

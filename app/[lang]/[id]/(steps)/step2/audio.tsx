@@ -3,9 +3,7 @@
 import { deleteAudio, generateAudio, updateAudioText } from "./actions";
 
 import ActionButton from "@/app/components/buttons.action";
-import { AiOutlineAudio } from "react-icons/ai";
 import { Audio } from "@prisma/client";
-import Loading from "@/app/components/loading";
 import React from "react";
 
 type Props = {
@@ -50,7 +48,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
       <div className="col-2 nav-pills">
         <div className="row pe-3">
           <button className="nav-link active py-2">
-            {translation.step2Clip.audio}
+            {translation.step2Clip?.audio}
           </button>
         </div>
       </div>
@@ -66,15 +64,12 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             />
           </div>
           <div className="col-1">
-            <button
-              className="rounded-circle btn btn-primary p-0"
-              style={{ width: "2em", height: "2em" }}
+            <ActionButton
               title="Create audio based on text."
               onClick={handleGenerateAudio}
-            >
-              {!loading && <AiOutlineAudio />}
-              {loading && <Loading />}
-            </button>
+              action="create"
+              loading={loading}
+            />
           </div>
           <div className="col-11">
             <audio controls className="w-100" ref={audioRef}>
@@ -85,6 +80,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
           <div className="col-1">
             <ActionButton
               action="delete"
+              title="Create audio based on text."
               onClick={() => handleDeleteAudio(audio.id)}
             />
           </div>

@@ -35,7 +35,7 @@ export default function Prompt({ artifact, translation }: Props) {
           <button
             className="btn btn-primary form-control"
             title="create story"
-            onClick={(e) => makeStory(artifact.id)}
+            onClick={() => makeStory(artifact.id)}
           >
             <BsFillChatTextFill /> {translation.step1Story.btnMakeStory}
           </button>
@@ -48,3 +48,4 @@ export default function Prompt({ artifact, translation }: Props) {
     </div>
   );
 }
+

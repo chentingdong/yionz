@@ -5,7 +5,8 @@
     "template": "template",
     "prompt": "prompt",
     "createdAt": "created at",
-    "video": "Video"
+    "video": "Video",
+    "action": "Action"
   },
   "appSteps": {
     "makeStory": "1: Make Story",
