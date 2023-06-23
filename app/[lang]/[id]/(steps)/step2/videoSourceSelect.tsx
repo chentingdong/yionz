@@ -84,7 +84,7 @@ export default function VideoSourceSelect({
             aria-selected={active === tab.nav}
             onClick={setVideoSource}
           >
-            {translation.step2Clip.video}
+            {translation.step2Clip[tab.nav]}
           </button>
         )}
       </div>
