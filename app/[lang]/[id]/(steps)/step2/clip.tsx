@@ -6,7 +6,13 @@ import React from "react";
 import VideoSourceSelect from "./videoSourceSelect";
 
 export type ClipWithRelationships = Prisma.ClipGetPayload<{
-  include: { audio: true; video: true; images: true; };
+  include: {
+    audio: true;
+    video: true;
+    images: true;
+    film: true;
+    videoSource: true;
+  };
 }>;
 
 type Props = {
