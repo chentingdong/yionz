@@ -4,7 +4,6 @@ import { ArtifactWithRelations } from "./[id]/(steps)/step1/page";
 import { authOptions } from "../api/auth/[...nextauth]/auth";
 import { getServerSession } from "next-auth/next";
 import prisma from "@/prisma/prisma";
-import { redirect } from 'next/navigation';
 import { revalidatePath } from "next/cache";
 
 export const createArtifact = async () => {
