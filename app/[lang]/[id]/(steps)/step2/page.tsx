@@ -29,7 +29,7 @@ export default async function VideoClips({ params }: PageProps) {
                 >
                   <span className="d-inline-block text-truncate col-7">
                     <b>Clip {clip.order} </b>
-                    <span>({clip.audio.text.split(' ').length} words)</span>
+                    <span>({clip.audio.text.match(/[\u00ff-\uffff]|\S+/g)?.length} words)</span>
                     <span>: {clip.audio.text}</span>
                   </span>
                 </button>
