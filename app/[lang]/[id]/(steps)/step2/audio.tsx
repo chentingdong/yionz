@@ -40,12 +40,11 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
   };
 
   const handleDeleteAudio = async (id: string) => {
+    if (!id || !audio) return;
     await deleteAudio(id);
-    if (!audio) return;
     audio.url = ' ';
   };
 
-  if (!audio) return <div>Audio not created</div>;
   return (
     <div className="row">
       <div className="col-2 nav-pills">
@@ -62,8 +61,8 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             <textarea
               className="form-control mb-2"
               rows={2}
-              value={audio.text}
-              onChange={() => updateAudio(audio.clipId, audio.text)}
+              value={audio?.text}
+              onChange={() => updateAudio(audio?.clipId, audio?.text)}
             />
           </div>
           <div className="col-1">
@@ -76,7 +75,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
           </div>
           <div className="col-11">
             <audio controls className="w-100" ref={audioRef}>
-              <source src={audio.url || " "} type="audio/mpeg" />
+              <source src={audio?.url || " "} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
           </div>
@@ -84,7 +83,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             <ActionButton
               action="delete"
               title="Create audio based on text."
-              onClick={() => handleDeleteAudio(audio.id)}
+              onClick={() => handleDeleteAudio(audio?.id)}
             />
           </div>
         </div>

@@ -25,24 +25,6 @@ export const initClips = async (artifactId: string) => {
   return;
 };
 
-// export const initClip = async (
-//   artifactId: string,
-//   index: number,
-//   text: string
-// ) => {
-//   let clip0 = await prisma.clip.findUnique({
-//     where: {
-//       artifactId_order: {
-//         artifactId: artifactId,
-//         order: index,
-//       },
-//     },
-//   });
-
-//   if (!clip0) clip0 = await createClip(artifactId, index);
-//   updateClipText({ clip: clip0, text });
-// };
-
 const initClip = async (
   artifactId: string,
   index: number,
@@ -66,6 +48,7 @@ const initClip = async (
       },
     });
 
+    await updateClipText({ clip, text });
     return clip;
   } catch (err) {
     console.log(err.message);
@@ -93,11 +76,11 @@ export const updateClip = async (clip: any) => {
 };
 
 const updateClipText = async ({
-  clip, text
+  clip,
+  text
 }: {
   clip: Clip,
   text?: string,
-  videoSource?: 'video' | 'images' | 'animation';
 }) => {
   if (text) {
     await updateAudioText(clip.id, text);
