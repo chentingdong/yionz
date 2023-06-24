@@ -8,6 +8,7 @@ import { getTranslation } from "@/i18n/translations";
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
   params.step = "step2";
+  const patternEnglishChinese = /[\u00ff-\uffff]|\S+/g;
   const defaultShow = (order: number) => order === 0 ? 'show' : '';
   const translation = await getTranslation(params.lang);
 
@@ -29,7 +30,7 @@ export default async function VideoClips({ params }: PageProps) {
                 >
                   <span className="d-inline-block text-truncate col-7">
                     <b>Clip {clip.order} </b>
-                    <span>({clip.audio.text.match(/[\u00ff-\uffff]|\S+/g)?.length} words)</span>
+                    <span>({clip.audio.text.match(patternEnglishChinese)?.length} words)</span>
                     <span>: {clip.audio.text}</span>
                   </span>
                 </button>

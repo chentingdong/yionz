@@ -1,9 +1,8 @@
 import { Image, Template } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
-import { deleteImage, uploadImage } from "./actions";
+import { deleteImage, uploadImage } from "./images.actions";
 
 import ActionButton from "@/app/components/buttons.action";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FileUploader } from "react-drag-drop-files";
 import Loading from "@/app/components/loading";
 import React from "react";
