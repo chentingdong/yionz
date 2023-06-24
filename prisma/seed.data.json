@@ -5,32 +5,27 @@
       "width": 768,
       "height": 512,
       "instructions": {
-        "chatgpt": "Write an article of about 1000 words.",
+        "chatgpt": "Write an article with about 500 words.",
         "image": "Create an artistic fantasy photo, high resolution, high quality.",
-        "voice": "microsoft"
+        "voice": "awsPolly"
       },
       "params": {
         "chatgpt": {
           "maxTokens": 1000,
           "temperature": 0.5
         },
-        "googleTts": {
-          "languageCode": "en-US",
-          "ssmlGender": "FEMALE",
-          "speakingRate": 0.75
-        },
-        "microsoftTts": {
-          "speechRecognitionLanguage": "en-US",
-          "speechSynthesisVoiceName": "en-US-JennyNeural"
+        "awsPolly": {
+          "LanguageCode": "en-US",
+          "VoiceId": "Stephen"
         }
       }
     },
     {
-      "name": "Food Recipe",
+      "name": "Chinese Food Recipe",
       "width": 768,
       "height": 512,
       "instructions": {
-        "chatgpt": "Create a very short article of food receipe of about 500 words. 7 paragraphs.",
+        "chatgpt": "Create a foot recipe with about 500 words, split into a few paragraph, each paragraph has more than 20 words.",
         "image": "Create a colorful cooking photo, high resolution, high quality.",
         "voice": "microsoft"
       },
@@ -39,15 +34,9 @@
           "maxTokens": 500,
           "temperature": 0.75
         },
-        "googleTts": {
-          "languageCode": "en-US",
-          "ssmlGender": "FEMALE",
-          "speakingRate": 0.75
-        },
-        "microsoftTts": {
-          "speechSynthesisOutputFormat": 5,
-          "speechRecognitionLanguage": "en-US",
-          "speechSynthesisVoiceName": "en-US-JennyNeural"
+        "awsPolly": {
+          "LanguageCode": "cmn-CN",
+          "VoiceId": "Amy"
         }
       }
     }

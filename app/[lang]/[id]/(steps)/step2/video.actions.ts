@@ -9,11 +9,7 @@ import sanitize from 'sanitize-s3-objectkey';
 export const createVideo = async (clipId: string): Promise<Video> => {
   const video = await prisma.video.create({
     data: {
-      clip: {
-        connect: {
-          id: clipId
-        }
-      }
+      clipId: clipId
     }
   });
   return video;

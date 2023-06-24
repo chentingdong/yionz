@@ -32,7 +32,6 @@ const seedArtifacts = async () => {
           }
         },
         movie: {},
-        loading: false,
       }
     });
   });

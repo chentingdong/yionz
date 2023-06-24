@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
+import { deleteAudio, generateAudio, updateAudio } from "./audio.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { Audio } from "@prisma/client";
@@ -63,7 +63,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
               className="form-control mb-2"
               rows={2}
               value={audio.text}
-              onChange={() => updateAudioText(audio.clipId, audio.text)}
+              onChange={() => updateAudio(audio.clipId, audio.text)}
             />
           </div>
           <div className="col-1">

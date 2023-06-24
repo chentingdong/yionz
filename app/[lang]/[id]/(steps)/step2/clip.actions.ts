@@ -1,14 +1,12 @@
 "use server";
 
+import { createAnimation, updateAnimationPrompt } from "./animation.actions";
 import { createAudio, updateAudioText } from "./audio.actions";
 
 import { Clip } from "@prisma/client";
-import { createFilm } from "./film.actions";
 import { createVideo } from "./video.actions";
-import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
-import { updateAnimationPrompt } from "./animation.actions";
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
@@ -27,57 +25,52 @@ export const initClips = async (artifactId: string) => {
   return;
 };
 
-export const initClip = async (
-  artifactId: string,
-  index: number,
-  text: string
-) => {
-  const clip0 = await prisma.clip.findUnique({
-    where: {
-      artifactId_order: {
-        artifactId: artifactId,
-        order: index,
-      },
-    },
-  });
+// export const initClip = async (
+//   artifactId: string,
+//   index: number,
+//   text: string
+// ) => {
+//   let clip0 = await prisma.clip.findUnique({
+//     where: {
+//       artifactId_order: {
+//         artifactId: artifactId,
+//         order: index,
+//       },
+//     },
+//   });
 
-  if (clip0) updateClipText({ clip: clip0, text });
-  else createClip(artifactId, index, text);
-};
+//   if (!clip0) clip0 = await createClip(artifactId, index);
+//   updateClipText({ clip: clip0, text });
+// };
 
-const createClip = async (
+const initClip = async (
   artifactId: string,
   index: number,
   text: string
 ): Promise<Clip> => {
-  const clipId = cuid();
-  const audio = await createAudio(clipId);
-  const video = await createVideo(clipId);
-  const animation = await createVideo(clipId);
-  const film = await createFilm(clipId);
-
-  const clip = await prisma.clip.create({
-    data: {
-      id: clipId,
-      artifact: {
-        connect: {
-          id: artifactId,
+  try {
+    const clip = await prisma.clip.upsert({
+      where: {
+        artifactId_order: {
+          artifactId: artifactId,
+          order: index,
         },
       },
-      audioId: audio.id,
-      audio: { connect: { id: audio.id } },
-      images: {
-        create: [],
+      create: {
+        order: index,
+        artifact: { connect: { id: artifactId, } },
       },
-      videoId: video.id,
-      video: { connect: { id: video.id } },
-      animationId: animation.id,
-      filmId: film.id,
-      order: index,
-      loading: false,
-    },
-  });
-  return clip;
+      update: {
+        order: index,
+        artifact: { connect: { id: artifactId, } },
+      },
+    });
+
+    return clip;
+  } catch (err) {
+    console.log(err.message);
+    throw err;
+  }
 };
 
 export const getClip = async (id: string): Promise<Clip | null> => {

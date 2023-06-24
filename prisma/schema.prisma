@@ -20,7 +20,6 @@ model Artifact {
   movie      Movie?
   movieId    String?
   clips      Clip[]
-  loading    Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
   user       User?    @relation(fields: [userId], references: [id])
@@ -36,14 +35,13 @@ model Clip {
   videoSource VideoSource @default(video)
   images      Image[]
   animation   Animation?
-  animationId String      @unique
+  animationId String?     @unique
   video       Video?
-  videoId     String      @unique
+  videoId     String?     @unique
   audio       Audio?
-  audioId     String      @unique
+  audioId     String?     @unique
   film        Film?
-  filmId      String      @unique
-  loading     Boolean     @default(false)
+  filmId      String?     @unique
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now())
 
@@ -62,9 +60,8 @@ model Audio {
   text      String   @default("")
   url       String   @default("")
   duration  Int      @default(1)
-  loading   Boolean  @default(false)
-  clipId    String   @unique
   clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  clipId    String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
@@ -107,7 +104,6 @@ model Animation {
   seed                  Int      @default(42)
   thumbnail             String   @default("")
   subtitle              String   @default("")
-  loading               Boolean  @default(false)
   clipId                String   @unique
   clip                  Clip     @relation(onDelete: Cascade, fields: [clipId], references: [id])
   createdAt             DateTime @default(now())
@@ -119,7 +115,6 @@ model Film {
   id        String   @id @default(cuid())
   url       String   @default("")
   duration  Int      @default(0)
-  loading   Boolean  @default(false)
   clipId    String   @unique
   clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -130,7 +125,6 @@ model Film {
 model Movie {
   id         String   @id @default(cuid())
   url        String   @default("")
-  loading    Boolean  @default(false)
   artifact   Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
   artifactId String   @unique
   createdAt  DateTime @default(now())

@@ -10,11 +10,7 @@ import { textToSpeechPolly } from "@/app/api/services/polly";
 export const createAudio = async (clipId: string): Promise<Audio> => {
   const audio = await prisma.audio.create({
     data: {
-      clip: {
-        connect: {
-          id: clipId
-        }
-      }
+      clipId: clipId
     }
   });
   return audio;
@@ -27,10 +23,9 @@ export const updateAudioText = async (clipId: string, text: string) => {
     },
     create: {
       clipId: clipId,
-      text: text,
+      text: text
     },
     update: {
-      clipId: clipId,
       text: text,
     },
   });
