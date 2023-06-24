@@ -16,7 +16,8 @@ export const createAudio = async (clipId: string): Promise<Audio> => {
   return audio;
 };
 
-export const updateAudioText = async (clipId: string, text: string) => {
+export const updateAudioText = async (clipId?: string, text?: string) => {
+  if (!clipId || !text) return;
   await prisma.audio.upsert({
     where: {
       clipId: clipId,

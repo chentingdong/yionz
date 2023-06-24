@@ -1,12 +1,11 @@
 "use server";
 
-import { createAnimation, updateAnimationPrompt } from "./animation.actions";
-import { createAudio, updateAudioText } from "./audio.actions";
-
 import { Clip } from "@prisma/client";
 import { createVideo } from "./video.actions";
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
+import { updateAnimationPrompt } from "./animation.actions";
+import { updateAudioText } from "./audio.actions";
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);

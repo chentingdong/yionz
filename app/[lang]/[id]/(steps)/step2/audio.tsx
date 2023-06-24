@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAudio, generateAudio, updateAudio } from "./audio.actions";
+import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { Audio } from "@prisma/client";
@@ -39,7 +39,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
     setLoading(false);
   };
 
-  const handleDeleteAudio = async (id: string) => {
+  const handleDeleteAudio = async (id?: string) => {
     if (!id || !audio) return;
     await deleteAudio(id);
     audio.url = ' ';
@@ -56,13 +56,12 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
       </div>
       <div className="col-10">
         <div className="row">
-
           <div className="col-11">
             <textarea
               className="form-control mb-2"
               rows={2}
               value={audio?.text}
-              onChange={() => updateAudio(audio?.clipId, audio?.text)}
+              onChange={() => updateAudioText(audio?.clipId, audio?.text)}
             />
           </div>
           <div className="col-1">
