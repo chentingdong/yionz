@@ -19,7 +19,6 @@ const seedArtifacts = async () => {
       name: "default"
     }
   });
-  console.log(template);
   data.artifacts.map(async (artifact) => {
     await prisma.artifact.create({
       data: {

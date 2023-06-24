@@ -3,6 +3,7 @@
 import { createArtifact, deleteArtifact } from "../[lang]/action";
 
 import ActionButton from "./buttons.action";
+import { createFilm } from "../[lang]/[id]/(steps)/step2/film.actions";
 import { createTemplate } from "../[lang]/templates/actions";
 
 // Called from server component
@@ -16,4 +17,8 @@ export function CreateArtifact() {
 
 export function CreateTemplate() {
   return <ActionButton action="create" onClick={() => createTemplate()} />;
+}
+
+export function CreateFilmButton({ id }: { id?: string; }) {
+  return <ActionButton action="create" onClick={() => createFilm()} />;
 }

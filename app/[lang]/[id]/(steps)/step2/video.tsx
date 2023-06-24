@@ -116,6 +116,5 @@ function maxTimeString(strs) {
     for (var i = 0; i < a.length && i < b.length && a[i] === b[i]; i++);
     return ((i === a.length) || (+a[i] < +b[i])) ? 1 : -1;
   });
-  console.log(strs);
   return strs[0];
 }

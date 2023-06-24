@@ -6,8 +6,6 @@ export async function POST(req) {
   const clipId = 'testClipId';
   const inputStream = await req.json();
 
-  console.log('req:', JSON.stringify(inputStream));
-
   const url = s3Upload({
     fileBuffer: inputStream,
     filename: 'image.png',
