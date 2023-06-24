@@ -84,7 +84,7 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
       </div>
       {video.url && (
         <div className="row">
-          <div className="col-1">{video.startAt}</div>
+          <div className="col-1">{timeRange.start}</div>
           <div className="col-10 my-2">
             <TimeRangeSlider
               name={"timeRange"}
@@ -96,8 +96,9 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
               step={1}
               onChange={timeChangeHandler}
               value={timeRange} />
+
           </div>
-          <div className="col-1">{video.endAt}</div>
+          <div className="col-1">{timeRange.end}</div>
         </div>
       )}
     </div>
