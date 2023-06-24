@@ -1,6 +1,7 @@
 import { Artifact, Prisma } from "@prisma/client";
 
 import AppSteps from "@/app/[lang]/[id]/appSteps";
+import { ClipWithRelationships } from "../step2/clip";
 import Headline from "./headline";
 import { PageProps } from "@/app/[lang]/[id]/page";
 import Prompt from "./prompt";
@@ -14,15 +15,7 @@ import { randomUUID } from "crypto";
 export type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
   include: {
     template: true;
-    clips: {
-      include: {
-        audio: true,
-        video: true,
-        animation: true,
-        images: true,
-        film: true,
-      };
-    };
+    clips: ClipWithRelationships.include;
   };
 }>;
 

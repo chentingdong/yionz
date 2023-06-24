@@ -6,11 +6,7 @@ import prisma from "@/prisma/prisma";
 export const createAnimation = async (clipId: string): Promise<Animation> => {
   const animation = await prisma.animation.create({
     data: {
-      clip: {
-        connect: {
-          id: clipId
-        }
-      }
+      clipId: clipId
     }
   });
   return animation;

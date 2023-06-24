@@ -1,4 +1,4 @@
-import { Prisma, Template } from "@prisma/client";
+import { Clip, Prisma, Template } from "@prisma/client";
 
 import CreateAudio from "./audio";
 import CreateFilm from "./film";
@@ -7,10 +7,11 @@ import VideoSourceSelect from "./videoSourceSelect";
 
 export type ClipWithRelationships = Prisma.ClipGetPayload<{
   include: {
-    audio: true;
-    video: true;
-    images: true;
-    film: true;
+    audio: true,
+    video: true,
+    animation: true,
+    images: true,
+    film: true,
   };
 }>;
 

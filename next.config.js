@@ -37,7 +37,4 @@ module.exports = {
   httpAgentOptions: {
     keepAlive: false,
   },
-  env: {
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-  },
 };

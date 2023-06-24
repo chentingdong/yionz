@@ -24,7 +24,7 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
   const [loading, setLoading] = React.useState(false);
   const [timeRange, setTimeRange] = React.useState<TimeRange>({
     start: video?.startAt || "00:00",
-    end: video?.endAt || "00:00"
+    end: maxTimeString([video?.duration, video?.endAt, "00:00"])
   });
 
   const handleUploadVideo = async (file: File) => {
@@ -51,7 +51,6 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
     video.url = ' ';
   };
 
-  if (!video) return <div>Video not created.</div>;
   return (
     <div>
       <div className="row">
@@ -74,18 +73,20 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
         <div className="col-1">&nbsp;</div>
         <div className="col-10">
           <video width="100%" height="auto" controls>
-            <source src={video.url || " "} type="video/mp4" />
+            <source src={video?.url || " "} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
         <div className="col-1">
-          <ActionButton
-            action="delete"
-            onClick={() => handleDeleteVideo(video.id)}
-          />
+          {video &&
+            <ActionButton
+              action="delete"
+              onClick={() => handleDeleteVideo(video.id)}
+            />
+          }
         </div>
       </div>
-      {video.url && (
+      {video?.url && (
         <div className="row">
           <div className="col-1">{timeRange.start}</div>
           <div className="col-10 my-2">
@@ -106,4 +107,15 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
       )}
     </div>
   );
+}
+
+function maxTimeString(strs) {
+  strs.sort(function (a, b) {
+    a = a.split(':');
+    b = b.split(':');
+    for (var i = 0; i < a.length && i < b.length && a[i] === b[i]; i++);
+    return ((i === a.length) || (+a[i] < +b[i])) ? 1 : -1;
+  });
+  console.log(strs);
+  return strs[0];
 }
