@@ -47,7 +47,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
     <div className="row">
       <div className="col-2 nav-pills">
         <div className="row pe-3">
-          <button className="nav-link active py-2">
+          <button className="nav-link active py-2 opacity-75 disabled">
             {translation.step2Clip?.audio}
           </button>
         </div>

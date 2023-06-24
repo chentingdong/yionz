@@ -24,10 +24,11 @@
     "btnNextStep": "create clips"
   },
   "step2Clip": {
-    "audio": "Audio",
+    "audio": "AI Audio",
     "videoSource": "Video source",
-    "video": "Video",
-    "animation": "Animation",
-    "images": "Images"
+    "video": "Original Video",
+    "animation": "AI Images",
+    "images": "Images",
+    "film": "Film"
   }
 }

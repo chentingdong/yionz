@@ -52,7 +52,8 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
   return (
     <div>
       <div className="row">
-        <div className="col-11">
+        <div className="col-1">&nbsp;</div>
+        <div className="col-10">
           <FileUploader
             handleChange={handleUploadVideo}
             name="file"
@@ -67,31 +68,12 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
       </div>
       <br />
       <div className="row">
-        <div className="col-11">
-          <div className="row">
-            <video width="100%" height="auto" controls>
-              <source src={video.url || " "} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          {video.url && (
-            <div className="row">
-              <div className="col-1">{video.startAt}</div>
-              <div className="col-10 my-2">
-                <TimeRangeSlider
-                  name={"timeRange"}
-                  disabled={false}
-                  draggableTrack={false}
-                  format={24}
-                  minValue={"00:00"}
-                  maxValue={video.duration}
-                  step={1}
-                  onChange={timeChangeHandler}
-                  value={timeRange} />
-              </div>
-              <div className="col-1">{video.endAt}</div>
-            </div>
-          )}
+        <div className="col-1">&nbsp;</div>
+        <div className="col-10">
+          <video width="100%" height="auto" controls>
+            <source src={video.url || " "} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div className="col-1">
           <ActionButton
@@ -100,6 +82,24 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
           />
         </div>
       </div>
+      {video.url && (
+        <div className="row">
+          <div className="col-1">{video.startAt}</div>
+          <div className="col-10 my-2">
+            <TimeRangeSlider
+              name={"timeRange"}
+              disabled={false}
+              draggableTrack={false}
+              format={24}
+              minValue={"00:00"}
+              maxValue={video.duration}
+              step={1}
+              onChange={timeChangeHandler}
+              value={timeRange} />
+          </div>
+          <div className="col-1">{video.endAt}</div>
+        </div>
+      )}
     </div>
   );
 }
