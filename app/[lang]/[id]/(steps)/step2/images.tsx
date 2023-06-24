@@ -61,7 +61,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
             label="Drop images here."
           />
         </div>
-        <div className="col-1">{loading && <Loading size={24} />}</div>
+        <div className="col-1">{loading && <Loading size={20} />}</div>
       </div>
       <SortableList
         onSortEnd={onSortEnd}

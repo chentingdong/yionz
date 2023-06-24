@@ -3,6 +3,7 @@ import { deleteVideo, updateVideo, uploadVideo } from "./video.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
+import Loading from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from 'react-time-range-slider';
 
@@ -28,7 +29,6 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
 
   const handleUploadVideo = async (file: File) => {
     setLoading(true);
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append("artifactId", artifactId);
@@ -61,7 +61,9 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
             multiple={false}
           />
         </div>
-        <div className="col-1">&nbsp;</div>
+        <div className="col-1">
+          {loading && <Loading size={20} />}
+        </div>
       </div>
       <br />
       <div className="row">
@@ -75,17 +77,18 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
           {video.url && (
             <div className="row">
               <div className="col-1">{video.startAt}</div>
-              <TimeRangeSlider
-                className="col-10"
-                name={"timeRange"}
-                disabled={false}
-                draggableTrack={false}
-                format={24}
-                minValue={"00:00"}
-                maxValue={video.duration}
-                step={1}
-                onChange={timeChangeHandler}
-                value={timeRange} />
+              <div className="col-10 my-2">
+                <TimeRangeSlider
+                  name={"timeRange"}
+                  disabled={false}
+                  draggableTrack={false}
+                  format={24}
+                  minValue={"00:00"}
+                  maxValue={video.duration}
+                  step={1}
+                  onChange={timeChangeHandler}
+                  value={timeRange} />
+              </div>
               <div className="col-1">{video.endAt}</div>
             </div>
           )}

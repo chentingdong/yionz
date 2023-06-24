@@ -8,7 +8,7 @@ type Props = {
 export default function Loading({ className, size = 32 }: Props) {
   return (
     <div
-      className={`spinner-border ${className}`}
+      className={`spinner-border text-primary ${className}`}
       style={{ width: size, height: size }}
       role="status"
     >
