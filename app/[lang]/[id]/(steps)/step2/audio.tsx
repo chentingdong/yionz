@@ -8,7 +8,7 @@ import React from "react";
 
 type Props = {
   artifactId: string;
-  audio: Audio;
+  audio: Audio | null;
   translation: any;
 };
 
@@ -22,10 +22,11 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
       audioRef.current.play();
       audioRef.current.pause();
     }
-  }, [audio.url]);
+  }, [audio?.url]);
 
   const handleGenerateAudio = async () => {
     setLoading(true);
+    if (!audio) return;
     try {
       const url = await generateAudio({
         audio: audio,
@@ -40,9 +41,11 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
 
   const handleDeleteAudio = async (id: string) => {
     await deleteAudio(id);
+    if (!audio) return;
     audio.url = ' ';
   };
 
+  if (!audio) return <div>Audio not created</div>;
   return (
     <div className="row">
       <div className="col-2 nav-pills">

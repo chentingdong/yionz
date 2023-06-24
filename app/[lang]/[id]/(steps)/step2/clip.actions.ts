@@ -1,15 +1,15 @@
 "use server";
 
+import { createAudio, updateAudioText } from "./audio.actions";
+
 import { Clip } from "@prisma/client";
+import { createFilm } from "./film.actions";
+import { createVideo } from "./video.actions";
 import cuid from "cuid";
 import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
 import { updateAnimationPrompt } from "./animation.actions";
-import { updateAudioText } from "./audio.actions";
 
-/*********
- * Clip
- *********/
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
   if (!artifact?.story) return;
@@ -51,43 +51,40 @@ const createClip = async (
   text: string
 ): Promise<Clip> => {
   const clipId = cuid();
+  const audio = await createAudio(clipId);
+  const video = await createVideo(clipId);
+  const animation = await createVideo(clipId);
+  const film = await createFilm(clipId);
 
   const clip = await prisma.clip.create({
     data: {
       id: clipId,
-      Artifact: {
+      artifact: {
         connect: {
           id: artifactId,
         },
       },
-      audio: {
-        create: {
-          clipId: clipId,
-          text: text,
-        },
-      },
+      audioId: audio.id,
+      audio: { connect: { id: audio.id } },
       images: {
         create: [],
       },
-      video: {
-        create: {
-          clipId: clipId,
-        },
-      },
-      animation: {
-        create: {
-          clipId: clipId,
-          prompt: text,
-        },
-      },
-      film: {
-        create: {
-          clipId: clipId,
-        },
-      },
+      videoId: video.id,
+      video: { connect: { id: video.id } },
+      animationId: animation.id,
+      filmId: film.id,
       order: index,
       loading: false,
     },
+  });
+  return clip;
+};
+
+export const getClip = async (id: string): Promise<Clip | null> => {
+  const clip = await prisma.clip.findFirst({
+    where: {
+      id: id
+    }
   });
   return clip;
 };

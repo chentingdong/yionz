@@ -1,7 +1,8 @@
+import { Artifact, Prisma } from "@prisma/client";
+
 import AppSteps from "@/app/[lang]/[id]/appSteps";
 import Headline from "./headline";
 import { PageProps } from "@/app/[lang]/[id]/page";
-import { Prisma } from "@prisma/client";
 import Prompt from "./prompt";
 import React from "react";
 import Story from "./story";
@@ -20,7 +21,6 @@ export type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
         animation: true,
         images: true,
         film: true,
-        videoSource: true,
       };
     };
   };

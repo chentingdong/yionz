@@ -1,10 +1,20 @@
 "use server";
 
+import { Animation } from "@prisma/client";
 import prisma from "@/prisma/prisma";
 
-/***********
- * Animation
- ***********/
+export const createAnimation = async (clipId: string): Promise<Animation> => {
+  const animation = await prisma.animation.create({
+    data: {
+      clip: {
+        connect: {
+          id: clipId
+        }
+      }
+    }
+  });
+  return animation;
+};
 export const updateAnimationPrompt = async (clipId: string, text: string) => {
   await prisma.animation.upsert({
     where: {

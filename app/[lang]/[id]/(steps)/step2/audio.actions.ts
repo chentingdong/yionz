@@ -1,15 +1,25 @@
 "use server";
 
-import { Audio, Prisma } from "@prisma/client";
+import { Audio, Prisma, Template } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import prisma from "@/prisma/prisma";
 import { textToSpeechPolly } from "@/app/api/services/polly";
 
-/*********
- * Audio
- *********/
+export const createAudio = async (clipId: string): Promise<Audio> => {
+  const audio = await prisma.audio.create({
+    data: {
+      clip: {
+        connect: {
+          id: clipId
+        }
+      }
+    }
+  });
+  return audio;
+};
+
 export const updateAudioText = async (clipId: string, text: string) => {
   await prisma.audio.upsert({
     where: {
@@ -35,6 +45,7 @@ export const generateAudio = async ({
 }): Promise<string> => {
 
   const template = await getArtifactTemplate(artifactId);
+  if (!template) return '';
   const pollyParams = getVoiceParams(template);
 
   try {

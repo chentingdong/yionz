@@ -8,9 +8,6 @@ import gm from 'gm';
 import prisma from "@/prisma/prisma";
 import sanitize from 'sanitize-s3-objectkey';
 
-/*********
- * Images
- *********/
 export const uploadImage = async (data: FormData): Promise<Image | null> => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();

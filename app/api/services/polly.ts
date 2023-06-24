@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import { AudioStream } from "aws-sdk/clients/polly";
-import { PollyParamsProps } from "@/app/[lang]/[id]/(steps)/step2/actions";
+import { PollyParamsProps } from "@/app/[lang]/[id]/(steps)/step2/audio.actions";
 
 const polly = new AWS.Polly({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,

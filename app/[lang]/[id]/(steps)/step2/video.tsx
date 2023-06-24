@@ -8,7 +8,7 @@ import React from "react";
 import TimeRangeSlider from 'react-time-range-slider';
 
 type Props = {
-  video: Video;
+  video: Video | null;
   artifactId: string;
   clipId: string;
   translation: any;
@@ -23,8 +23,8 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
   const fileTypes = ["mp4"];
   const [loading, setLoading] = React.useState(false);
   const [timeRange, setTimeRange] = React.useState<TimeRange>({
-    start: video.startAt,
-    end: video.endAt
+    start: video?.startAt || "00:00",
+    end: video?.endAt || "00:00"
   });
 
   const handleUploadVideo = async (file: File) => {
@@ -40,15 +40,18 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
 
   const timeChangeHandler = async (time: TimeRange) => {
     setTimeRange(time);
+    if (!video) return;
     // TODO: need debounce here
     await updateVideo({ ...video, startAt: time.start, endAt: time.end });
   };
 
   const handleDeleteVideo = async (id: string) => {
     await deleteVideo(id);
+    if (!video) return;
     video.url = ' ';
   };
 
+  if (!video) return <div>Video not created.</div>;
   return (
     <div>
       <div className="row">

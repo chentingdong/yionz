@@ -1,14 +1,17 @@
+"use client";
+
 import ActionButton from "@/app/components/buttons.action";
-import { ImVideoCamera } from "react-icons/im";
-import { Prisma } from "@prisma/client";
+import { Film } from "@prisma/client";
 import React from "react";
+import { createFilm } from "./film.actions";
 
 type Props = {
-  film: Prisma.FilmCreateInput;
+  film: Film | null;
   translation: any;
 };
 
 export default function CreateFilm({ film, translation }: Props) {
+  if (!film) return <div>Film not created</div>;
   return (<div>
     <div className="row">
       <div className="col-2 nav-pills">
