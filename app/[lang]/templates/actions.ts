@@ -23,9 +23,9 @@ export const updateTemplate = async (data) => {
   revalidatePath(`/templates/${data.id}`);
 };
 
-export const getArtifactTemplate = async (id: string): Promise<Template | undefined> => {
+export const getArtifactTemplate = async (id: string): Promise<Template | null> => {
   const artifact = await getArtifact(id);
-  return artifact?.template;
+  return artifact?.template || null;
 };
 
 export const createTemplate = async () => {

@@ -17,8 +17,8 @@ model Artifact {
   story      String   @default("")
   template   Template @relation(fields: [templateId], references: [id])
   templateId String
-  movie      Movie    @relation(fields: [movieId], references: [id])
-  movieId    String
+  movie      Movie?
+  movieId    String?
   clips      Clip[]
   loading    Boolean  @default(false)
   createdAt  DateTime @default(now())
@@ -31,17 +31,17 @@ model Artifact {
 model Clip {
   id          String      @id @unique @default(cuid())
   order       Int         @default(0)
-  Artifact    Artifact?   @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  artifact    Artifact?   @relation(fields: [artifactId], references: [id])
   artifactId  String
   videoSource VideoSource @default(video)
   images      Image[]
-  animation   Animation?  @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  animation   Animation?
   animationId String      @unique
-  video       Video       @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  video       Video?
   videoId     String      @unique
-  audio       Audio       @relation(fields: [audioId], references: [id], onDelete: Cascade)
+  audio       Audio?
   audioId     String      @unique
-  film        Film        @relation(fields: [filmId], references: [id], onDelete: Cascade)
+  film        Film?
   filmId      String      @unique
   loading     Boolean     @default(false)
   createdAt   DateTime    @default(now())
@@ -54,6 +54,45 @@ enum VideoSource {
   video
   images
   animation
+}
+
+// text to audio
+model Audio {
+  id        String   @id @default(cuid())
+  text      String   @default("")
+  url       String   @default("")
+  duration  Int      @default(1)
+  loading   Boolean  @default(false)
+  clipId    String   @unique
+  clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+// User uploaded video or given url
+model Video {
+  id        String   @id @default(cuid())
+  url       String   @default("")
+  startAt   String   @default("00:00") @db.VarChar(5)
+  endAt     String   @default("00:00") @db.VarChar(5)
+  duration  String   @default("00:00")
+  clipId    String   @unique
+  clip      Clip     @relation(onDelete: Cascade, fields: [clipId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+// User uploaded image
+model Image {
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  url       String   @default("")
+  clipId    String
+  clip      Clip     @relation(onDelete: Cascade, fields: [clipId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([clipId, order])
 }
 
 // AI generated images/animations
@@ -69,49 +108,10 @@ model Animation {
   thumbnail             String   @default("")
   subtitle              String   @default("")
   loading               Boolean  @default(false)
-  Clip                  Clip?
   clipId                String   @unique
+  clip                  Clip     @relation(onDelete: Cascade, fields: [clipId], references: [id])
   createdAt             DateTime @default(now())
   updatedAt             DateTime @default(now())
-}
-
-// User uploaded video or given url
-model Video {
-  id        String   @id @default(cuid())
-  url       String   @default("")
-  startAt   String   @default("00:00") @db.VarChar(5)
-  endAt     String   @default("00:00") @db.VarChar(5)
-  duration  String   @default("00:00")
-  Clip      Clip?
-  clipId    String?  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-}
-
-// User uploaded image
-model Image {
-  id        String   @id @default(cuid())
-  order     Int      @default(0)
-  url       String   @default("")
-  Clip      Clip?    @relation(fields: [clipId], references: [id], onDelete: Cascade)
-  clipId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-
-  @@unique([clipId, order])
-}
-
-// text to audio
-model Audio {
-  id        String   @id @default(cuid())
-  text      String   @default("")
-  url       String   @default("")
-  duration  Int      @default(1)
-  loading   Boolean  @default(false)
-  clipId    String   @unique
-  Clip      Clip?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
 }
 
 // combined audio and animation/image/video(choose one)
@@ -120,20 +120,21 @@ model Film {
   url       String   @default("")
   duration  Int      @default(0)
   loading   Boolean  @default(false)
-  Clip      Clip?
   clipId    String   @unique
+  clip      Clip     @relation(fields: [clipId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 // artifact level movie, with audio and video
 model Movie {
-  id        String     @id @default(cuid())
-  url       String     @default("")
-  loading   Boolean    @default(false)
-  Artifact  Artifact[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now())
+  id         String   @id @default(cuid())
+  url        String   @default("")
+  loading    Boolean  @default(false)
+  artifact   Artifact @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  artifactId String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
 }
 
 // template for certain style of movie.
@@ -146,7 +147,7 @@ model Template {
   params       Json       @default("{}")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @default(now())
-  Artifact     Artifact[]
+  artifacts    Artifact[]
 }
 
 ///////////////////

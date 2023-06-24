@@ -28,6 +28,7 @@ RUN \
   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
+RUN yarn add @next/swc-linux-arm64-gnu@13.4.6
 
 COPY . .
 

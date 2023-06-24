@@ -1,14 +1,23 @@
 "use server";
 
-import { Prisma, Video } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
 
+import { Video } from "@prisma/client";
 import prisma from "@/prisma/prisma";
 import sanitize from 'sanitize-s3-objectkey';
 
-/***********
- * Video
- ***********/
+export const createVideo = async (clipId: string): Promise<Video> => {
+  const video = await prisma.video.create({
+    data: {
+      clip: {
+        connect: {
+          id: clipId
+        }
+      }
+    }
+  });
+  return video;
+};
 
 export const uploadVideo = async (data: FormData): Promise<Video | null> => {
   const file = data.get('file') as File;
@@ -57,7 +66,7 @@ const getVideoDuration = (fileBuffer: Buffer): string => {
   return duration;
 };
 
-export const updateVideo = async (video: Prisma.VideoCreateInput) => {
+export const updateVideo = async (video: Video) => {
   await prisma.video.update({
     where: {
       id: video.id

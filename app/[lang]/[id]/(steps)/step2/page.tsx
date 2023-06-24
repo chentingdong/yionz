@@ -30,8 +30,8 @@ export default async function VideoClips({ params }: PageProps) {
                 >
                   <span className="d-inline-block text-truncate col-7">
                     <b>Clip {clip.order} </b>
-                    <span>({clip.audio.text.match(patternEnglishChinese)?.length} words)</span>
-                    <span>: {clip.audio.text}</span>
+                    <span>({clip.audio?.text.match(patternEnglishChinese)?.length} words)</span>
+                    <span>: {clip.audio?.text}</span>
                   </span>
                 </button>
               </h2>

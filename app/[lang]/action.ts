@@ -55,6 +55,7 @@ export const getArtifact = async (id: string): Promise<ArtifactWithRelations | n
           audio: true,
           video: true,
           animation: true,
+          film: true,
           images: {
             orderBy: { order: "asc" },
           },
