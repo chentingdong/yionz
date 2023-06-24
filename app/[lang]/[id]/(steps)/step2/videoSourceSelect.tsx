@@ -25,7 +25,6 @@ export default function VideoSourceSelect({
     videoSource: string
   ) => {
     e.preventDefault();
-    console.log(videoSource);
     await updateClip({ id: clip.id, videoSource: videoSource });
   };
 

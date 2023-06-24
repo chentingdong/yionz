@@ -11,7 +11,6 @@ type Props = {
 };
 
 export default function CreateFilm({ film, translation }: Props) {
-  if (!film) return <div>Film not created</div>;
   return (<div>
     <div className="row">
       <div className="col-2 nav-pills">
@@ -25,10 +24,13 @@ export default function CreateFilm({ film, translation }: Props) {
         <div className="row">
           <div className="col-1">&nbsp;</div>
           <div className="col-10">
-            <video width="100%" height="auto" controls>
-              <source src={film?.url || " "} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            {film &&
+              <video width="100%" height="auto" controls>
+                <source src={film.url} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            }
+            {!film && <div>Clip video not created.</div>}
           </div>
           <div className="col-1">
             <ActionButton action="create" />
