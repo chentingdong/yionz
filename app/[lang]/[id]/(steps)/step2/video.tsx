@@ -1,5 +1,5 @@
 import { Template, Video } from "@prisma/client";
-import { deleteVideo, uploadVideo } from "./actions";
+import { deleteVideo, updateVideo, uploadVideo } from "./video.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
@@ -38,9 +38,10 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
     setLoading(false);
   };
 
-  const timeChangeHandler = (time: TimeRange) => {
-    console.log(time);
+  const timeChangeHandler = async (time: TimeRange) => {
     setTimeRange(time);
+    // TODO: need debounce here
+    await updateVideo({ ...video, startAt: time.start, endAt: time.end });
   };
 
   const handleDeleteVideo = async (id: string) => {
@@ -65,21 +66,29 @@ export default function CreateVideo({ video, artifactId, clipId }: Props) {
       <br />
       <div className="row">
         <div className="col-11">
-          <video width="100%" height="auto" controls>
-            <source src={video.url || " "} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          {video.url &&
-            <TimeRangeSlider
-              name={"timeRange"}
-              disabled={false}
-              format={24}
-              minValue={"00:00"}
-              maxValue={video.length}
-              step={1}
-              onChange={timeChangeHandler}
-              value={timeRange} />
-          }
+          <div className="row">
+            <video width="100%" height="auto" controls>
+              <source src={video.url || " "} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          {video.url && (
+            <div className="row">
+              <div className="col-1">{video.startAt}</div>
+              <TimeRangeSlider
+                className="col-10"
+                name={"timeRange"}
+                disabled={false}
+                draggableTrack={false}
+                format={24}
+                minValue={"00:00"}
+                maxValue={video.duration}
+                step={1}
+                onChange={timeChangeHandler}
+                value={timeRange} />
+              <div className="col-1">{video.endAt}</div>
+            </div>
+          )}
         </div>
         <div className="col-1">
           <ActionButton

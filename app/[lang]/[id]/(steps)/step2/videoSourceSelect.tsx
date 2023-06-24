@@ -5,7 +5,7 @@ import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
 import { Template } from "@prisma/client";
-import { updateClip } from "./actions";
+import { updateClip } from "./clip.actions";
 
 type Props = {
   clip: ClipWithRelationships;
@@ -97,6 +97,7 @@ export default function VideoSourceSelect({
       <div className="col-10 tab-content" id={`${clip.id}-tabContent`}>
         {tabs.map((tab, index) => (
           <div
+            key={index}
             className={`tab-pane fade show ${tab.nav === active ? "active" : ""
               }`}
             id={`${clip.id}-${tab.nav}`}

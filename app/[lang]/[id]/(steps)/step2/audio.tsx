@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAudio, generateAudio, updateAudioText } from "./actions";
+import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { Audio } from "@prisma/client";

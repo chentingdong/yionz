@@ -5,7 +5,7 @@ import { ArtifactWithRelations } from "./page";
 import { DebounceInput } from "react-debounce-input";
 import { Locale } from "@/i18n/i18n-config";
 import React from "react";
-import { initClips } from "../step2/actions";
+import { initClips } from "../step2/clip.actions";
 import { redirect } from "next/navigation";
 import { updateStory } from "./actions";
 import { useRouter } from 'next/navigation';

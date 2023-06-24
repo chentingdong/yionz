@@ -44,6 +44,8 @@ model Clip {
   film        Film        @relation(fields: [filmId], references: [id], onDelete: Cascade)
   filmId      String      @unique
   loading     Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now())
 
   @@unique([artifactId, order])
 }
@@ -56,70 +58,82 @@ enum VideoSource {
 
 // AI generated images/animations
 model Animation {
-  id                    String  @id @default(cuid())
-  prompt                String  @default("")
-  url                   String  @default("")
-  duration              Int     @default(0)
-  frameCount            Int     @default(1)
-  numInterpolationSteps Int     @default(1)
-  fps                   Int     @default(1)
-  seed                  Int     @default(42)
-  thumbnail             String  @default("")
-  subtitle              String  @default("")
-  loading               Boolean @default(false)
+  id                    String   @id @default(cuid())
+  prompt                String   @default("")
+  url                   String   @default("")
+  duration              Int      @default(0)
+  frameCount            Int      @default(1)
+  numInterpolationSteps Int      @default(1)
+  fps                   Int      @default(1)
+  seed                  Int      @default(42)
+  thumbnail             String   @default("")
+  subtitle              String   @default("")
+  loading               Boolean  @default(false)
   Clip                  Clip?
-  clipId                String  @unique
+  clipId                String   @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
 }
 
 // User uploaded video or given url
 model Video {
-  id      String  @id @default(cuid())
-  url     String  @default("")
-  startAt String  @default("00:00") @db.VarChar(5)
-  endAt   String  @default("00:00") @db.VarChar(5)
-  length  String  @default("00:00") @db.VarChar(5)
-  Clip    Clip?
-  clipId  String? @unique
+  id        String   @id @default(cuid())
+  url       String   @default("")
+  startAt   String   @default("00:00") @db.VarChar(5)
+  endAt     String   @default("00:00") @db.VarChar(5)
+  duration  String   @default("00:00")
+  Clip      Clip?
+  clipId    String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 // User uploaded image
 model Image {
-  id     String @id @default(cuid())
-  order  Int    @default(0)
-  url    String @default("")
-  Clip   Clip?  @relation(fields: [clipId], references: [id], onDelete: Cascade)
-  clipId String
+  id        String   @id @default(cuid())
+  order     Int      @default(0)
+  url       String   @default("")
+  Clip      Clip?    @relation(fields: [clipId], references: [id], onDelete: Cascade)
+  clipId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   @@unique([clipId, order])
 }
 
 // text to audio
 model Audio {
-  id       String  @id @default(cuid())
-  text     String  @default("")
-  url      String  @default("")
-  duration Int     @default(1)
-  loading  Boolean @default(false)
-  clipId   String  @unique
-  Clip     Clip?
+  id        String   @id @default(cuid())
+  text      String   @default("")
+  url       String   @default("")
+  duration  Int      @default(1)
+  loading   Boolean  @default(false)
+  clipId    String   @unique
+  Clip      Clip?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 // combined audio and animation/image/video(choose one)
 model Film {
-  id       String  @id @default(cuid())
-  url      String  @default("")
-  duration Int     @default(0)
-  loading  Boolean @default(false)
-  Clip     Clip?
-  clipId   String  @unique
+  id        String   @id @default(cuid())
+  url       String   @default("")
+  duration  Int      @default(0)
+  loading   Boolean  @default(false)
+  Clip      Clip?
+  clipId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 // artifact level movie, with audio and video
 model Movie {
-  id       String     @id @default(cuid())
-  url      String     @default("")
-  loading  Boolean    @default(false)
-  Artifact Artifact[]
+  id        String     @id @default(cuid())
+  url       String     @default("")
+  loading   Boolean    @default(false)
+  Artifact  Artifact[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
 }
 
 // template for certain style of movie.
