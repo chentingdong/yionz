@@ -21,5 +21,13 @@
     "btnMakeStory": "先编故事",
     "btnMakeAll": "一键生成",
     "btnNextStep": "下一步"
+  },
+  "step2Clip": {
+    "audio": "AI音频",
+    "videoSource": "视频来源",
+    "video": "原始视频",
+    "animation": "AI视频",
+    "images": "图片",
+    "film": "片段视频"
   }
 }
