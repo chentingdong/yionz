@@ -12,7 +12,8 @@
     "makeStory": "1: 编故事",
     "videoClips": "2: 视频片段",
     "makeMovie": "3: 视频合成",
-    "bso": "4: 发频道"
+    "bso": "4: 发频道",
+    "btnNextStep": "下一步"
   },
   "step1Story": {
     "title": "视频故事名",

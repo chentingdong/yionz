@@ -31,13 +31,14 @@ module.exports = {
         },
       ],
     });
-
     config.plugins.push(resolveFfmpegPlugin);
     config.plugins.push(
       new webpack.DefinePlugin({
         "process.env.FLUENTFFMPEG_COV": false,
       })
     );
+
+    config.module.exprContextCritical = false;
 
     //  return modified config
     return config;

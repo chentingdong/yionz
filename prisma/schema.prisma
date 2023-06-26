@@ -89,7 +89,8 @@ model Image {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  @@unique([clipId, order])
+  // need to update reorder one by one, so this will fail
+  // @@unique([clipId, order])
 }
 
 // AI generated images/animations
