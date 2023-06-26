@@ -1,12 +1,13 @@
 import { Image, Template } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
-import { deleteImage, uploadImage } from "./images.actions";
+import { deleteImage, updateImage, uploadImage } from "./images.actions";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
 import Loading from "@/app/components/loading";
 import React from "react";
-import arrayMove from "array-move";
+import arrayMoveImmuatable from "array-move";
 
 type Props = {
   images: Image[];
@@ -18,14 +19,15 @@ type Props = {
 
 export default function CreateImages({ images, artifactId, clipId }: Props) {
   const fileTypes = ["jpg", "jpeg", "png"];
-  const [items, setItems] = React.useState(images);
+  // const
+  const [items, setItems] = React.useState<Image[]>(images);
   const [loading, setLoading] = React.useState(false);
 
   const handleUploadImages = async (fileList: File[]) => {
     setLoading(true);
 
     // get the maximum order from images list, which is sorted asc.
-    let order = images.slice(-1)[0]?.order || -1;
+    let order = items.length;
 
     for (let file of fileList) {
       order++;
@@ -45,8 +47,9 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const onSortEnd = (oldIndex: number, newIndex: number) => {
-    setItems((array) => arrayMove(array, oldIndex, newIndex));
+  const onSortEnd = async (oldIndex: number, newIndex: number) => {
+    const dragged = await imagesReorder({ images: items.slice(), oldIndex, newIndex });
+    setItems(dragged);
   };
 
   return (
@@ -61,12 +64,14 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
             label="Drop images here."
           />
         </div>
-        <div className="col-1">{loading && <Loading size={20} />}</div>
+        <div className="col-1">
+          {loading && <Loading size={20} className="text-danger" />}
+        </div>
       </div>
       <SortableList
         onSortEnd={onSortEnd}
         className="d-flex flex-wrap user-select-none"
-        draggedItemClassName="opacity-75 shadow-lg"
+        draggedItemClassName="bg-light opacity-75 shadow-lg"
       >
         {items.map((item, index) => (
           <SortableItem key={index}>
@@ -80,6 +85,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
               <ActionButton
                 onClick={() => handleDeleteImage(item.id)}
                 action="delete"
+                size="sm"
                 className="position-absolute top-0 end-0"
               />
             </div>
@@ -89,3 +95,23 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
     </div>
   );
 }
+
+const imagesReorder = async ({
+  images,
+  oldIndex,
+  newIndex,
+}: {
+  images: Image[];
+  oldIndex: number;
+  newIndex: number;
+}): Promise<Images[]> => {
+  let dragged = arrayMoveImmuatable(images, oldIndex, newIndex);
+
+  for (let i = 0; i < dragged.length; i++) {
+    dragged[i].order = i;
+    await updateImage(dragged[i]);
+  }
+
+  dragged.sort((a, b) => a.order > b.order ? 1 : -1);
+  return dragged;
+};

@@ -79,11 +79,13 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             </audio>
           </div>
           <div className="col-1">
-            <ActionButton
-              action="delete"
-              title="Create audio based on text."
-              onClick={() => handleDeleteAudio(audio?.id)}
-            />
+            {audio?.url &&
+              <ActionButton
+                action="delete"
+                title="Create audio based on text."
+                onClick={() => handleDeleteAudio(audio?.id)}
+              />
+            }
           </div>
         </div>
       </div>

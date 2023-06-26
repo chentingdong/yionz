@@ -70,9 +70,10 @@ const combineAudioVideo = async (
   clip: ClipWithRelationships,
   video: string
 ): Promise<string | null> => {
-  console.log("Creating clip film from audio and images...:");
+  console.log("Creating clip film...");
   if (!clip || !clip.audio || !clip.images) return null;
 
+  // Delete if exist, it doesn't overwrite.
   const output = `${dir}/${clip.id}.clip.mp4`;
   if (fs.existsSync(output)) fs.unlinkSync(output);
 
@@ -111,37 +112,37 @@ const combineAudioVideo = async (
 
 const imagesToVideo = async (clip: ClipWithRelationships) => {
   // Delete if exist, it doesn't overwrite.
-  // if (fs.existsSync(output))
-  //   fs.unlinkSync(output);
   const output = `${dir}/${clip.id}.gif.mp4`;
   if (fs.existsSync(output)) fs.unlinkSync(output);
 
-  const converter = new Converter();
   const duration = clip.audio?.duration || clip.images.length;
+
+  const converter = new Converter();
   const input = converter.createInputStream({
     f: "image2pipe",
-    r: (clip.images.length - 1) / duration
+    framerate: clip.images.length / duration
   });
   converter.createOutputToFile(output, {
     vcodec: "libx264",
     pix_fmt: "yuv420p",
   });
+  const finished = converter.run();
 
-  clip.images
-    .map((image) => () => {
+  // pipe all the frames to the converter sequentially
+  for (let i = 0; i < clip.images.length; i++) {
+    const image = clip.images[i];
+    console.log(`processing image ${image.order} ...`);
+    // create a promise for every frame and await it
+    await new Promise((resolve, reject) => {
       const bucket = "yionz";
       const keyPath = new URL(image.url).pathname.substring(1);
-      return new Promise((resolve, reject) =>
-        s3
-          .getObject({ Bucket: bucket, Key: keyPath })
-          .createReadStream()
-          .on("end", resolve)
-          .on("error", reject)
-          .pipe(input, { end: false })
-      );
-    })
-    .reduce((prev, next) => prev.then(next), Promise.resolve())
-    .then(() => input.end());
-  await converter.run();
+      s3.getObject({ Bucket: bucket, Key: keyPath })
+        .createReadStream()
+        .on("end", resolve)
+        .on("error", reject)
+        .pipe(input, { end: i === clip.images.length - 1 });
+    });
+  }
+  await finished;
   return output;
 };

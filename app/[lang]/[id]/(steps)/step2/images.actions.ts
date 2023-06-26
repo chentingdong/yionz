@@ -6,6 +6,7 @@ import { Image } from "@prisma/client";
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import gm from 'gm';
 import prisma from "@/prisma/prisma";
+import { revalidatePath } from "next/cache";
 import sanitize from 'sanitize-s3-objectkey';
 
 export const uploadImage = async (data: FormData): Promise<Image | null> => {
@@ -28,26 +29,27 @@ export const uploadImage = async (data: FormData): Promise<Image | null> => {
       clipId: clipId
     });
 
-    const image = await prisma.image.upsert({
-      where: {
-        clipId_order: {
-          clipId: clipId,
-          order: order
-        }
-      },
-      create: {
+    const image = await prisma.image.create({
+      data: {
         clipId: clipId,
         order: order,
         url: url
-      },
-      update: {
-        url: url
       }
     });
+    revalidatePath(`${artifactId}/step2`);
     return image;
   } catch (error) {
     throw error;
   }
+};
+
+export const updateImage = async (image: Image) => {
+  await prisma.image.update({
+    where: {
+      id: image.id
+    },
+    data: image
+  });
 };
 
 export const deleteImage = async (id: string) => {
