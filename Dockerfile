@@ -10,7 +10,7 @@ RUN apt-get update -y && \
 
 # Install Node.js
 RUN apt-get install --yes curl
-RUN curl --silent --location https://deb.nodesource.com/setup_19.x | bash -
+RUN curl --silent --location https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install --yes nodejs
 
 # Install Yarn
@@ -32,7 +32,6 @@ RUN yarn add @next/swc-linux-arm64-gnu@13.4.6
 
 COPY . .
 
-RUN npx prisma generate
 RUN yarn build
 
 # Production image, copy all the files and run next

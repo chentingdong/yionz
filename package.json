@@ -9,12 +9,14 @@
     "@formatjs/intl-localematcher": "^0.2.32",
     "@next-auth/prisma-adapter": "^1.0.6",
     "@prisma/client": "^4.13.0",
+    "@types/fluent-ffmpeg": "^2.1.21",
     "accept-language-parser": "^1.5.0",
     "aws-sdk": "^2.1397.0",
     "bootstrap": "5",
     "bootswatch": "^5.2.3",
     "cuid": "^3.0.0",
     "date-fns": "^2.30.0",
+    "ffmpeg-stream": "^0.7.0",
     "fluent-ffmpeg": "^2.1.2",
     "get-video-duration": "^4.1.0",
     "gm": "^1.25.0",
@@ -44,7 +46,8 @@
     "server-only": "^0.0.1",
     "spawn-sync": "^2.0.0",
     "style-loader": "^3.3.3",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "webpack": "^5.88.0"
   },
   "devDependencies": {
     "@types/accept-language-parser": "^1.5.3",

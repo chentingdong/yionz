@@ -21,7 +21,7 @@ export default async function Header({ params, session }) {
             width={40}
             className="mx-2"
             src="/images/ctdartlab-logo.png"
-            alt="YIONZ"
+            alt=""
           />
           <span>YIONZ</span>
         </Link>
@@ -31,14 +31,15 @@ export default async function Header({ params, session }) {
       </nav>
       {/* navbar for mobile */}
       <nav className="navbar navbar-expand-md bg-primary navbar-dark d-md-none">
-        <Link className="navbar-brand mr-auto" href={`/${lang}`}>
-          <Image
+        <Link className="navbar-brand mr-auto d-flex" href={`/${lang}`}>
+          <img
+            className="mx-3 my-0"
             height={30}
             width={30}
             src="/images/ctdartlab-logo.png"
-            alt="YIONZ"
+            alt=""
           />{" "}
-          <span>YIONZ</span>
+          <div>YIONZ</div>
         </Link>
         <button
           className="navbar-toggler"

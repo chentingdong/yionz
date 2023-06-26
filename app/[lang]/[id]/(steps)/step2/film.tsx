@@ -1,13 +1,22 @@
-import { CreateFilmButton } from "@/app/components/buttons.client";
-import { Film } from "@prisma/client";
+"use client";
+
+import ActionButton from "@/app/components/buttons.action";
+import { ClipWithRelationships } from "./clip";
 import React from "react";
+import { generateFilm } from "./film.actions";
 
 type Props = {
-  film: Film | null;
+  clip: ClipWithRelationships;
   translation: any;
 };
 
-export default function CreateFilm({ film, translation }: Props) {
+export default function CreateFilm({ clip, translation }: Props) {
+  const [loading, setLoading] = React.useState(false);
+  const handleGenerateFilm = async () => {
+    setLoading(true);
+    await generateFilm(clip);
+    setLoading(true);
+  };
   return (
     <div>
       <div className="row">
@@ -22,16 +31,16 @@ export default function CreateFilm({ film, translation }: Props) {
           <div className="row">
             <div className="col-1">&nbsp;</div>
             <div className="col-10">
-              {film &&
+              {clip.film?.url &&
                 <video width="100%" height="auto" controls>
-                  <source src={film.url} type="video/mp4" />
+                  <source src={clip.film?.url || " "} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               }
-              {!film && <div>Clip video not created.</div>}
+              {!clip.film?.url && <div>Clip video not created.</div>}
             </div>
             <div className="col-1">
-              <CreateFilmButton id={film?.clipId} />
+              <ActionButton action="create" onClick={handleGenerateFilm} loading={loading} />
             </div>
           </div>
         </div>
