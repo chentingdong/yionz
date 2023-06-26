@@ -1,4 +1,4 @@
-import { Clip, Prisma, Template } from "@prisma/client";
+import { Prisma, Template } from "@prisma/client";
 
 import CreateAudio from "./audio";
 import CreateFilm from "./film";
@@ -37,7 +37,7 @@ export default function EditClip({ clip, template, translation }: Props) {
         translation={translation}
       />
       <hr />
-      <CreateFilm film={clip.film} translation={translation} />
+      <CreateFilm clip={clip} translation={translation} />
     </div>
   );
 }
