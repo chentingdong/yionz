@@ -35,16 +35,16 @@ export default function ActionButton({
   };
   return (
     <button
-      className={`btn btn-link rounded-circle p-0 ${className}`}
+      className={`btn rounded-circle p-0 ${className}`}
       onClick={onClick}
       title={title}
     >
-      {loading && <Loading size={sizeNumber(size)} />}
+      {loading && <Loading size={sizeNumber(size)} className="text-danger" />}
       {!loading && action === "delete" && (
-        <AiFillCloseCircle size={sizeNumber(size)} className="rounded-circle " />
+        <AiFillCloseCircle size={sizeNumber(size)} className="rounded-circle bg-danger" />
       )}
       {!loading && action === "create" && (
-        <AiFillPlusCircle size={sizeNumber(size)} className="rounded-circle " />
+        <AiFillPlusCircle size={sizeNumber(size)} className="rounded-circle bg-danger" />
       )}
     </button>
   );

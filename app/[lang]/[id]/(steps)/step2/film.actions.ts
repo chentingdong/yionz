@@ -39,7 +39,6 @@ export const generateFilm = async (clip?: ClipWithRelationships) => {
   if (!clip || !clip.audio || !clip.images) return;
   let video = "";
 
-  console.log(clip);
   // if videoSource is images, generate a gif as video.
   if (clip.videoSource === "images" && clip.images.length > 0)
     video = await imagesToVideo(clip);
@@ -48,7 +47,6 @@ export const generateFilm = async (clip?: ClipWithRelationships) => {
   else if (clip.videoSource === 'animation')
     video = clip.animation?.url as string;
 
-  console.log(video);
   // combine video and audio to film
   let output = await combineAudioVideo(clip, video);
   if (!output) return;
@@ -76,31 +74,36 @@ const combineAudioVideo = async (
   if (!clip || !clip.audio || !clip.images) return null;
 
   const output = `${dir}/${clip.id}.clip.mp4`;
+  if (fs.existsSync(output)) fs.unlinkSync(output);
 
   try {
     let command = ffmpeg();
 
     // add audio
-    command
-      .input(clip.audio.url || " ")
-      .input(video)
-      .audioCodec("libmp3lame")
-      .fps(25)
-      .videoCodec("libx264")
-      .videoBitrate("1024k")
-      .format("mp4")
-      .on("error", function (err: { message: string; }) {
-        console.log("An error occurred: " + err.message);
-      })
-      .on("end", function (err: { message: string; }) {
-        if (err) {
+    return new Promise((resolve, reject) => {
+      command
+        .input(clip.audio?.url || " ")
+        .input(video)
+        .audioCodec("libmp3lame")
+        .fps(25)
+        .videoCodec("libx264")
+        .videoBitrate("1024k")
+        .format("mp4")
+        .on("error", function (err: { message: string; }) {
           console.log("An error occurred: " + err.message);
-        } else {
-          console.log(`Successfully create clip film as stream`);
-        }
-      })
-      .save(output);
-    return output;
+          reject(err.message);
+        })
+        .on("end", function (err: { message: string; }) {
+          if (err) {
+            console.log("An error occurred: " + err.message);
+            reject(err.message);
+          } else {
+            console.log(`Successfully create clip film as stream`);
+          }
+          resolve(output);
+        })
+        .save(output);
+    });
   } catch (err) {
     throw err;
   }
@@ -111,6 +114,7 @@ const imagesToVideo = async (clip: ClipWithRelationships) => {
   // if (fs.existsSync(output))
   //   fs.unlinkSync(output);
   const output = `${dir}/${clip.id}.gif.mp4`;
+  if (fs.existsSync(output)) fs.unlinkSync(output);
 
   const converter = new Converter();
   const duration = clip.audio?.duration || clip.images.length;
