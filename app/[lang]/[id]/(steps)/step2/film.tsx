@@ -15,7 +15,7 @@ export default function CreateFilm({ clip, translation }: Props) {
   const handleGenerateFilm = async () => {
     setLoading(true);
     await generateFilm(clip);
-    setLoading(true);
+    setLoading(false);
   };
   return (
     <div>
