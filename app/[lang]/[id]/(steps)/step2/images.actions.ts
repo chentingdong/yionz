@@ -9,6 +9,14 @@ import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 import sanitize from 'sanitize-s3-objectkey';
 
+export const getImages = async (clipId: string): Promise<Image[]> => {
+  return await prisma.image.findMany({
+    where: {
+      clipId: clipId
+    },
+    orderBy: { order: "asc" }
+  });
+};
 export const uploadImage = async (data: FormData): Promise<Image | null> => {
   const file = data.get('file') as File;
   const artifactId = data.get('artifactId')?.toString();

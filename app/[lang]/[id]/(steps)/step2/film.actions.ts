@@ -7,6 +7,7 @@ import { Converter } from "ffmpeg-stream";
 import { Film } from "@prisma/client";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
+import { getImages } from "./images.actions";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -63,7 +64,6 @@ export const generateFilm = async (clip?: ClipWithRelationships) => {
   } catch (err) {
     throw err;
   }
-  revalidatePath(`/${clip.artifactId}`);
 };
 
 const combineAudioVideo = async (
@@ -99,7 +99,7 @@ const combineAudioVideo = async (
             console.log("An error occurred: " + err.message);
             reject(err.message);
           } else {
-            console.log(`Successfully create clip film as stream`);
+            console.log(`Successfully created clip film.`);
           }
           resolve(output);
         })
@@ -128,9 +128,12 @@ const imagesToVideo = async (clip: ClipWithRelationships) => {
   });
   const finished = converter.run();
 
+  // update images from server
+  const images = await getImages(clip.id);
+
   // pipe all the frames to the converter sequentially
-  for (let i = 0; i < clip.images.length; i++) {
-    const image = clip.images[i];
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
     console.log(`processing image ${image.order} ...`);
     // create a promise for every frame and await it
     await new Promise((resolve, reject) => {
@@ -140,7 +143,7 @@ const imagesToVideo = async (clip: ClipWithRelationships) => {
         .createReadStream()
         .on("end", resolve)
         .on("error", reject)
-        .pipe(input, { end: i === clip.images.length - 1 });
+        .pipe(input, { end: i === images.length - 1 });
     });
   }
   await finished;
