@@ -11,6 +11,7 @@ export const createAnimation = async (clipId: string): Promise<Animation> => {
   });
   return animation;
 };
+
 export const updateAnimationPrompt = async (clipId: string, text: string) => {
   await prisma.animation.upsert({
     where: {
@@ -25,4 +26,8 @@ export const updateAnimationPrompt = async (clipId: string, text: string) => {
       prompt: text,
     },
   });
+};
+
+export const generateAnimation = async (id: string) => {
+  console.log(id);
 };

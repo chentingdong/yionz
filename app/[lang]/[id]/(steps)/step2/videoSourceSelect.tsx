@@ -1,6 +1,7 @@
 "use client";
 
 import { ClipWithRelationships } from "./clip";
+import CreateAnimation from "./animation";
 import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
@@ -61,6 +62,13 @@ export default function VideoSourceSelect({
             artifactId={clip.artifactId}
             clipId={clip.id}
             template={template}
+            translation={translation}
+          />
+        );
+      case "animation":
+        return (
+          <CreateAnimation
+            clip={clip}
             translation={translation}
           />
         );
