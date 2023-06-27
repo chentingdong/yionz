@@ -1,13 +1,15 @@
 "use server";
 
 import { Animation } from "@prisma/client";
+import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import prisma from "@/prisma/prisma";
+import { sdTxt2Video } from "@/app/api/intenal/sdvideos";
 
 export const createAnimation = async (clipId: string): Promise<Animation> => {
   const animation = await prisma.animation.create({
     data: {
-      clipId: clipId
-    }
+      clipId: clipId,
+    },
   });
   return animation;
 };
@@ -28,6 +30,38 @@ export const updateAnimationPrompt = async (clipId: string, text: string) => {
   });
 };
 
-export const generateAnimation = async (id: string) => {
-  console.log(id);
+export const deleteAnimation = async (id: string) => {
+  await prisma.animation.delete({
+    where: {
+      id: id,
+    },
+  });
+};
+
+export const generateAnimation = async ({
+  id,
+  artifactId,
+}: {
+  id: string;
+  artifactId: string;
+}) => {
+  const animation = await prisma.animation.findUniqueOrThrow({
+    where: { id: id },
+  });
+  const template = await getArtifactTemplate(artifactId);
+  const instruction = (template?.instructions as Prisma.JsonObject).image;
+  const prompts = animation.prompt.split('.').map(p => `${instruction}. ${p}`);
+
+  const url = await sdTxt2Video({
+    prompts: prompts,
+    width: template?.width || 768,
+    height: template?.height || 512,
+    num_interpolation_steps: prompts.length,
+    fps: 30
+  });
+
+  await prisma.animation.update({
+    where: { id: id },
+    data: { url: url }
+  });
 };
