@@ -52,6 +52,7 @@ services:
     networks:
       - yionz
     command: ["yarn", "dev"]
+
 networks:
   yionz:
     external: true
