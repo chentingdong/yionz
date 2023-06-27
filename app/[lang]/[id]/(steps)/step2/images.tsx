@@ -1,7 +1,6 @@
 import { Image, Template } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
 import { deleteImage, updateImage, uploadImage } from "./images.actions";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
@@ -71,11 +70,12 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
       <SortableList
         onSortEnd={onSortEnd}
         className="d-flex flex-wrap user-select-none"
-        draggedItemClassName="bg-light opacity-75 shadow-lg"
+        // This is not working, looks like a ib bug.
+        draggedItemClassName="opacity-100"
       >
         {items.map((item, index) => (
           <SortableItem key={index}>
-            <div className="flex-shrink-0 display-flex m-2 cursor-move user-select-none position-relative">
+            <div className="m-2 position-relative" style={{ cursor: 'move' }} >
               <img
                 className="pe-none"
                 alt={item.order.toString()}
