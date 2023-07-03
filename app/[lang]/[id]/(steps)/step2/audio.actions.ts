@@ -2,10 +2,12 @@
 
 import { Audio, Prisma, Template } from "@prisma/client";
 import { s3Delete, s3Upload } from "@/app/api/services/s3";
+import fs from "fs";
 
 import { getArtifactTemplate } from "@/app/[lang]/templates/actions";
 import prisma from "@/prisma/prisma";
 import { textToSpeechPolly } from "@/app/api/services/polly";
+import mp3Duration from "mp3-duration";
 
 export const createAudio = async (clipId: string): Promise<Audio> => {
   const audio = await prisma.audio.create({
@@ -54,12 +56,15 @@ export const generateAudio = async ({
       clipId: audio.clipId
     });
 
+    const duration = Math.round(await mp3Duration(audioStream));
+
     await prisma.audio.update({
       where: {
         id: audio.id
       },
       data: {
-        url: url
+        url: url,
+        duration: duration
       }
     });
     return url;
@@ -116,3 +121,4 @@ const getVoiceParams = (template: Template): PollyParamsProps => {
     LanguageCode: awsPolly.LanguageCode as string || 'en-US'
   };
 };
+

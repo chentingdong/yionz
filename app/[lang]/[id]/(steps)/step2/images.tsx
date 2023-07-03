@@ -4,7 +4,7 @@ import { deleteImage, updateImage, uploadImage } from "./images.actions";
 
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
-import Loading from "@/app/components/loading";
+import { Loading } from "@/app/components/loading";
 import React from "react";
 import arrayMoveImmuatable from "array-move";
 

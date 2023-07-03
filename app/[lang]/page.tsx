@@ -1,7 +1,6 @@
 import { CreateArtifact, DeleteArtifact } from "../components/buttons.client";
 import { createArtifact, getArtifacts } from "./action";
 
-import ActionButton from "../components/buttons.action";
 import Link from "next/link";
 import { PageProps } from "./[id]/page";
 import { dateFormat } from "@/app/components/helpers";

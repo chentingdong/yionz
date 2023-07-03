@@ -19,6 +19,7 @@ export default function CreateFilm({ clip, translation }: Props) {
   };
   return (
     <div>
+      {/* <pre>{JSON.stringify(clip, null, 2)}</pre> */}
       <div className="row">
         <div className="col-2 nav-pills">
           <div className="row pe-3">

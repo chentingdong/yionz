@@ -11,7 +11,7 @@ import { getImages } from "./images.actions";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
-const dir = '/app/public/data';
+const dir = "/app/public/data";
 
 export const createFilm = async (clipId: string) => {
   await prisma.film.upsert({
@@ -28,26 +28,34 @@ export const createFilm = async (clipId: string) => {
 };
 
 export const updateFilm = async (film: Film) => {
-  await prisma.film.update({
+  await prisma.film.upsert({
     where: {
       clipId: film.clipId,
     },
-    data: film,
+    create: film,
+    update: film
   });
 };
 
 export const generateFilm = async (clip?: ClipWithRelationships) => {
   if (!clip || !clip.audio || !clip.images) return;
-  let video = "";
+  let video: string | null = null;
 
   // if videoSource is images, generate a gif as video.
-  if (clip.videoSource === "images" && clip.images.length > 0)
-    video = await imagesToVideo(clip);
-  else if (clip.videoSource === 'video')
-    video = clip.video?.url as string;
-  else if (clip.videoSource === 'animation')
-    video = clip.animation?.url as string;
+  switch(clip.videoSource) {
+    case "images":
+      if ( clip.images.length > 0 )
+        video = await imagesToVideo(clip);
+      break;
+    case "video":
+      video = clip.video?.url as string;
+      break;
+    case "animation":
+      video = clip.animation?.url as string;
+  }
 
+  if (!video) return;
+  
   // combine video and audio to film
   let output = await combineAudioVideo(clip, video);
   if (!output) return;
@@ -60,10 +68,16 @@ export const generateFilm = async (clip?: ClipWithRelationships) => {
       clipId: clip.id,
     });
 
-    await updateFilm({ ...(clip.film as Film), url: url });
+    await updateFilm({
+      ...(clip.film as Film),
+      clipId: clip.id,
+      url: url,
+      duration: clip.audio.duration,
+    });
   } catch (err) {
     throw err;
   }
+  revalidatePath(`/${clip.artifactId}`);
 };
 
 const combineAudioVideo = async (
@@ -90,11 +104,11 @@ const combineAudioVideo = async (
         .videoCodec("libx264")
         .videoBitrate("1024k")
         .format("mp4")
-        .on("error", function (err: { message: string; }) {
+        .on("error", function (err: { message: string }) {
           console.log("An error occurred: " + err.message);
           reject(err.message);
         })
-        .on("end", function (err: { message: string; }) {
+        .on("end", function (err: { message: string }) {
           if (err) {
             console.log("An error occurred: " + err.message);
             reject(err.message);
@@ -120,7 +134,7 @@ const imagesToVideo = async (clip: ClipWithRelationships) => {
   const converter = new Converter();
   const input = converter.createInputStream({
     f: "image2pipe",
-    framerate: clip.images.length / duration
+    framerate: clip.images.length / duration,
   });
   converter.createOutputToFile(output, {
     vcodec: "libx264",

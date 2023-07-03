@@ -72,7 +72,7 @@ model Video {
   url       String   @default("")
   startAt   String   @default("00:00") @db.VarChar(5)
   endAt     String   @default("00:00") @db.VarChar(5)
-  duration  String   @default("00:00")
+  duration  Int      @default(1)
   clipId    String   @unique
   clip      Clip     @relation(onDelete: Cascade, fields: [clipId], references: [id])
   createdAt DateTime @default(now())

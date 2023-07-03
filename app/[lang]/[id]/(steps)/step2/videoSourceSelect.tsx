@@ -49,9 +49,7 @@ export default function VideoSourceSelect({
       case "video":
         return (
           <CreateVideo
-            video={clip.video}
-            artifactId={clip.artifactId}
-            clipId={clip.id}
+            clip={clip}
             translation={translation}
           />
         );
