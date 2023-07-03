@@ -11,7 +11,7 @@ type Props = {
 export default function CreateAnimation({ clip, translation }: Props) {
   const handleGenerateAnimation = async (id?: string) => {
     if (!id) return;
-    await generateAnimation(id);
+    await generateAnimation({id: id, artifactId: clip.artifactId});
   };
 
   const handleDeleteAnimation = async (id?: string) => {
