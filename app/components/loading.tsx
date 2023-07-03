@@ -1,11 +1,12 @@
 import React from "react";
+import Skeleton from 'react-loading-skeleton'
 
 type Props = {
   className?: string;
   size?: number;
 };
 
-export default function Loading({ className, size = 32 }: Props) {
+export function Loading({ className, size = 32 }: Props) {
   return (
     <div
       className={`spinner-border text-primary ${className}`}
@@ -15,4 +16,9 @@ export default function Loading({ className, size = 32 }: Props) {
       <span className="sr-only" />
     </div>
   );
+}
+
+export function LoadingPage() {
+  // You can add any UI inside Loading, including a Skeleton.
+  return <Skeleton />
 }

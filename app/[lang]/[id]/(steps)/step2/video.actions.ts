@@ -51,15 +51,15 @@ export const uploadVideo = async (data: FormData): Promise<Video | null> => {
   }
 };
 
-const getVideoDuration = (fileBuffer: Buffer): string => {
+const getVideoDuration = (fileBuffer: Buffer): number => {
   const header = Buffer.from("mvhd");
   const start = fileBuffer.indexOf(header) + 17;
   const timeScale = fileBuffer.readUInt32BE(start);
   const length = fileBuffer.readUInt32BE(start + 4);
-  const seconds = Math.floor((length / timeScale) * 1000) / 1000;
-  const duration = new Date(seconds * 1000).toISOString().substring(14, 19);
+  const seconds = Math.floor((length / timeScale));
+  // const duration = new Date(seconds * 1000).toISOString().substring(14, 19);
 
-  return duration;
+  return seconds;
 };
 
 export const updateVideo = async (video: Video) => {

@@ -2,7 +2,7 @@
 
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 
-import Loading from "./loading";
+import { Loading } from "@/app/components/loading";
 import React from "react";
 
 type Props = {
