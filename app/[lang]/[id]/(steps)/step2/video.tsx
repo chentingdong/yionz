@@ -151,7 +151,6 @@ const convertTimeToSeconds = (time: string): number => {
  */
 const calculateTimeRange = (time: TimeRange, timeRange: Timerange, duration: number, durationVideo:number): TimeRange => {
   const changed = (time.start === timeRange.start) ? 'end' : 'start';
-
   const start0 = convertTimeToSeconds(time.start);
   const end0 = convertTimeToSeconds(time.end);
   if (durationVideo <= duration) return time;
