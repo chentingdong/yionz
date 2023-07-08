@@ -26,7 +26,7 @@
     "microsoft-cognitiveservices-speech-sdk": "^1.29.0",
     "mp3-duration": "^1.1.0",
     "negotiator": "^0.6.3",
-    "next": "^13.4.7",
+    "next": "^13.4.8",
     "next-auth": "^4.22.1",
     "next-s3-upload": "^0.3.0",
     "npm": "^9.7.1",

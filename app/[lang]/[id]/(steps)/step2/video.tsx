@@ -25,6 +25,15 @@ export default function CreateVideo({ clip, translation }: Props) {
     start: video?.startAt || "00:00",
     end: convertSecondsToTime(video?.duration) || video?.endAt || '00:00'
   });
+  const videoRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play();
+      videoRef.current.pause();
+    }
+  }, [video?.url]);
 
   const handleUploadVideo = async (file: File) => {
     setLoading(true);
@@ -73,7 +82,8 @@ export default function CreateVideo({ clip, translation }: Props) {
         <div className="col-1">&nbsp;</div>
         <div className="col-10">
           <video width="100%" height="auto" controls>
-            <source src={video?.url || " "} type="video/mp4" />
+            {video?.url && <source src={video?.url + '?' + Date.now()} type="video/mp4" /> } 
+            {!video?.url && <source src=" " type="video/mp4" />}
             Your browser does not support the video tag.
           </video>
         </div>
