@@ -10,6 +10,7 @@ import fs from "fs";
 import { getImages } from "./images.actions";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
+import { getArtifactTemplate } from '@/app/[lang]/templates/actions';
 
 const dir = "/app/public/data";
 
@@ -39,25 +40,25 @@ export const updateFilm = async (film: Film) => {
 
 export const generateFilm = async (clip?: ClipWithRelationships) => {
   if (!clip || !clip.audio || !clip.images) return;
-  let video: string | null = null;
+  let videoUrl: string | null = null;
 
   // if videoSource is images, generate a gif as video.
   switch(clip.videoSource) {
     case "images":
       if ( clip.images.length > 0 )
-        video = await imagesToVideo(clip);
+      videoUrl = await imagesToVideo(clip);
       break;
     case "video":
-      video = clip.video?.url as string;
+      videoUrl = clip.video?.url as string;
       break;
     case "animation":
-      video = clip.animation?.url as string;
+      videoUrl = clip.animation?.url as string;
   }
 
-  if (!video) return;
+  if (!videoUrl) return;
   
   // combine video and audio to film
-  let output = await combineAudioVideo(clip, video);
+  let output = await combineAudioVideo(clip, videoUrl);
   if (!output) return;
 
   try {
@@ -82,7 +83,7 @@ export const generateFilm = async (clip?: ClipWithRelationships) => {
 
 const combineAudioVideo = async (
   clip: ClipWithRelationships,
-  video: string
+  videoUrl: string
 ): Promise<string | null> => {
   console.log("Creating clip film...");
   if (!clip || !clip.audio || !clip.images) return null;
@@ -91,19 +92,20 @@ const combineAudioVideo = async (
   const output = `${dir}/${clip.id}.clip.mp4`;
   if (fs.existsSync(output)) fs.unlinkSync(output);
 
-  try {
-    let command = ffmpeg();
+  const template = await getArtifactTemplate(clip.artifactId);
 
-    // add audio
+  const command = ffmpeg();
+  try {
     return new Promise((resolve, reject) => {
       command
         .input(clip.audio?.url || " ")
-        .input(video)
+        .input(videoUrl)
         .audioCodec("libmp3lame")
         .fps(25)
         .videoCodec("libx264")
         .videoBitrate("1024k")
         .format("mp4")
+        .size(`${template?.width}x${template?.height}`)
         .on("error", function (err: { message: string }) {
           console.log("An error occurred: " + err.message);
           reject(err.message);
@@ -120,6 +122,7 @@ const combineAudioVideo = async (
         .save(output);
     });
   } catch (err) {
+    console.log(err);
     throw err;
   }
 };

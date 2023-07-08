@@ -11,12 +11,21 @@ type Props = {
 };
 
 export default function CreateFilm({ clip, translation }: Props) {
+  const film = clip.film;
   const [loading, setLoading] = React.useState(false);
   const handleGenerateFilm = async () => {
     setLoading(true);
     await generateFilm(clip);
     setLoading(false);
   };
+  const filmRef = React.useRef<any>(null);
+  React.useEffect(() => {
+    if (filmRef.current) {
+      filmRef.current.load();
+      filmRef.current.play();
+      filmRef.current.pause();
+    }
+  }, [film?.url]);
   return (
     <div>
       {/* <pre>{JSON.stringify(clip, null, 2)}</pre> */}
@@ -32,13 +41,14 @@ export default function CreateFilm({ clip, translation }: Props) {
           <div className="row">
             <div className="col-1">&nbsp;</div>
             <div className="col-10">
-              {clip.film?.url &&
+              {film?.url &&
                 <video width="100%" height="auto" controls>
-                  <source src={clip.film?.url || " "} type="video/mp4" />
+                  {film?.url && <source src={film?.url + '?' + Date.now()} type="video/mp4" /> }
+                  {!film?.url && <source src=" " type="video/mp4" /> }
                   Your browser does not support the video tag.
                 </video>
               }
-              {!clip.film?.url && <div>Clip video not created.</div>}
+              {!film?.url && <div>Clip video not created.</div>}
             </div>
             <div className="col-1">
               <ActionButton action="create" onClick={handleGenerateFilm} loading={loading} />
