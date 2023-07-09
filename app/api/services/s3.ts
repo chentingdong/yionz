@@ -18,9 +18,11 @@ export const s3Upload = async ({
   fileBuffer: AudioStream | ReadableStream | Buffer;
   filename: string;
   artifactId: string;
-  clipId: string;
+  clipId?: string;
 }): Promise<string> => {
-  const keyPath = `artifacts/${artifactId}/${clipId}/${filename}`;
+  const keyPath = clipId 
+    ? `artifacts/${artifactId}/${clipId}/${filename}`
+    : `artifacts/${artifactId}/${filename}`;
   const params = {
     Bucket: process.env.S3_UPLOAD_BUCKET || "yionz",
     Key: keyPath,

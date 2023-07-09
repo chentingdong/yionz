@@ -1,34 +1,29 @@
 import React from "react";
 import AppSteps from "@/app/[lang]/[id]/appSteps";
 import { PageProps } from "@/app/[lang]/[id]/page";
+import EditMovie from "./movie";
 import { getArtifact } from "@/app/[lang]/action";
 
 export default async function MakeMovie({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
+  if (!artifact) return <></>;
+  const { width, height } = artifact?.template;
 
   return (
-    <div>
+    <div className="container">
       <AppSteps params={params} />
-      <div className="container">
-        <div className="row g-0">
-          {artifact?.clips.map((clip, index) => (
-            <div className="col-3">
-              {clip.film?.url.includes("http") && (
-                <>
-                  <video width="100%" height="auto" controls>
-                    <source
-                      src={clip.film?.url + "?" + Date.now()}
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                  {clip.order}
-                </>
-              )}
-            </div>
-          ))}
+      <EditMovie {...artifact} />
+      {artifact.movie && (
+        <div className="d-flex justify-content-center">
+          <video width={width} height={height} controls>
+            <source
+              src={artifact.movie.url + "?" + Date.now()}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { randomUUID } from "crypto";
 export type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
   include: {
     template: true;
+    movie: true;
     clips: {
       include: {
         audio: true,
