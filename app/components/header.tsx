@@ -8,8 +8,7 @@ import React from "react";
 import Script from "next/script";
 import { getTranslation } from "@/i18n/translations";
 
-export default async function Header({ params, session }) {
-  const lang = params.lang as Locale;
+export default async function Header({ lang, session }) {
   const translation = await getTranslation(lang);
   return (
     <div>

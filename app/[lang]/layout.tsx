@@ -9,7 +9,7 @@ import { LoadingPage } from "@/app/components/loading";
 
 export default async function RootLayout({
   children,
-  params,
+  params: {lang},
 }: {
   children: React.ReactNode;
   params: { lang: Locale; };
@@ -21,9 +21,9 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={params.lang}>
+    <html lang={lang}>
       <body className="vh-100 d-flex flex-column justify-content-between">
-        <Header params={params} session={session} />
+        <Header lang={lang} session={session} />
         <Suspense fallback={<LoadingPage />}>
           <main className="flex-grow-1 overflow-auto">
             {children}
@@ -34,3 +34,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
