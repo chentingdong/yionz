@@ -7,7 +7,7 @@ export function getOptions (lang = fallbackLang, ns = defaultNS) {
     debug: false,
     supportedLngs: languages,
     fallbackLng: fallbackLang,
-    lng: "en",
+    lng: fallbackLang,
     fallbackNS: defaultNS,
     defaultNS,
     ns

@@ -6,6 +6,7 @@ import { getArtifact } from "@/app/[lang]/action";
 
 export default async function MakeMovie({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
+  params.step = 'step3'
   if (!artifact) return <></>;
   const { width, height } = artifact?.template;
 

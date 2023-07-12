@@ -8,10 +8,16 @@ const initI18next = async (lang: string, ns: string ) => {
   const i18nInstance = createInstance()
   await i18nInstance
     .use(initReactI18next)
-    .use(resourcesToBackend((lang: string, namespace: string) =>
-      import(`./translations/${lang}/${namespace}.json`)
+    .use(resourcesToBackend((language: string, namespace: string) =>
+      import(`./translations/${language}/${namespace}.json`)
     ))
-    .init(getOptions(lang, ns))
+    .init({
+      ...getOptions(),
+      lng: lang, 
+      detection: {
+        order: ['path', 'htmlTag', 'cookie', 'navigator'],
+      }
+    })    
   return i18nInstance
 }
 

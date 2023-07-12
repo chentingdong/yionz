@@ -1286,6 +1286,13 @@
   resolved "https://registry.yarnpkg.com/@ffprobe-installer/win32-x64/-/win32-x64-5.1.0.tgz#87841123e8b903cc327f1e5b9aa69e5d2fbe6d7b"
   integrity sha512-jMGYeAgkrdn4e2vvYt/qakgHRE3CPju4bn5TmdPfoAm1BlX1mY9cyMd8gf5vSzI8gH8Zq5WQAyAkmekX/8TSTg==
 
+"@formatjs/intl-localematcher@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@formatjs/intl-localematcher/-/intl-localematcher-0.4.0.tgz#63bbc37a7c3545a1bf1686072e51d9a3aed98d6b"
+  integrity sha512-bRTd+rKomvfdS4QDlVJ6TA/Jx1F2h/TBVO5LjvhQ7QPPHp19oPNMIum7W2CMEReq/zPxpmCeB31F9+5gl/qtvw==
+  dependencies:
+    tslib "^2.4.0"
+
 "@humanwhocodes/config-array@^0.11.10":
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.10.tgz#5a3ffe32cc9306365fb3fd572596cd602d5e12d2"
