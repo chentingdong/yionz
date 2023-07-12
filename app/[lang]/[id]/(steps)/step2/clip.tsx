@@ -16,28 +16,28 @@ export type ClipWithRelationships = Prisma.ClipGetPayload<{
 }>;
 
 type Props = {
+  lang: string;
   clip?: ClipWithRelationships;
   template: Template;
-  translation: any;
 };
 
-export default function EditClip({ clip, template, translation }: Props) {
+export default function EditClip({ lang, clip, template }: Props) {
   if (!clip) return <div>Clip not created.</div>;
   return (
     <div>
       <CreateAudio
+        lang={lang}
         audio={clip.audio}
         artifactId={clip.artifactId}
-        translation={translation}
       />
       <hr />
       <VideoSourceSelect
+        lang={lang}
         clip={clip}
         template={template}
-        translation={translation}
       />
       <hr />
-      <CreateFilm clip={clip} translation={translation} />
+      <CreateFilm clip={clip} lang={lang} />
     </div>
   );
 }

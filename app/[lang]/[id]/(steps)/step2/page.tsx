@@ -3,7 +3,6 @@ import EditClip from "./clip";
 import { PageProps } from "@/app/[lang]/[id]/page";
 import React from "react";
 import { getArtifact } from "@/app/[lang]/action";
-import { getTranslation } from "@/i18n/translations";
 
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
@@ -11,7 +10,6 @@ export default async function VideoClips({ params }: PageProps) {
   const defaultOpen = 1;
   const patternEnglishChinese = /[\u00ff-\uffff]|\S+/g;
   const defaultShow = (order: number) => order === defaultOpen ? 'show' : '';
-  const translation = await getTranslation(params.lang);
 
   return (
     <div>
@@ -42,7 +40,7 @@ export default async function VideoClips({ params }: PageProps) {
               // data-bs-parent="#clips" // comment out will open multiple.
               >
                 <div className="accordion-body">
-                  <EditClip clip={clip} template={artifact.template} translation={translation} />
+                  <EditClip lang={params.lang} clip={clip} template={artifact.template}  />
                 </div>
               </div>
             </div>

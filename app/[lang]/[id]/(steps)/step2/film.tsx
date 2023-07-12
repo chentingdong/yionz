@@ -4,14 +4,16 @@ import ActionButton from "@/app/components/buttons.action";
 import { ClipWithRelationships } from "./clip";
 import React from "react";
 import { generateFilm } from "./film.actions";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
+  lang: string
   clip: ClipWithRelationships;
-  translation: any;
 };
 
-export default function CreateFilm({ clip, translation }: Props) {
+export default function CreateFilm({ clip, lang }: Props) {
   const film = clip.film;
+  const { t } = useTranslation(lang)
   const [loading, setLoading] = React.useState(false);
   const handleGenerateFilm = async () => {
     setLoading(true);
@@ -33,7 +35,7 @@ export default function CreateFilm({ clip, translation }: Props) {
         <div className="col-2 nav-pills">
           <div className="row pe-3">
             <button className="nav-link active py-2 opacity-75 disabled">
-              {translation.step2Clip?.film}
+              {t('step2Clip.film')}
             </button>
           </div>
         </div>

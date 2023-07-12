@@ -7,19 +7,17 @@ import CreateVideo from "./video";
 import React from "react";
 import { Template } from "@prisma/client";
 import { updateClip } from "./clip.actions";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
+  lang: string;
   clip: ClipWithRelationships;
   template: Template;
-  translation: any;
 };
 
-export default function VideoSourceSelect({
-  clip,
-  template,
-  translation,
-}: Props) {
+export default function VideoSourceSelect({ lang, clip, template }: Props) {
   let active = clip.videoSource;
+  const { t } = useTranslation(lang)
 
   const setVideoSource = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -48,10 +46,7 @@ export default function VideoSourceSelect({
     switch (nav) {
       case "video":
         return (
-          <CreateVideo
-            clip={clip}
-            translation={translation}
-          />
+          <CreateVideo lang={lang} clip={clip} />
         );
       case "images":
         return (
@@ -60,7 +55,6 @@ export default function VideoSourceSelect({
             artifactId={clip.artifactId}
             clipId={clip.id}
             template={template}
-            translation={translation}
           />
         );
       case "animation":
@@ -95,7 +89,7 @@ export default function VideoSourceSelect({
             aria-selected={active === tab.nav}
             onClick={(e) => setVideoSource(e, tab.nav)}
           >
-            {translation.step2Clip[tab.nav]}
+            {t(`step2Clip[${tab.nav}]`)}
           </button>
         ))}
       </div>

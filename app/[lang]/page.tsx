@@ -1,31 +1,30 @@
 import { CreateArtifact, DeleteArtifact } from "../components/buttons.client";
-import { createArtifact, getArtifacts } from "./action";
-
+import { getArtifacts } from "./action";
 import Link from "next/link";
 import { PageProps } from "./[id]/page";
 import { dateFormat } from "@/app/components/helpers";
 import { format } from "date-fns";
-import { getTranslation } from "@/i18n/translations";
+import { useTranslation } from '@/i18n/i18n.server';
 
 export default async function Page({ params }: PageProps) {
   const artifacts = await getArtifacts();
-  const translation = await getTranslation(params.lang);
+  const { t } = await useTranslation(params.lang)
 
   return (
     <div className="container">
       <h3 className="d-flex justify-content-between">
-        {translation.landingPage.videoLibrary}
+        {t('landingPage.videoLibrary')}
         <CreateArtifact />
       </h3>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">{translation.landingPage.name}</th>
-            <th scope="col">{translation.landingPage.template}</th>
-            <th scope="col">{translation.landingPage.prompt}</th>
-            <th scope="col">{translation.landingPage.createdAt}</th>
-            <th scope="col">{translation.landingPage.video}</th>
-            <th scope="col">{translation.landingPage.action}</th>
+            <th scope="col">{t('landingPage.name')}</th>
+            <th scope="col">{t('landingPage.template')}</th>
+            <th scope="col">{t('landingPage.prompt')}</th>
+            <th scope="col">{t('landingPage.createdAt')}</th>
+            <th scope="col">{t('landingPage.video')}</th>
+            <th scope="col">{t('landingPage.action')}</th>
           </tr>
         </thead>
         <tbody>

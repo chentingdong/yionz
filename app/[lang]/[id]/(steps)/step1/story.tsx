@@ -2,20 +2,21 @@
 
 import { ArtifactWithRelations } from "./page";
 import { DebounceInput } from "react-debounce-input";
-import { Locale } from "@/i18n/i18n-config";
 import React from "react";
 import { initClips } from "../step2/clip.actions";
 import { updateStory } from "./actions";
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
-  lang: Locale;
+  lang: string;
   artifact: ArtifactWithRelations;
   translation: any;
 };
 
 const Story = ({ lang, translation, artifact }: Props) => {
   const router = useRouter();
+  const { t } = useTranslation(lang)
 
   const initializeClips = async () => {
     await initClips(artifact.id);
@@ -26,7 +27,7 @@ const Story = ({ lang, translation, artifact }: Props) => {
   return (
     <>
       <div className="flex-grow-1 d-flex flex-column my-2">
-        <label htmlFor="story">{translation.step1Story.story}:</label>
+        <label htmlFor="story">{t('step1Story.story')}:</label>
         <DebounceInput
           element="textarea"
           id="story"
@@ -47,7 +48,7 @@ const Story = ({ lang, translation, artifact }: Props) => {
           className="btn btn-primary"
           onClick={initializeClips}
         >
-          {translation.step1Story.btnNextStep}
+          {t('step1Story.btnNextStep')}
         </button>
       </div>
     </>

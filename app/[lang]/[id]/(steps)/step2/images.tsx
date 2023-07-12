@@ -7,17 +7,20 @@ import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import arrayMoveImmuatable from "array-move";
+import { useTranslation } from '@/i18n/i18n.server';
 
 type Props = {
   images: Image[];
   artifactId: string;
   clipId: string;
   template: Template;
-  translation: any;
+  lang: string
 };
 
-export default function CreateImages({ images, artifactId, clipId }: Props) {
+export default function CreateImages({ lang, images, artifactId, clipId }: Props) {
   const fileTypes = ["jpg", "jpeg", "png"];
+  const { t } = useTranslation(lang)
+
   // const
   const [items, setItems] = React.useState<Image[]>(images);
   const [loading, setLoading] = React.useState(false);
