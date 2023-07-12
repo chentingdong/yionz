@@ -3,18 +3,20 @@
 import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
 
 import ActionButton from "@/app/components/buttons.action";
+import { useTranslation } from '@/i18n/i18n.client';
 import { Audio } from "@prisma/client";
 import React from "react";
 
 type Props = {
+  lang: string;
   artifactId: string;
   audio: Audio | null;
-  translation: any;
 };
 
-export default function CreateAudio({ audio, artifactId, translation }: Props) {
+export default function CreateAudio({lang, audio, artifactId }: Props) {
   const [loading, setLoading] = React.useState(false);
   const audioRef = React.useRef<any>(null);
+  const { t } = useTranslation(lang)
 
   React.useEffect(() => {
     if (audioRef.current) {
@@ -50,7 +52,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
       <div className="col-2 nav-pills">
         <div className="row pe-3">
           <button className="nav-link active py-2 opacity-75 disabled">
-            {translation.step2Clip?.audio}
+            {t('step2Clip?.audio')}
           </button>
         </div>
       </div>

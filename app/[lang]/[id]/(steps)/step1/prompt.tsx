@@ -6,15 +6,18 @@ import { Artifact } from "@prisma/client";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
   artifact: Artifact,
-  translation: any,
+  lang: string
 };
-export default function Prompt({ artifact, translation }: Props) {
+export default function Prompt({ lang, artifact }: Props) {
+  const { t } = useTranslation(lang)
+
   return (
     <div>
-      <label htmlFor="prompt">{translation.step1Story.prompt}:</label>
+      <label htmlFor="prompt">{t('step1Story.prompt')}:</label>
       <div className="input-group">
         <DebounceInput
           element="textarea"
@@ -37,11 +40,11 @@ export default function Prompt({ artifact, translation }: Props) {
             title="create story"
             onClick={() => makeStory(artifact.id)}
           >
-            <BsFillChatTextFill /> {translation.step1Story.btnMakeStory}
+            <BsFillChatTextFill /> {t('step1Story.btnMakeStory')}
           </button>
           <br />
           <button className="btn btn-danger form-control" title="create all">
-            <BsFillChatTextFill /> {translation.step1Story.btnMakeAll}
+            <BsFillChatTextFill /> {t('step1Story.btnMakeAll')}
           </button>
         </div>
       </div>

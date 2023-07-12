@@ -9,13 +9,13 @@ import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { updateName } from "./actions";
 
 type Props = {
-  translation: any;
+  lang: string;
   artifact: ArtifactWithRelations;
   templates: Template[];
 };
 
 
-export default function Headline({ translation, artifact, templates }: Props) {
+export default function Headline({ lang, artifact, templates }: Props) {
   if (!artifact.id) return <></>;
   return (
     <div className="row my-2">

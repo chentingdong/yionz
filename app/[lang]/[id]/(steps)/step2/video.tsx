@@ -6,10 +6,11 @@ import { Loading } from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from 'react-time-range-slider';
 import debounce from 'underscore';
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
   clip: Clip;
-  translation: any;
+  lang: string;
 };
 
 type TimeRange = {
@@ -17,7 +18,8 @@ type TimeRange = {
   end: string;
 };
 
-export default function CreateVideo({ clip, translation }: Props) {
+export default function CreateVideo({ clip, lang }: Props) {
+  const { t } = useTranslation(lang)
   const video = clip.video;
   const fileTypes = ["mp4"];
   const [loading, setLoading] = React.useState(false);

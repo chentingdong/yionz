@@ -2,13 +2,12 @@
 
 import { ArtifactWithRelations } from "./[id]/(steps)/step1/page";
 import { authOptions } from "../api/auth/[...nextauth]/auth";
-import { getServerSession } from "next-auth/next";
+import { getServerSession } from 'next-auth/next';
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
 export const createArtifact = async () => {
   const session = await getServerSession(authOptions);
-
   const defaultTemplate = await prisma.template.findUnique({
     where: {
       name: 'default',
@@ -80,7 +79,6 @@ export const deleteArtifact = async (id: string) => {
 // GET all artifacts from db
 export const getArtifacts = async () => {
   const session = await getServerSession(authOptions);
-
   const artifacts = await prisma.artifact.findMany({
     where: {
       userId: session.user.id
