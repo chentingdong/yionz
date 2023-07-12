@@ -25,7 +25,6 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} dir={dir(lang)}>
-      {JSON.stringify(dir)}
       <body className="vh-100 d-flex flex-column justify-content-between">
         <Header lang={lang} session={session} />
         <Suspense fallback={<LoadingPage />}>

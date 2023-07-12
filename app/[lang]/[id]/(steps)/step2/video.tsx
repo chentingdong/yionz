@@ -1,12 +1,11 @@
 import { deleteVideo, updateVideo, uploadVideo } from "./video.actions";
-
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from 'react-time-range-slider';
 import debounce from 'underscore';
-import { useTranslation } from '@/i18n/i18n.client';
+import { useTranslation } from '@/i18n/i18n.server';
 
 type Props = {
   clip: Clip;

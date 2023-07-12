@@ -1,43 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server'
-import acceptLanguage from 'accept-language'
-import { fallbackLang, languages } from './i18n/settings';
+import { NextResponse } from "next/server";
+import acceptLanguage from "accept-language";
+import { fallbackLang, languages } from "./i18n/settings";
 
-acceptLanguage.languages(languages)
+acceptLanguage.languages(languages);
 
 export const config = {
   // matcher: '/:lang*'
-  matcher: ['/((?!api|_next/static|_next/image|images|favicon.ico).*)'],
-}
+  matcher: ["/((?!api|_next/static|_next/image|images|favicon.ico|sw.js).*)"],
+};
 
-// const cookieName = 'i18next'
+const cookieName = "i18next";
 
-export function middleware(req: NextRequest) {
-  let lang: string | null | undefined;
-  const pathname = req.nextUrl.pathname;
-
-  // if (req.cookies.has(cookieName)) lang = acceptLanguage.get(req.cookies.get(cookieName)?.value)
-  if (!lang) lang = acceptLanguage.get(req.headers.get('Accept-Language'))
-  if (!lang) lang = fallbackLang
+export function middleware(req) {
+  let lang;
+  if (req.cookies.has(cookieName))
+    lang = acceptLanguage.get(req.cookies.get(cookieName).value);
+  if (!lang) lang = acceptLanguage.get(req.headers.get("Accept-Language"));
+  if (!lang) lang = fallbackLang;
 
   // Redirect if lang in path is not supported
-  const pathnameMissingLang = 
-    !languages.some(loc => pathname.startsWith(`/${loc}`))
-      && pathname !== `/${lang}`
-      && !req.nextUrl.pathname.startsWith('/_next');
-
-    if ( pathnameMissingLang ) {
-    return NextResponse.redirect(new URL(`/${lang}${pathname}`, req.url))
+  if (
+    !languages.some((loc) => req.nextUrl.pathname.startsWith(`/${loc}`)) &&
+    !req.nextUrl.pathname.startsWith("/_next")
+  ) {
+    return NextResponse.redirect(
+      new URL(`/${lang}${req.nextUrl.pathname}`, req.url)
+    );
   }
 
-  // const refererUrl = new URL(req.headers?.get('referer'));
-  // if (refererUrl) {
-  //   const langInReferer = languages.find((l) => refererUrl.pathname.startsWith(`/${l}`))
-  //   const response = NextResponse.next()
-  //   // if (langInReferer) response.cookies.set(cookieName, langInReferer)
-  //   return response
-  // }
+  if (req.headers.has("referer")) {
+    const refererUrl = new URL(req.headers.get("referer"));
+    const langInReferer = languages.find((l) =>
+      refererUrl.pathname.startsWith(`/${l}`)
+    );
+    const response = NextResponse.next();
+    if (langInReferer) response.cookies.set(cookieName, langInReferer);
+    return response;
+  }
 
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 // import Negotiator from 'negotiator';
@@ -70,6 +71,8 @@ export function middleware(req: NextRequest) {
 //   if (pathnameIsMissingLocale) {
 //     const locale = getLocale(request);
 
+//     // e.g. incoming request is /products
+//     // The new URL is now /en-US/products
 //     return NextResponse.redirect(new URL(`/${locale}/${pathname}`, request.url));
 //   }
 // }
