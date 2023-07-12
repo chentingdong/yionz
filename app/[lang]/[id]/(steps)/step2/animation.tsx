@@ -6,9 +6,8 @@ import React from "react";
 
 type Props = {
   clip: ClipWithRelationships;
-  translation: any;
 };
-export default function CreateAnimation({ clip, translation }: Props) {
+export default function CreateAnimation({ clip }: Props) {
   const handleGenerateAnimation = async (id?: string) => {
     if (!id) return;
     await generateAnimation({id: id, artifactId: clip.artifactId});

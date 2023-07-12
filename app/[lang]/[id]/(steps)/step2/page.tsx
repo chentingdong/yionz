@@ -13,7 +13,7 @@ export default async function VideoClips({ params }: PageProps) {
 
   return (
     <div>
-      <AppSteps params={params} />
+      <AppSteps {...params} />
       <div className="container accordion" id="clips">
         {artifact?.clips.map((clip, index) => {
           return (

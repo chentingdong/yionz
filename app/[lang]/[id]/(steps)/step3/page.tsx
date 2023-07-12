@@ -11,7 +11,7 @@ export default async function MakeMovie({ params }: PageProps) {
 
   return (
     <div className="container">
-      <AppSteps params={params} />
+      <AppSteps {...params} />
       <EditMovie {...artifact} />
       {artifact.movie && (
         <div className="d-flex justify-content-center">

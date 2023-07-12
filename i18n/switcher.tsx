@@ -29,7 +29,7 @@ export default async function LanguageSwitcher({ lang }: {lang: string}) {
             className={`btn btn-sm m-1 ${btnClass(l)}`}
             href={`/${l}`}
           >              
-            {displayLanguage(l)}
+            {t(l)}
           </Link>
         )
       })}

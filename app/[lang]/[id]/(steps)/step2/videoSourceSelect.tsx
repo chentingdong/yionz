@@ -59,10 +59,7 @@ export default function VideoSourceSelect({ lang, clip, template }: Props) {
         );
       case "animation":
         return (
-          <CreateAnimation
-            clip={clip}
-            translation={translation}
-          />
+          <CreateAnimation clip={clip} />
         );
       default:
         return <div>Building</div>;
