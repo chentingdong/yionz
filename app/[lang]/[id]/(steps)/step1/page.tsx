@@ -26,7 +26,7 @@ export type ArtifactWithRelations = Prisma.ArtifactGetPayload<{
   };
 }>;
 
-export default async function MakeStory({ params }: PageProps) {
+export default async function MakeStory({params}: PageProps) {
   if (!params.id) params.id = randomUUID();
   const artifact = await getArtifact(params.id);
   const templates = await getTemplates();
@@ -36,7 +36,7 @@ export default async function MakeStory({ params }: PageProps) {
 
   return (
     <div className="container h-100 d-flex flex-column">
-      <AppSteps params={params} />
+      <AppSteps {...params} />
       <Headline
         lang={params.lang}
         artifact={artifact}

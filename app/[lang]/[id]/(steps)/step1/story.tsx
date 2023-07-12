@@ -11,10 +11,9 @@ import { useTranslation } from '@/i18n/i18n.client';
 type Props = {
   lang: string;
   artifact: ArtifactWithRelations;
-  translation: any;
 };
 
-const Story = ({ lang, translation, artifact }: Props) => {
+const Story = ({ lang, artifact }: Props) => {
   const router = useRouter();
   const { t } = useTranslation(lang)
 
