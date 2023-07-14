@@ -1,6 +1,12 @@
 {
   "zh": "中",
-  "title": "Video Library",
+  "header": {
+    "profile": "Profile",
+    "template": "Template",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "register": "Register"    
+  },
   "landingPage": {
     "videoLibrary": "Video Library",
     "name": "name",
@@ -18,19 +24,30 @@
     "btnNextStep": "create clips"
   },
   "step1Story": {
-    "title": "Video Story",
-    "prompt": "prompt",
-    "story": "story",
-    "btnMakeStory": "make story",
-    "btnMakeAll": "create all",
-    "btnNextStep": "create clips"
+    "name": "Name",
+    "template": "Template",
+    "prompt": "Prompt",
+    "story": "Story content",
+    "btnMakeStory": "Make a story",
+    "btnMakeAll": "Make all",
+    "btnNextStep": "Make clips"
   },
   "step2Clip": {
+    "clip": "Clip",
     "audio": "AI Audio",
     "videoSource": "Video source",
     "video": "Original Video",
     "animation": "AI Images",
     "images": "Images",
     "film": "Film"
+  },
+  "step3Movie": {
+    "noMovie": "No clip video."
+  },
+  "template": {
+    "title": "Templates",
+    "name": "Name",
+    "lastUpdated": "Last Updated",
+    "actions": "Actions"
   }
 }

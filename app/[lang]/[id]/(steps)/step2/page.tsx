@@ -3,9 +3,12 @@ import EditClip from "./clip";
 import { PageProps } from "@/app/[lang]/[id]/page";
 import React from "react";
 import { getArtifact } from "@/app/[lang]/action";
+import { useTranslation } from '@/i18n/i18n.server';
 
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
+  const { t } = await useTranslation(params.lang);
+
   params.step = "step2";
   const defaultOpen = 1;
   const patternEnglishChinese = /[\u00ff-\uffff]|\S+/g;
@@ -28,7 +31,7 @@ export default async function VideoClips({ params }: PageProps) {
                   aria-controls={clip.id}
                 >
                   <span className="d-inline-block text-truncate col-7">
-                    <b>Clip {clip.order} </b>
+                    <b>{t('step2Clip.clip')} {clip.order} : </b>
                     <span>({clip.audio?.text.match(patternEnglishChinese)?.length} words)</span>
                     <span>: {clip.audio?.text}</span>
                   </span>
