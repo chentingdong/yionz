@@ -16,13 +16,13 @@ export default async function MakeMovie({ params }: PageProps) {
       <EditMovie {...artifact} />
       {artifact.movie && (
         <div className="d-flex justify-content-center">
-          <video width={width} height={height} controls>
-            <source
-              src={artifact.movie.url + "?" + Date.now()}
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+          {artifact.movie?.url &&
+            <video width={width} height={height} controls>
+              <source src={artifact.movie.url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          }
+          {!artifact.movie?.url && <div>N/A</div>}
         </div>
       )}
     </div>

@@ -1,21 +1,15 @@
 "use client";
 
-import { ClipWithRelationships } from "./clip";
 import CreateAnimation from "./animation";
 import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
-import { Template } from "@prisma/client";
 import { updateClip } from "./clip.actions";
-import { useTranslation } from '@/i18n/i18n.client';
+// import { useTranslation } from '@/i18n/i18n.client';
+import { useTranslation } from "next-i18next";
+import {ClipProps} from './clip';
 
-type Props = {
-  lang: string;
-  clip: ClipWithRelationships;
-  template: Template;
-};
-
-export default function VideoSourceSelect({ lang, clip, template }: Props) {
+export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
   let active = clip.videoSource;
   const { t } = useTranslation(lang)
 
@@ -51,15 +45,14 @@ export default function VideoSourceSelect({ lang, clip, template }: Props) {
       case "images":
         return (
           <CreateImages
-            images={clip.images}
-            artifactId={clip.artifactId}
-            clipId={clip.id}
+            clip={clip}
+            lang={lang}
             template={template}
           />
         );
       case "animation":
         return (
-          <CreateAnimation clip={clip} />
+          <CreateAnimation lang={lang} clip={clip} />
         );
       default:
         return <div>Building</div>;
@@ -86,7 +79,7 @@ export default function VideoSourceSelect({ lang, clip, template }: Props) {
             aria-selected={active === tab.nav}
             onClick={(e) => setVideoSource(e, tab.nav)}
           >
-            {t(`step2Clip[${tab.nav}]`)}
+            {t(`step2Clip.${tab.nav}`)}
           </button>
         ))}
       </div>

@@ -19,17 +19,13 @@ export default async function EditMovie(artifact: ArtifactWithRelations) {
       <div className="row g-0">
         {artifact.clips?.map((clip, index) => (
           <div className="col-2" key={index}>
-            {clip.film?.url.includes("http") && (
-              <>
+            {clip.film?.url && 
                 <video width="100%" height="auto" controls>
-                  <source
-                    src={clip.film.url + "?" + Date.now()}
-                    type="video/mp4"
-                  />
+                  <source src={clip.film.url} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
-              </>
-            )}
+            }
+            {!clip.film?.url && <div>No movie</div>}
           </div>
         ))}
       </div>

@@ -1,12 +1,11 @@
 "use client";
 
 import { makeStory, updatePrompt } from "./actions";
-
 import { Artifact } from "@prisma/client";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
-import { useTranslation } from '@/i18n/i18n.client';
+import { useTranslation } from "next-i18next";
 
 type Props = {
   artifact: Artifact,
@@ -41,10 +40,6 @@ export default function Prompt({ lang, artifact }: Props) {
             onClick={() => makeStory(artifact.id)}
           >
             <BsFillChatTextFill /> {t('step1Story.btnMakeStory')}
-          </button>
-          <br />
-          <button className="btn btn-danger form-control" title="create all">
-            <BsFillChatTextFill /> {t('step1Story.btnMakeAll')}
           </button>
         </div>
       </div>

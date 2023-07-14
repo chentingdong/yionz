@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PageProps } from "./page";
 import React from "react";
 import { useTranslation } from '@/i18n/i18n.server';
 
@@ -9,7 +8,7 @@ type AppStepsProps = {
   step: string;
 };
 
-export default async function AppSteps({ lang, id, step }: PageProps) {
+export default async function AppSteps({ id, lang, step }: AppStepsProps) {
   const className = (st: string) => st === step ? 'btn btn-secondary' : 'btn btn-primary';
   const { t } = await useTranslation(lang)
 

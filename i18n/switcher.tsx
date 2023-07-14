@@ -11,7 +11,7 @@ export default async function LanguageSwitcher({ lang }: {lang: string}) {
 
   return (
     <div className="d-flex mx-2">
-      {languages.map((l, index) => {
+      {languages.filter((l) => lang !== l).map((l, index) => {
         return (
           <Link
             key={index}

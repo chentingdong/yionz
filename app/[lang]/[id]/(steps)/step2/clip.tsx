@@ -15,10 +15,10 @@ export type ClipWithRelationships = Prisma.ClipGetPayload<{
   };
 }>;
 
-type Props = {
+export type ClipProps = {
   lang: string;
-  clip?: ClipWithRelationships;
-  template: Template;
+  clip: ClipWithRelationships;
+  template?: Template;
 };
 
 export default function EditClip({ lang, clip, template }: Props) {
@@ -27,7 +27,7 @@ export default function EditClip({ lang, clip, template }: Props) {
     <div>
       <CreateAudio
         lang={lang}
-        audio={clip.audio}
+        clip={clip}
         artifactId={clip.artifactId}
       />
       <hr />
