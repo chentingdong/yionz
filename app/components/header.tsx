@@ -4,7 +4,6 @@ import LanguageSwitcher from "@/i18n/switcher";
 import Link from "next/link";
 import React from "react";
 import Script from "next/script";
-import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 
 export default async function Header({ lang, session }) {
   return (
@@ -56,7 +55,7 @@ export default async function Header({ lang, session }) {
         </ul>
       </div>
       {/* Strange workaround here to make navbar collapse work.*/}
-      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" />
+      {/* <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" /> */}
     </div>
   );
 }

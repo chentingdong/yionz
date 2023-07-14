@@ -7,6 +7,7 @@ import { initClips } from "../step2/clip.actions";
 import { updateStory } from "./actions";
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '@/i18n/i18n.client';
+import { BsFillChatTextFill } from "react-icons/bs";
 
 type Props = {
   lang: string;
@@ -43,6 +44,9 @@ const Story = ({ lang, artifact }: Props) => {
         />
       </div>
       <div className="d-flex flex-row-reverse my-2">
+        <button className="btn btn-danger" title="create all">
+          <BsFillChatTextFill /> {t('step1Story.btnMakeAll')}
+        </button>
         <button
           className="btn btn-primary"
           onClick={initializeClips}

@@ -30,11 +30,6 @@ export const authOptions = {
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60,
-  },
   callbacks: {
     async session({ session, user, token }) {
       if (session?.user && user) {

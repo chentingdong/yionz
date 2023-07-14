@@ -1,44 +1,50 @@
 import { deleteAnimation, generateAnimation } from "./animation.actions";
 
 import ActionButton from "@/app/components/buttons.action";
-import { ClipWithRelationships } from "./clip";
 import React from "react";
+import {ClipProps} from './clip';
 
-type Props = {
-  clip: ClipWithRelationships;
-};
-export default function CreateAnimation({ clip }: Props) {
+export default function CreateAnimation({ clip }: ClipProps) {
+  const animation = clip.animation;
+  const [loading, setLoading] = React.useState(false);
+
   const handleGenerateAnimation = async (id?: string) => {
+    setLoading(true);
     if (!id) return;
     await generateAnimation({id: id, artifactId: clip.artifactId});
+    setLoading(true);
   };
 
   const handleDeleteAnimation = async (id?: string) => {
+    setLoading(true);
     if (!id) return;
     await deleteAnimation(id);
+    setLoading(false);
   };
 
   return (
-
     <div className="row">
       <div className="col-1">&nbsp;</div>
       <div className="col-10">
-        {clip.animation?.url &&
+        {animation?.url &&
           <video width="100%" height="auto" controls>
-            <source src={clip.animation.url} type="video/mp4" />
+            <source src={animation.url} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         }
-        {!clip.animation?.url && <div>No AI animation created</div>}
+        {!animation?.url && <div>No AI animation created</div>}
       </div>
       <div className="col-1">
-        {!clip.animation?.url &&
-          <ActionButton action="create" onClick={(e) => handleGenerateAnimation(clip.animation?.id)} />
+        {!animation?.url &&
+          <ActionButton 
+            action="create" onClick={(e) => handleGenerateAnimation(clip.animation?.id)} 
+            loading={loading}/>
         }
-        {clip.animation?.url &&
+        {animation?.url &&
           <ActionButton
             action="delete"
             onClick={(e) => handleDeleteAnimation(clip.animation?.id)}
+            loading={loading}
           />
         }
       </div>

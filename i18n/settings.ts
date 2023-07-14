@@ -7,9 +7,11 @@ export function getOptions (lang = fallbackLang, ns = defaultNS) {
     debug: false,
     supportedLngs: languages,
     fallbackLng: fallbackLang,
-    lng: fallbackLang,
+    lng: lang,
     fallbackNS: defaultNS,
     defaultNS,
-    ns
+    react: {
+      useSuspense: false, 
+    }
   }
 }
