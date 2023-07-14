@@ -5,10 +5,8 @@
  */
 
 import { createArtifact, deleteArtifact } from "../[lang]/action";
-
 import ActionButton from "./buttons.action";
 import { createTemplate } from "../[lang]/templates/actions";
-import { generateMovie } from '../[lang]/[id]/(steps)/step3/movie.action';
 
 // Called from server component
 export function DeleteArtifact({ id }: { id: string; }) {

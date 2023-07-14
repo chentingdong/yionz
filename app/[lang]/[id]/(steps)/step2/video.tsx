@@ -6,7 +6,6 @@ import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from "react-time-range-slider";
-// import { useTranslation } from "@/i18n/i18n.client";
 import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {

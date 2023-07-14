@@ -4,8 +4,10 @@ import LanguageSwitcher from "@/i18n/switcher";
 import Link from "next/link";
 import React from "react";
 import Script from "next/script";
+import { useTranslation } from '@/i18n/i18n.server';
 
 export default async function Header({ lang, session }) {
+  const { t } = await useTranslation(lang);
   return (
     <div>
       {/* navbar for desktop */}
@@ -55,12 +57,13 @@ export default async function Header({ lang, session }) {
         </ul>
       </div>
       {/* Strange workaround here to make navbar collapse work.*/}
-      {/* <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" /> */}
+      <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" />
     </div>
   );
 }
 
 const MainMenu = async ({ lang, session}) => {
+  const { t } = await useTranslation(lang);
   return (
     <>
       <li className="nav-item">
@@ -68,17 +71,17 @@ const MainMenu = async ({ lang, session}) => {
       </li>
       {!session && (
         <li className="nav-item">
-          <LoginButton />
+          <LoginButton lang={lang} />
         </li>
       )}
       {!!session && (
         <>
           <li className="nav-item">
-            <ProfileButton />
+            <ProfileButton lang={lang}/>
           </li>
           <li className="nav-item">
             <Link className="btn" href="/templates">
-              Templates
+              {t('header.template')}
             </Link>
           </li>
           <li className="nav-item">
