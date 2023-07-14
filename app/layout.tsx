@@ -8,7 +8,7 @@ export default async function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={lang}>
+    <html lang={lang} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

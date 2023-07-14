@@ -6,6 +6,7 @@ import { getArtifact } from "@/app/[lang]/action";
 import prisma from "@/prisma/prisma";
 import { updateAnimationPrompt } from "./animation.actions";
 import { updateAudioText } from "./audio.actions";
+import { revalidatePath } from 'next/cache';
 
 export const initClips = async (artifactId: string) => {
   const artifact = await getArtifact(artifactId);
@@ -72,6 +73,8 @@ export const updateClip = async (clip: any) => {
     },
     data: clip
   });
+
+  revalidatePath(`/${clip.artifactId}`);
 };
 
 const updateClipText = async ({

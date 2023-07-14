@@ -5,13 +5,19 @@ import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
 import { updateClip } from "./clip.actions";
-// import { useTranslation } from '@/i18n/i18n.client';
-import { useTranslation } from "next-i18next";
 import {ClipProps} from './clip';
+import { useTranslation } from '@/i18n/i18n.client';
 
+type Tab = {
+  nav: string;
+  content: string;
+}
 export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
-  let active = clip.videoSource;
   const { t } = useTranslation(lang)
+
+  const active = (tab: Tab) => {
+    return tab.nav === clip.videoSource ? "active" : "";
+  }
 
   const setVideoSource = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -58,6 +64,7 @@ export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
         return <div>Building</div>;
     }
   };
+
   return (
     <div className="row">
       <div
@@ -69,14 +76,14 @@ export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`nav-link ${tab.nav === active ? "active" : ""}`}
+            className={`nav-link ${active(tab)}`}
             id={`${clip.id}-${tab.nav}-tab`}
             data-bs-toggle="pill"
             data-bs-target={`#${clip.id}-${tab.nav}`}
             type="button"
             role="tab"
             aria-controls={`${clip.id}-${tab.nav}`}
-            aria-selected={active === tab.nav}
+            aria-selected={clip.videoSource === tab.nav}
             onClick={(e) => setVideoSource(e, tab.nav)}
           >
             {t(`step2Clip.${tab.nav}`)}
@@ -87,8 +94,7 @@ export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`tab-pane fade show ${tab.nav === active ? "active" : ""
-              }`}
+            className={`tab-pane fade show ${active(tab)}`}
             id={`${clip.id}-${tab.nav}`}
             role="tabpanel"
             aria-labelledby={`${clip.id}-${tab.nav}-tab`}

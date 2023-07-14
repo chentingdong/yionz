@@ -1,4 +1,5 @@
 "use server";
+
 import Footer from "@/app/components/footer";
 import Header from "@/app/components/header";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
@@ -23,7 +24,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={lang} dir={dir(lang)} suppressHydrationWarning={true}>
+    <html lang={lang} dir={dir(lang)} suppressHydrationWarning>
       <body className="vh-100 d-flex flex-column justify-content-between">
         <Header lang={lang} session={session} />
         <Suspense fallback={<LoadingPage />}>

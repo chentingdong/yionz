@@ -10,8 +10,12 @@ export function getOptions (lang = fallbackLang, ns = defaultNS) {
     lng: lang,
     fallbackNS: defaultNS,
     defaultNS,
+    detection: {
+      // list of htmlTag, 'cookie', 'navigator', 'path'.
+      order: ['htmlTag'], 
+    },
     react: {
-      useSuspense: false, 
+      useSuspense: true, 
     }
   }
 }

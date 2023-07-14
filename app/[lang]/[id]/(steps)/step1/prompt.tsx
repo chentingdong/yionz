@@ -5,7 +5,7 @@ import { Artifact } from "@prisma/client";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
   artifact: Artifact,

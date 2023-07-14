@@ -3,7 +3,7 @@
 import ActionButton from "@/app/components/buttons.action";
 import React from "react";
 import { generateFilm } from "./film.actions";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from '@/i18n/i18n.client';
 
 import {ClipProps} from './clip';
 
