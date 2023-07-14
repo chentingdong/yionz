@@ -7,7 +7,7 @@ import { Loading } from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from "react-time-range-slider";
 // import { useTranslation } from "@/i18n/i18n.client";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
   clip: Clip;
