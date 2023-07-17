@@ -1,34 +1,30 @@
 import Link from "next/link";
-import { PageProps } from "./page";
 import React from "react";
-import { getTranslation } from "@/i18n/translations";
+import { useTranslation } from '@/i18n/i18n.server';
 
 type AppStepsProps = {
-  params: {
-    lang: Locale;
-    id: string;
-    step: string;
-  };
-  translation: any;
+  lang: string;
+  id: string;
+  step: string;
 };
 
-export default async function AppSteps({ params }: PageProps) {
-  const translation = await getTranslation(params.lang);
-  const className = (step: string) => params.step === step ? 'btn btn-secondary' : 'btn btn-primary';
+export default async function AppSteps({ id, lang, step }: AppStepsProps) {
+  const className = (st: string) => st === step ? 'btn btn-secondary' : 'btn btn-primary';
+  const { t } = await useTranslation(lang)
 
   return (
     <div className="container d-flex w-100 justify-content-between my-2" id="steps">
-      <Link className={className('step1')} href={`/${params.lang}/${params.id}/step1`}>
-        {translation.appSteps.makeStory}
+      <Link className={className('step1')} href={`/${lang}/${id}/step1`}>
+        {t('appSteps.makeStory')}
       </Link>
-      <Link className={className('step2')} href={`/${params.lang}/${params.id}/step2`}>
-        {translation.appSteps.videoClips}
+      <Link className={className('step2')} href={`/${lang}/${id}/step2`}>
+        {t('appSteps.videoClips')}
       </Link>
-      <Link className={className('step3')} href={`/${params.lang}/${params.id}/step3`}>
-        {translation.appSteps.makeMovie}
+      <Link className={className('step3')} href={`/${lang}/${id}/step3`}>
+        {t('appSteps.makeMovie')}
       </Link>
-      <Link className={className('step4')} href={`/${params.lang}/${params.id}/step4`}>
-        {translation.appSteps.bso}
+      <Link className={className('step4')} href={`/${lang}/${id}/step4`}>
+        {t('appSteps.bso')}
       </Link>
     </div >
   );

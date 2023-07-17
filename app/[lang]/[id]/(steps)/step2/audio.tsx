@@ -3,26 +3,29 @@
 import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
 
 import ActionButton from "@/app/components/buttons.action";
-import { Audio } from "@prisma/client";
+import { useTranslation } from '@/i18n/i18n.client';
 import React from "react";
 
 type Props = {
+  lang: string;
   artifactId: string;
-  audio: Audio | null;
-  translation: any;
+  clip: ClipWithRelationships;
 };
 
-export default function CreateAudio({ audio, artifactId, translation }: Props) {
+export default function CreateAudio({lang, clip }: Props) {
+  const audio = clip.audio;
   const [loading, setLoading] = React.useState(false);
   const audioRef = React.useRef<any>(null);
+  const { t } = useTranslation(lang)
 
-  React.useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.play();
-      audioRef.current.pause();
-    }
-  }, [audio?.url]);
+  // React.useEffect(() => {
+    // const audioRef = React.useRef<any>(null);
+    //   if (audioRef.current) {
+  //     audioRef.current.load();
+  //     audioRef.current.play();
+  //     audioRef.current.pause();
+  //   }
+  // }, [audio]);
 
   const handleGenerateAudio = async () => {
     setLoading(true);
@@ -30,7 +33,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
     try {
       const url = await generateAudio({
         audio: audio,
-        artifactId: artifactId,
+        artifactId: clip.artifactId,
       });
       audio.url = url;
     } catch (err) {
@@ -50,7 +53,7 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
       <div className="col-2 nav-pills">
         <div className="row pe-3">
           <button className="nav-link active py-2 opacity-75 disabled">
-            {translation.step2Clip?.audio}
+            {t('step2Clip.audio')}
           </button>
         </div>
       </div>
@@ -73,10 +76,13 @@ export default function CreateAudio({ audio, artifactId, translation }: Props) {
             />
           </div>
           <div className="col-11">
-            <audio controls className="w-100" ref={audioRef}>
-              <source src={audio?.url || " "} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
+            {audio?.url && 
+              <audio controls className="w-100" ref={audioRef}>
+                <source src={audio?.url} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            }
+            {!audio?.url && <div>No audio</div>}
           </div>
           <div className="col-1">
             {audio?.url &&

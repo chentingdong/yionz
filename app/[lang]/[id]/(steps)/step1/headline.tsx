@@ -7,20 +7,23 @@ import { DebounceInput } from "react-debounce-input";
 import React from "react";
 import TemplatesSelect from "@/app/[lang]/templates/templatesSelect";
 import { updateName } from "./actions";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
-  translation: any;
+  lang: string;
   artifact: ArtifactWithRelations;
   templates: Template[];
 };
 
 
-export default function Headline({ translation, artifact, templates }: Props) {
+export default function Headline({ lang, artifact, templates }: Props) {
   if (!artifact.id) return <></>;
+  const { t } = useTranslation(lang);
+
   return (
     <div className="row my-2">
       <div className="col-4">
-        <label>name:</label>
+        <label>{t('step1Story.name')}:</label>
         <DebounceInput
           element="input"
           className="form-control"
@@ -37,7 +40,7 @@ export default function Headline({ translation, artifact, templates }: Props) {
         />
       </div>
       <div className="col-4">
-        <label>template:</label>
+        <label>{t('step1Story.template')}:</label>
         <TemplatesSelect
           id={artifact.id}
           templates={templates}

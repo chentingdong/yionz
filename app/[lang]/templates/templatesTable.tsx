@@ -8,26 +8,29 @@ import { CreateTemplate } from "@/app/components/buttons.client";
 import { DebounceInput } from "react-debounce-input";
 import React from "react";
 import { Template } from "@prisma/client";
+import { useTranslation } from '@/i18n/i18n.client';
 
 type Props = {
+  lang: string,
   templates?: Template[];
 };
 
-export default function TemplatesTable({ templates }: Props) {
+export default function TemplatesTable({ lang, templates }: Props) {
+  const { t } = useTranslation(lang);
   const columns = [
     {
       dataField: "name",
-      text: "Name",
+      text: t('template.name'),
     },
     {
       dataField: "updatedAt",
-      text: "Last Updated",
+      text: t('template.lastUpdated'),
       // formatter: (updatedAt) => format(updatedAt.getTime(), dateFormat.display)
       formatter: (updatedAt) => updatedAt.getTime(),
     },
     {
       dataField: "id",
-      text: "Actions",
+      text:  t('template.actions'),
       formatter: (id: string) => (
         <div className="col-1">
           <ActionButton
@@ -120,7 +123,7 @@ export default function TemplatesTable({ templates }: Props) {
   return (
     <div className="container">
       <h3 className="d-flex justify-content-between">
-        Templates
+        {t('template.title')}
         <CreateTemplate />
       </h3>
       <BootstrapTable
