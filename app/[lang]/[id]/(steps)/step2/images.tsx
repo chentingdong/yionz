@@ -1,3 +1,5 @@
+"user client";
+
 import { Image, Template } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
 import { deleteImage, updateImage, uploadImage } from "./images.actions";
@@ -7,23 +9,19 @@ import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import arrayMoveImmuatable from "array-move";
+import { useTranslation } from '@/i18n/i18n.server';
 
-type Props = {
-  images: Image[];
-  artifactId: string;
-  clipId: string;
-  template: Template;
-  translation: any;
-};
-
-export default function CreateImages({ images, artifactId, clipId }: Props) {
+export default function CreateImages({ lang, clip, template }: ClipProps) {
+  const {images, id: clipId, artifactId} = clip
   const fileTypes = ["jpg", "jpeg", "png"];
+  const { t } = useTranslation(lang)
+
   // const
   const [items, setItems] = React.useState<Image[]>(images);
-  const [loading, setLoading] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
 
   const handleUploadImages = async (fileList: File[]) => {
-    setLoading(true);
+    // setLoading(true);
 
     // get the maximum order from images list, which is sorted asc.
     let order = items.length;
@@ -38,7 +36,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
       const image = await uploadImage(formData);
       if (image) setItems((items) => [...items, image]);
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   const handleDeleteImage = async (id: string) => {
@@ -64,7 +62,7 @@ export default function CreateImages({ images, artifactId, clipId }: Props) {
           />
         </div>
         <div className="col-1">
-          {loading && <Loading size={20} className="text-danger" />}
+          {false && <Loading size={20} className="text-danger" />}
         </div>
       </div>
       <SortableList

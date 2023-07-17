@@ -1,25 +1,23 @@
 "use client";
 
-import { ClipWithRelationships } from "./clip";
 import CreateAnimation from "./animation";
 import CreateImages from "./images";
 import CreateVideo from "./video";
 import React from "react";
-import { Template } from "@prisma/client";
 import { updateClip } from "./clip.actions";
+import {ClipProps} from './clip';
+import { useTranslation } from '@/i18n/i18n.client';
 
-type Props = {
-  clip: ClipWithRelationships;
-  template: Template;
-  translation: any;
-};
+type Tab = {
+  nav: string;
+  content: string;
+}
+export default function VideoSourceSelect({ lang, clip, template }: ClipProps) {
+  const { t } = useTranslation(lang)
 
-export default function VideoSourceSelect({
-  clip,
-  template,
-  translation,
-}: Props) {
-  let active = clip.videoSource;
+  const active = (tab: Tab) => {
+    return tab.nav === clip.videoSource ? "active" : "";
+  }
 
   const setVideoSource = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -48,32 +46,25 @@ export default function VideoSourceSelect({
     switch (nav) {
       case "video":
         return (
-          <CreateVideo
-            clip={clip}
-            translation={translation}
-          />
+          <CreateVideo lang={lang} clip={clip} />
         );
       case "images":
         return (
           <CreateImages
-            images={clip.images}
-            artifactId={clip.artifactId}
-            clipId={clip.id}
+            clip={clip}
+            lang={lang}
             template={template}
-            translation={translation}
           />
         );
       case "animation":
         return (
-          <CreateAnimation
-            clip={clip}
-            translation={translation}
-          />
+          <CreateAnimation lang={lang} clip={clip} />
         );
       default:
         return <div>Building</div>;
     }
   };
+
   return (
     <div className="row">
       <div
@@ -85,17 +76,17 @@ export default function VideoSourceSelect({
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`nav-link ${tab.nav === active ? "active" : ""}`}
+            className={`nav-link ${active(tab)}`}
             id={`${clip.id}-${tab.nav}-tab`}
             data-bs-toggle="pill"
             data-bs-target={`#${clip.id}-${tab.nav}`}
             type="button"
             role="tab"
             aria-controls={`${clip.id}-${tab.nav}`}
-            aria-selected={active === tab.nav}
+            aria-selected={clip.videoSource === tab.nav}
             onClick={(e) => setVideoSource(e, tab.nav)}
           >
-            {translation.step2Clip[tab.nav]}
+            {t(`step2Clip.${tab.nav}`)}
           </button>
         ))}
       </div>
@@ -103,8 +94,7 @@ export default function VideoSourceSelect({
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`tab-pane fade show ${tab.nav === active ? "active" : ""
-              }`}
+            className={`tab-pane fade show ${active(tab)}`}
             id={`${clip.id}-${tab.nav}`}
             role="tabpanel"
             aria-labelledby={`${clip.id}-${tab.nav}-tab`}

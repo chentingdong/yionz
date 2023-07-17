@@ -1,9 +1,8 @@
-import { Locale } from '@/i18n/i18n-config';
 import { redirect } from 'next/navigation';
 
 export type PageProps = {
   params: {
-    lang: Locale;
+    lang: string;
     id: string;
     step: string;
   };

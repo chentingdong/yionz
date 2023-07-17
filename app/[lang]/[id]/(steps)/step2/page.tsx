@@ -3,19 +3,20 @@ import EditClip from "./clip";
 import { PageProps } from "@/app/[lang]/[id]/page";
 import React from "react";
 import { getArtifact } from "@/app/[lang]/action";
-import { getTranslation } from "@/i18n/translations";
+import { useTranslation } from '@/i18n/i18n.server';
 
 export default async function VideoClips({ params }: PageProps) {
   const artifact = await getArtifact(params.id);
+  const { t } = await useTranslation(params.lang);
+
   params.step = "step2";
   const defaultOpen = 1;
   const patternEnglishChinese = /[\u00ff-\uffff]|\S+/g;
   const defaultShow = (order: number) => order === defaultOpen ? 'show' : '';
-  const translation = await getTranslation(params.lang);
 
   return (
     <div>
-      <AppSteps params={params} />
+      <AppSteps {...params} />
       <div className="container accordion" id="clips">
         {artifact?.clips.map((clip, index) => {
           return (
@@ -30,7 +31,7 @@ export default async function VideoClips({ params }: PageProps) {
                   aria-controls={clip.id}
                 >
                   <span className="d-inline-block text-truncate col-7">
-                    <b>Clip {clip.order} </b>
+                    <b>{t('step2Clip.clip')} {clip.order} : </b>
                     <span>({clip.audio?.text.match(patternEnglishChinese)?.length} words)</span>
                     <span>: {clip.audio?.text}</span>
                   </span>
@@ -42,7 +43,7 @@ export default async function VideoClips({ params }: PageProps) {
               // data-bs-parent="#clips" // comment out will open multiple.
               >
                 <div className="accordion-body">
-                  <EditClip clip={clip} template={artifact.template} translation={translation} />
+                  <EditClip lang={params.lang} clip={clip} template={artifact.template}  />
                 </div>
               </div>
             </div>

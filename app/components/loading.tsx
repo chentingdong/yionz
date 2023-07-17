@@ -20,5 +20,5 @@ export function Loading({ className, size = 32 }: Props) {
 
 export function LoadingPage() {
   // You can add any UI inside Loading, including a Skeleton.
-  return <Skeleton />
+  return <Skeleton className='position-absolute' style={{top: 0}}/>
 }
