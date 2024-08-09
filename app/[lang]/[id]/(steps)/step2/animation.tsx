@@ -11,7 +11,7 @@ export default function CreateAnimation({ clip }: ClipProps) {
   const handleGenerateAnimation = async (id?: string) => {
     setLoading(true);
     if (!id) return;
-    await generateAnimation({id: id, artifactId: clip.artifactId});
+    await generateAnimation({id, clip});
     setLoading(true);
   };
 

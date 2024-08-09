@@ -20,7 +20,7 @@
 
 'use client'
 
-import { useEffect, useState } from 'react'
+import React from "react";
 import i18next from 'i18next'
 import { initReactI18next, useTranslation as useTranslationOrg } from 'react-i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
@@ -47,14 +47,14 @@ export function useTranslation(lang: string, ns = defaultNS) {
     i18n.changeLanguage(lang)
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [activeLng, setActiveLng] = useState(i18n.resolvedLanguage)
+    const [activeLng, setActiveLng] = React.useState(i18n.resolvedLanguage)
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
+    React.useEffect(() => {
       if (activeLng === i18n.resolvedLanguage) return
       setActiveLng(i18n.resolvedLanguage)
     }, [activeLng, i18n.resolvedLanguage])
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
+    React.useEffect(() => {
       if (!lang || i18n.resolvedLanguage === lang) return
       i18n.changeLanguage(lang)
     }, [lang, i18n])

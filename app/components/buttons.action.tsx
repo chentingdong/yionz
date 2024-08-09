@@ -7,7 +7,7 @@ import React from "react";
 
 type Props = {
   action: "delete" | "create";
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => Promise<string | undefined | void>;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<string | undefined | void>;
   size?: "lg" | "md" | "sm";
   title?: string;
   className?: string;

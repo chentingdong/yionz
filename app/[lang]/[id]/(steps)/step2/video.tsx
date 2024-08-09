@@ -1,15 +1,16 @@
 "use client";
 
-import { deleteVideo, updateVideo, uploadVideo } from "./video.actions";
+import { deleteVideo, uploadVideo } from "./video.actions";
 import ActionButton from "@/app/components/buttons.action";
 import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import TimeRangeSlider from "react-time-range-slider";
 import { useTranslation } from '@/i18n/i18n.client';
+import { ClipWithRelationships } from './clip';
 
 type Props = {
-  clip: Clip;
+  clip: ClipWithRelationships;
   lang: string;
 };
 
@@ -58,8 +59,8 @@ export default function CreateVideo({ clip, lang }: Props) {
     const newTime = calculateTimeRange(
       time,
       timeRange,
-      clip.audio.duration,
-      clip.video.duration
+      clip.audio?.duration || 0,
+      clip.video?.duration || 0
     );
     setTimeRange(newTime);
     // TODO: need debounce here
@@ -171,7 +172,7 @@ const convertTimeToSeconds = (time: string): number => {
  */
 const calculateTimeRange = (
   time: TimeRange,
-  timeRange: Timerange,
+  timeRange: TimeRange,
   duration: number,
   durationVideo: number
 ): TimeRange => {

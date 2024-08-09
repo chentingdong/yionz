@@ -85,7 +85,7 @@ const MainMenu = async ({ lang, session}) => {
             </Link>
           </li>
           <li className="nav-item">
-            <LogoutButton />
+            <LogoutButton lang={lang} />
           </li>
         </>
       )}

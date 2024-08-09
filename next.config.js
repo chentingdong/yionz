@@ -9,13 +9,13 @@ module.exports = {
     esmExternals: false,
   },
   reactStrictMode: true,
-  output: "standalone",
+  output: 'standalone',
   sassOptions: {
-    includePaths: [path.join(__dirname, "styles")],
+    includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
     domains: [
-      "localhost:8005",
+      'localhost:3000',
       `${process.env.S3_UPLOAD_BUCKET}.s3.amazonaws.com`,
       `${process.env.S3_UPLOAD_BUCKET}.s3.${process.env.S3_UPLOAD_REGION}.amazonaws.com`,
       `lh3.googleusercontent.com`,
@@ -27,14 +27,14 @@ module.exports = {
       exclude: config.exclude,
       use: [
         {
-          loader: require.resolve("url-loader"),
+          loader: require.resolve('url-loader'),
         },
       ],
     });
     config.plugins.push(resolveFfmpegPlugin);
     config.plugins.push(
       new webpack.DefinePlugin({
-        "process.env.FLUENTFFMPEG_COV": false,
+        'process.env.FLUENTFFMPEG_COV': false,
       })
     );
 
@@ -47,6 +47,7 @@ module.exports = {
   httpAgentOptions: {
     keepAlive: false,
   },
+  output: process.env.BUILD_STANDALONE === 'true' ? 'standalone' : undefined,
 };
 
 // fix https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/573

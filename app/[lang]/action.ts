@@ -81,7 +81,7 @@ export const getArtifacts = async () => {
   const session = await getServerSession(authOptions);
   const artifacts = await prisma.artifact.findMany({
     where: {
-      userId: session.user.id
+      userId: session?.user.id
     },
     include: {
       user: false,

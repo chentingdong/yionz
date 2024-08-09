@@ -1,6 +1,6 @@
 "user client";
 
-import { Image, Template } from "@prisma/client";
+import { Image } from "@prisma/client";
 import SortableList, { SortableItem } from "react-easy-sort";
 import { deleteImage, updateImage, uploadImage } from "./images.actions";
 
@@ -9,7 +9,8 @@ import { FileUploader } from "react-drag-drop-files";
 import { Loading } from "@/app/components/loading";
 import React from "react";
 import arrayMoveImmuatable from "array-move";
-import { useTranslation } from '@/i18n/i18n.server';
+import { useTranslation } from '@/i18n/i18n.client';
+import { ClipProps } from './clip';
 
 export default function CreateImages({ lang, clip, template }: ClipProps) {
   const {images, id: clipId, artifactId} = clip
@@ -99,10 +100,10 @@ const imagesReorder = async ({
   oldIndex,
   newIndex,
 }: {
-  images: Image[];
+    images: Image[];
   oldIndex: number;
   newIndex: number;
-}): Promise<Images[]> => {
+  }): Promise<Image[]> => {
   let dragged = arrayMoveImmuatable(images, oldIndex, newIndex);
 
   for (let i = 0; i < dragged.length; i++) {

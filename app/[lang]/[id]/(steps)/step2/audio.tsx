@@ -5,6 +5,7 @@ import { deleteAudio, generateAudio, updateAudioText } from "./audio.actions";
 import ActionButton from "@/app/components/buttons.action";
 import { useTranslation } from '@/i18n/i18n.client';
 import React from "react";
+import { ClipWithRelationships } from './clip';
 
 type Props = {
   lang: string;

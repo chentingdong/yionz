@@ -1,12 +1,12 @@
 "use server";
 
-import { Template } from "@prisma/client";
+import { Prisma, Template } from "@prisma/client";
 import { chatGPT } from "@/app/api/services/openai";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
 
 // Update the name
-export const updateName = async ({ id, name }) => {
+export async function updateName({ id, name }) {
   await prisma.artifact.update({
     where: { id: id },
     data: {
@@ -17,7 +17,7 @@ export const updateName = async ({ id, name }) => {
   revalidatePath(`/${id}`);
 };
 // Update the prompt
-export const updatePrompt = async ({ id, prompt }) => {
+export async function updatePrompt({ id, prompt }) {
   await prisma.artifact.update({
     where: { id: id },
     data: { prompt: prompt },
@@ -37,13 +37,12 @@ export async function updateStory({ id, story }) {
 }
 
 // update the template
-export const chooseTemplate = async ({
-  id,
-  selected,
+export async function chooseTemplate({
+  id, selected,
 }: {
   id: string;
   selected?: Template;
-}) => {
+  }) {
   if (!selected) return;
   await prisma.artifact.update({
     where: { id: id },
@@ -57,10 +56,10 @@ export const chooseTemplate = async ({
   });
 
   revalidatePath(`/${id}`);
-};
+}
 
 // Ask AI to generate a story
-export const makeStory = async (id: string) => {
+export async function makeStory(id: string) {
   const artifact = await prisma.artifact.findUnique({
     where: { id: id },
     include: { template: true },

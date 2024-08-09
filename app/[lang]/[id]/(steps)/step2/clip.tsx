@@ -21,7 +21,7 @@ export type ClipProps = {
   template?: Template;
 };
 
-export default function EditClip({ lang, clip, template }: Props) {
+export default function EditClip({ lang, clip, template }: ClipProps) {
   if (!clip) return <div>Clip not created.</div>;
   return (
     <div>
