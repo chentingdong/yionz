@@ -1,0 +1,52 @@
+{
+  "templates": [
+    {
+      "name": "default",
+      "width": 768,
+      "height": 512,
+      "instructions": {
+        "chatgpt": "Write an article with about 500 words.",
+        "image": "Create an artistic fantasy photo, high resolution, high quality.",
+        "voice": "awsPolly"
+      },
+      "params": {
+        "chatgpt": {
+          "maxTokens": 1000,
+          "temperature": 0.5
+        },
+        "awsPolly": {
+          "LanguageCode": "en-US",
+          "VoiceId": "Stephen"
+        }
+      }
+    },
+    {
+      "name": "Chinese Food Recipe",
+      "width": 768,
+      "height": 512,
+      "instructions": {
+        "chatgpt": "Create a foot recipe with about 500 words, split into a few paragraph, each paragraph has more than 20 words.",
+        "image": "Create a colorful cooking photo, high resolution, high quality.",
+        "voice": "microsoft"
+      },
+      "params": {
+        "chatgpt": {
+          "maxTokens": 500,
+          "temperature": 0.75
+        },
+        "awsPolly": {
+          "LanguageCode": "cmn-CN",
+          "VoiceId": "Amy"
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "Mean of life",
+      "prompt": "What's the meaning of life, the universe, and everything?",
+      "story": "",
+      "clips": []
+    }
+  ]
+}
