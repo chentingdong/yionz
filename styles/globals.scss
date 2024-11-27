@@ -14,28 +14,26 @@ a {
   text-decoration: none;
 }
 
-button.btn.btn-action {
-  @extend .rounded-circle;
-  width: 0;
-  height: 0;
-  padding: 20px;
-  position: relative;
-  >svg {
-    position: absolute;
-    margin: -12px;
-    width: 24px;
-    height: 24px;
-  }
-  >div.spinner-border {
-    position: absolute;
-    margin: -15px;
+#steps .tab-content {
+  @extend .h-100, .flex-grow-1, .d-flex, .flex-column;
+  .tab-pane {
+    @extend .h-100, .my-2, .overflow-auto;
   }
 }
 
-.carousel-container {
-  padding-bottom: 20px;
+.expandRow {
+  @extend .table-active;
+}
+.expandRowContent {
+  @extend .bg-light;
 }
 
+.rug-card {
+  width: 100px;
+  height: 100px;
+}
+
+@import 'react-loading-skeleton/dist/skeleton.css';
 @import "node_modules/bootswatch/dist/minty/variables";
 @import "node_modules/bootstrap/dist/css/bootstrap.min";
 @import "node_modules/bootswatch/dist/minty/bootstrap.min";

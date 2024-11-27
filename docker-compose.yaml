@@ -15,14 +15,6 @@ services:
     logging:
       options:
         max-size: 10m
-  prisma:
-    container_name: prisma
-    image: chentingdong/yionz:latest
-    ports: 
-      - "5555:5555"
-    networks:
-      - yionz
-    command: ["npx", "prisma", "studio"]
   yionz:
     container_name: yionz
     image: chentingdong/yionz:latest
@@ -30,8 +22,15 @@ services:
       context: .
     env_file:
       - .env
+    environment:
+      NODE_ENV: development
     ports:
-      - "8005:3000"
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      # - prisma
+      - yionzdb
     restart: unless-stopped
     logging:
       driver: json-file
@@ -39,10 +38,11 @@ services:
         max-size: 10m
     networks:
       - yionz
-    command: ["node", "server.js"]
+    command: ["yarn", "dev"]
+
 networks:
   yionz:
-    external: true
+    external: false
     name: yionz
 volumes:
   yionz-data:
